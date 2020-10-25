@@ -1,0 +1,21 @@
+[[package]]
+category = "main"
+description = "ASGI specs, helper code, and adapters"
+name = "asgiref"
+optional = false
+python-versions = ">=3.5"
+version = "3.3.0"
+
+[package.extras]
+tests = ["pytest", "pytest-asyncio"]
+
+[metadata]
+content-hash = "422579990f8ee84617cdd19820b17960ac0d9217ba58bf65be0656f3f90e3efd"
+lock-version = "1.0"
+python-versions = "^3.6"
+
+[metadata.files]
+asgiref = [
+    {file = "asgiref-3.3.0-py3-none-any.whl", hash = "sha256:a5098bc870b80e7b872bff60bb363c7f2c2c89078759f6c47b53ff8c525a152e"},
+    {file = "asgiref-3.3.0.tar.gz", hash = "sha256:cd88907ecaec59d78e4ac00ea665b03e571cb37e3a0e37b3702af1a9e86c365a"},
+]
