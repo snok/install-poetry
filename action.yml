@@ -1,0 +1,36 @@
+name: "Install Poetry"
+author: "Sondre Lillebø Gundersen <sondrelg@live.no>"
+description: "Installs and configures Poetry"
+branding:
+  icon: "box"
+  color: "green"
+inputs:
+  version:
+    description: "The Poetry version to install"
+    required: true
+    default: "1.1.4"
+  virtualenvs-create:
+    description: "Whether Poetry should create a virtualenv or not"
+    required: false
+    default: "true"
+  virtualenvs-in-project:
+    description: "Whether Poetry should create virtualenvs in the project directory or not"
+    required: false
+    default: "true"
+  virtualenvs-path:
+    description: "The Poetry virtualenv path"
+    required: false
+    default: ".venv"
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
+        python get-poetry.py --yes --version=${{ inputs.version }}
+        rm get-poetry.py
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+        source $HOME/.poetry/env
+        poetry config virtualenvs.create ${{ inputs.virtualenvs-create }}
+        poetry config virtualenvs.in-project ${{ inputs.virtualenvs-in-project }}
+        poetry config virtualenvs.path ${{ inputs.virtualenvs-path }}
+      shell: bash
