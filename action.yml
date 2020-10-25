@@ -1,8 +1,8 @@
-name: "Poetry"
+name: "Use Poetry"
 author: "Sondre Lillebø Gundersen <sondrelg@live.no>"
 description: "Installs and configures Poetry"
 branding:
-  icon: "box"
+  icon: "terminal"
   color: "green"
 inputs:
   version:
