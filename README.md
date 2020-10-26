@@ -89,6 +89,6 @@ jobs:
       - name: Run tests
         run: |
           source $HOME/.poetry/env
-          poetry run pytest --cov=django_guid tests/
+          poetry run pytest tests/
           poetry run coverage report
 ```
