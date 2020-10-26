@@ -1,5 +1,4 @@
 [![tests](https://github.com/sondrelg/install-poetry/workflows/test/badge.svg)](https://github.com/sondrelg/install-poetry)
-[![release](https://img.shields.io/github/release/sondrelg/install-poetry.svg)](https://github.com/sondrelg/install-poetry)
 
 # Install Poetry action
 
