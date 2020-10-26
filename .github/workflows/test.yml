@@ -5,11 +5,11 @@ on: push
 jobs:
   test-matrix:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
         python-version: [3.7, 3.8, 3.9]
-        poetry-version: [1.0.0, 1.1.4]
+        poetry-version: [1.1.2, 1.1.4]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
