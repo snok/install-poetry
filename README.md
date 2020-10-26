@@ -13,14 +13,14 @@ Action inspired by archived [dschep/install-poetry-action](https://github.com/ds
 If all you want to do is install Poetry (using the default settings) simply add this to your workflow:
 
 ```yaml
-- uses: dschep/install-poetry-action@v1.3
+- uses: sondrelg/install-poetry@0.1.0
 ```
 
 If you wish to edit the Poetry settings, or set a specific version (default latest), you specify your settings using the `with` keyword:
 
 ```yaml
 - name: Install and configure Poetry
-  uses: dschep/install-poetry-action@v1.3
+  uses: sondrelg/install-poetry@0.1.0
   with:
     version: 1.1.4
     virtualenvs-create: true
