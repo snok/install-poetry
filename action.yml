@@ -1,4 +1,4 @@
-name: "Use Poetry"
+name: "Install Poetry"
 author: "Sondre Lillebø Gundersen <sondrelg@live.no>"
 description: "Installs and configures Poetry"
 branding:
