@@ -23,7 +23,7 @@ assert_higher_than_1.1() {
 test() {
   x=$1
   y=$2
-  if [  ]; then
+  if [ "$(echo $x | sed  's/\.//g')" -lt "$(echo $y | sed  's/\.//g')" ]; then
     echo "${x} is less than ${y}"
   else
     echo "${x} is not less than ${y}"
