@@ -2,7 +2,7 @@ name: "Install Poetry"
 author: "Sondre Lillebø Gundersen <sondrelg@live.no>"
 description: "Installs and configures Poetry"
 branding:
-  icon: "terminal"
+  icon: "package"
   color: "green"
 inputs:
   version:
