@@ -5,10 +5,10 @@ on: push
 jobs:
   test-matrix:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.9]  # 3.7, 3.8,
         poetry-version: [1.0.0, 1.1.4]
     runs-on: ${{ matrix.os }}
     steps:
