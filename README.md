@@ -6,17 +6,18 @@ A Github action for installing and configuring Poetry.
 
 The action installs Poetry, adds executables to the runners system path, and sets relevant Poetry config settings.
 
-> Inspired by [dschep/install-poetry-action](https://github.com/dschep/install-poetry-action).
+> Inspired by [dschep's](https://github.com/dschep) [archived poetry action](https://github.com/dschep/install-poetry-action).
 
-## Implementation
+## Usage
 
-If all you want to do is install Poetry (using the default settings) simply add this to your workflow:
+If all you want to do is install Poetry, simply add this to your workflow:
 
 ```yaml
 - uses: sondrelg/install-poetry@v0.2.0
 ```
+.. and Poetry will be installed and made available.
 
-If you wish to edit the Poetry settings, or set a specific version (default latest), you specify your settings using the `with` keyword:
+If you wish to also edit Poetry config settings, or install a specific version, you can use the `with` keyword:
 
 ```yaml
 - name: Install and configure Poetry
