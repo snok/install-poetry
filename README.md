@@ -62,7 +62,6 @@ jobs:
         uses: sondrelg/install-poetry@v0.2.0
         with:
           virtualenvs-create: true
-          virtualenvs-in-project: true
       #----------------------------------------------
       #       load cached venv if cache exists      
       #----------------------------------------------
