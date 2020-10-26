@@ -29,7 +29,7 @@ runs:
   using: "composite"
   steps:
     - name: Install and configure Poetry
-      if: "$(echo $inputs.version | sed  's/\.//g')" -lt "110"
+      if: ${{ "$(echo $inputs.version | sed  's/\.//g')" }} < ${{ "110" }}
       run: |
         echo "Less than 1.1.0"
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
@@ -42,7 +42,7 @@ runs:
         poetry config virtualenvs.path ${{ inputs.virtualenvs-path }}
       shell: bash
     - name: Install and configure Poetry
-      if: "$(echo $inputs.version | sed  's/\.//g')" -gt "110"
+      if: ${{ "$(echo $inputs.version | sed  's/\.//g')" }} >= ${{ "110" }}
       run: |
         echo "More than 1.1.0"
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
