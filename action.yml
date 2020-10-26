@@ -21,10 +21,15 @@ inputs:
     description: "The Poetry virtualenv path"
     required: false
     default: ".venv"
+  experimental-new-installer:
+    description: "Whether to use experimental installer. Only usable for Poetry versions above 1.1.0"
+    required: false
+    default: "true"
 runs:
   using: "composite"
   steps:
     - run: |
+        echo "Less than 1.1.0"
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
         python get-poetry.py --yes --version=${{ inputs.version }}
         rm get-poetry.py
@@ -34,3 +39,18 @@ runs:
         poetry config virtualenvs.in-project ${{ inputs.virtualenvs-in-project }}
         poetry config virtualenvs.path ${{ inputs.virtualenvs-path }}
       shell: bash
+    if: ${{ inputs.version }} < ${{ "1.1.0" }}
+    - run: |
+        echo "More than 1.1.0"
+        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
+        python get-poetry.py --yes --version=${{ inputs.version }}
+        rm get-poetry.py
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+        source $HOME/.poetry/env
+        poetry config virtualenvs.create ${{ inputs.virtualenvs-create }}
+        poetry config virtualenvs.in-project ${{ inputs.virtualenvs-in-project }}
+        poetry config virtualenvs.path ${{ inputs.virtualenvs-path }}
+        poetry config experimental.new-installer ${{ inputs.experimental-new-installer }}
+      shell: bash
+    if: ${{ inputs.version }} >= ${{ "1.1.0" }}
+
