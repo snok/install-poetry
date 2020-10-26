@@ -6,7 +6,7 @@ A Github action for installing and configuring Poetry.
 
 The action installs Poetry, adds executables to the runners system path, and sets relevant Poetry config settings.
 
-> Inspired by Daniel Schep's [original action](https://github.com/dschep/install-poetry-action).
+> Inspired by [dschep/install-poetry-action](https://github.com/dschep/install-poetry-action).
 
 ## Implementation
 
