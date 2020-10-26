@@ -13,14 +13,14 @@ The action installs Poetry, adds executables to the runners system path, and set
 If all you want to do is install Poetry (using the default settings) simply add this to your workflow:
 
 ```yaml
-- uses: sondrelg/install-poetry@0.1.0
+- uses: sondrelg/install-poetry@v0.2.0
 ```
 
 If you wish to edit the Poetry settings, or set a specific version (default latest), you specify your settings using the `with` keyword:
 
 ```yaml
 - name: Install and configure Poetry
-  uses: sondrelg/install-poetry@0.1.0
+  uses: sondrelg/install-poetry@v0.2.0
   with:
     version: 1.1.4
     virtualenvs-create: true
@@ -57,7 +57,7 @@ jobs:
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
       - name: Install poetry
-        uses: sondrelg/install-poetry@v0.1.0
+        uses: sondrelg/install-poetry@vv0.2.0
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
