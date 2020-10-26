@@ -15,7 +15,6 @@ If all you want to do is install Poetry, simply add this to your workflow:
 ```yaml
 - uses: sondrelg/install-poetry@v0.2.0
 ```
-.. and Poetry will be installed and made available.
 
 If you wish to also edit Poetry config settings, or install a specific version, you can use the `with` keyword:
 
@@ -29,7 +28,9 @@ If you wish to also edit Poetry config settings, or install a specific version, 
     virtualenvs-path: .venv
 ```
 
-## Example
+The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0.
+
+## Example implementation
 
 ```yaml
 name: test
