@@ -1,4 +1,4 @@
-[![tests](https://github.com/sondrelg/install-poetry/workflows/test/badge.svg)](https://github.com/sondrelg/install-poetry)
+[![tests](https://github.com/snok/install-poetry/workflows/test/badge.svg)](https://github.com/snok/install-poetry)
 
 # Install Poetry action
 
@@ -13,14 +13,14 @@ The action installs Poetry, adds executables to the runners system path, and set
 If all you want to do is install Poetry, simply add this to your workflow:
 
 ```yaml
-- uses: sondrelg/install-poetry@v0.2.0
+- uses: snok/install-poetry@v0.2.0
 ```
 
 If you wish to also edit Poetry config settings, or install a specific version, you can use the `with` keyword:
 
 ```yaml
 - name: Install and configure Poetry
-  uses: sondrelg/install-poetry@v0.2.0
+  uses: snok/install-poetry@v0.2.0
   with:
     version: 1.1.4
     virtualenvs-create: true
@@ -69,7 +69,7 @@ jobs:
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
       - name: Install poetry
-        uses: sondrelg/install-poetry@v0.2.0
+        uses: snok/install-poetry@v0.2.0
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true

@@ -2,7 +2,8 @@
 name = "Test"
 version = "0.2.0"
 description = ""
-authors = ["Sondre Lillebo gundersen <sondrelg@otovo.com>"]
+authors = ["Sondre Lillebø Gundersen <sondrelg@live.no.com>"]
+maintainers = ["Jonas Krüger Svensson <jonasks@hotmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
