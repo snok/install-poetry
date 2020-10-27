@@ -16,11 +16,11 @@ inputs:
   virtualenvs-in-project:
     description: "Whether Poetry should create virtualenvs in the project directory or not"
     required: false
-    default: "true"
+    default: "false"
   virtualenvs-path:
     description: "The Poetry virtualenv path"
     required: false
-    default: ".venv"
+    default: "{cache-dir}/virtualenvs"
 runs:
   using: "composite"
   steps:

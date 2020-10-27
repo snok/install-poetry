@@ -30,6 +30,16 @@ If you wish to also edit Poetry config settings, or install a specific version, 
 
 The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0.
 
+## Defaults
+
+The config defaults are
+```yaml
+version: 1.1.4
+virtualenvs-create: true
+virtualenvs-in-project: false
+virtualenvs-path: {cache-dir}/virtualenvs
+```
+
 ## Example implementation
 
 ```yaml
@@ -76,20 +86,18 @@ jobs:
       # install dependencies if cache does not exist 
       #----------------------------------------------
       - name: Install dependencies
-        run: |
-          source $HOME/.poetry/env
-          poetry install
+        run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       #----------------------------------------------
       #    add matrix specifics and run test suite   
       #----------------------------------------------
       - name: Install django ${{ matrix.django-version }}
         run: |
-          source $HOME/.poetry/env
+          source .venv/bin/activate
           poetry add "Django==${{ matrix.django-version }}"
       - name: Run tests
         run: |
-          source $HOME/.poetry/env
+          source .venv/bin/activate
           poetry run pytest tests/
           poetry run coverage report
 ```
