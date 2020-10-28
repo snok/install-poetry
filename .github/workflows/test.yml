@@ -91,3 +91,21 @@ jobs:
           echo $output
           source "./assert.sh"
           assert_in " in /home/runner/.cache/pypoetry/virtualenvs" "$output"
+  test-caching:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: Install poetry
+        uses: snok/install-poetry@v0.2.0
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - uses: actions/cache@v2
+        id: cached-poetry-dependencies
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      - run: poetry run pytest
