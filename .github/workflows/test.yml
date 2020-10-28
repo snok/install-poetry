@@ -109,5 +109,5 @@ jobs:
       - run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - run: |
-        source .venv/bin/activate
-        poetry run pytest
+          source .venv/bin/activate
+          poetry run pytest --version
