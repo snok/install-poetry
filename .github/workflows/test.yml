@@ -90,7 +90,7 @@ jobs:
           output=$(poetry install)
           echo $output
           source "./assert.sh"
-          assert_in " in /home/runner/.cache/pypoetry/virtualenvs" "$output"
+          assert_in_one_or_the_other " in /home/runner/.cache/pypoetry/virtualenvs" "/Users/runner/Library/Caches/pypoetry/virtualenvs" "$output"
   test-caching:
     runs-on: ubuntu-latest
     steps:
