@@ -90,4 +90,4 @@ jobs:
           output=$(poetry install)
           echo $output
           source "./assert.sh"
-          assert_in " in .venv" "$output"
+          assert_in " in /home/runner/.cache/pypoetry/virtualenvs" "$output"
