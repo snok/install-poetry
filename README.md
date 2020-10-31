@@ -44,7 +44,6 @@ virtualenvs-path: {cache-dir}/virtualenvs
 If you wish to change other config settings, you can do that in a following step like this
 
 ```yaml
-  ...
 - name: Disables experimental installer
   run: poetry config experimental.new-installer false
 ```
