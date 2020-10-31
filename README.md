@@ -41,7 +41,17 @@ virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 ```
 
-## Example implementation
+If you wish to change other config settings, you can do that in a following step like this
+
+```yaml
+  ...
+- name: Disables experimental installer
+  run: poetry config experimental.new-installer false
+```
+
+## Real workflow examples
+
+#### Matrix testing
 
 ```yaml
 name: test
@@ -49,7 +59,27 @@ name: test
 on: pull_request
 
 jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+      - run: python -m pip install black flake8 isort
+      - run: |
+          flake8 .
+          black . --check
+          isort .
   test:
+    needs: linting
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -102,3 +132,73 @@ jobs:
           poetry run pytest tests/
           poetry run coverage report
 ```
+
+#### Codecov upload
+
+```yaml
+name: coverage
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+    steps:
+      #----------------------------------------------
+      #       check-out repo and set-up python     
+      #----------------------------------------------
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+      #----------------------------------------------
+      #  -----  install & configure poetry  -----      
+      #----------------------------------------------
+    - name: Install poetry
+      uses: snok/install-poetry@v1.0.0
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+      #----------------------------------------------
+      #       load cached venv if cache exists      
+      #----------------------------------------------
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      #----------------------------------------------
+      # install dependencies if cache does not exist 
+      #----------------------------------------------
+    - name: Install dependencies
+      run: poetry install
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      #----------------------------------------------
+      #    run test suite and output coverage file   
+      #----------------------------------------------
+    - name: Test with pytest
+      run: poetry run pytest --cov=<project-dir> --cov-report=xml
+      #----------------------------------------------
+      #             upload coverage stats              
+      # (requires CODECOV_TOKEN in repository secrets)   
+      #----------------------------------------------
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: true
+```
+
+## Contributing
+Contributions are always welcome; submit a PR!
+
+## License
+install-poetry is licensed under an MIT license. See the license file for details.
+
+## Showing your support
+
+Leave a ★ if this project helped you!
