@@ -44,14 +44,74 @@ virtualenvs-path: {cache-dir}/virtualenvs
 If you wish to change other config settings, you can do that in a following step like this
 
 ```yaml
-  ...
 - name: Disables experimental installer
   run: poetry config experimental.new-installer false
 ```
 
 ## Real workflow examples
 
-#### Matrix testing
+- [Basic testing](#testing)
+- [Matrix testing](#mtesting)
+- [Codecov upload](#codecov)
+
+
+
+<a id="testing"></a>
+### Basic testing
+
+```
+name: test
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      #----------------------------------------------
+      #       check-out repo and set-up python     
+      #----------------------------------------------
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python 
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      #----------------------------------------------
+      #  -----  install & configure poetry  -----      
+      #----------------------------------------------
+      - name: Install poetry
+        uses: snok/install-poetry@v1.0.0
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      #----------------------------------------------
+      #       load cached venv if cache exists      
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      #----------------------------------------------
+      # install dependencies if cache does not exist 
+      #----------------------------------------------
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      #----------------------------------------------
+      #              run test suite   
+      #----------------------------------------------
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          poetry run pytest tests/
+          poetry run coverage report
+```
+
+<a id="mtesting"></a>
+### Matrix testing
 
 ```yaml
 name: test
@@ -133,7 +193,8 @@ jobs:
           poetry run coverage report
 ```
 
-#### Codecov upload
+<a id="codecov"></a>
+### Codecov upload
 
 ```yaml
 name: coverage
