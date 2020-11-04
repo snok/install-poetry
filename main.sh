@@ -5,6 +5,15 @@ if [ "$1" == "Windows" ]; then
   echo "------------------"
   cd ..
   ls -la
+  echo "------------------"
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
+  ls -la
 else
   echo "Else block"
   echo "$HOME/.poetry/bin" >> $GITHUB_PATH
