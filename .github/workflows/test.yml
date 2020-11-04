@@ -128,7 +128,6 @@ jobs:
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       - run: |
         printenv
-        echo "$HOME/.poetry/bin/poetry"
         "$HOME/.poetry/bin/poetry" install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - run: |
