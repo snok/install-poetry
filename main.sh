@@ -6,7 +6,25 @@ if [ "$1" == "Windows" ]; then
   cd ..
   ls -la
   echo "------------------"
-  cd _temp
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
+  ls -la
+  echo "------------------"
+  cd ..
   ls -la
 else
   echo "Else block"
