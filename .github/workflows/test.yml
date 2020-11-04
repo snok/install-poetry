@@ -127,7 +127,7 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       - run: |
-          ./$HOME/.poetry/bin/poetry install
+          $HOME/.poetry/bin/poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - run: |
           source .venv/bin/activate
