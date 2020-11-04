@@ -127,9 +127,10 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       - run: |
-        printenv
-        poetry
-        ./poetry
+          printenv
+          poetry
+          ./poetry
+          $HOME/poetry/bin/poetry.bat install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 #      - run: |
 #          source .venv/bin/activate
