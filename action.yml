@@ -24,11 +24,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - if: ${{ runner.os }} == 'Windows'
-      name: Install and configure Poetry for Windows
-      run: |
-        echo "1"
-      shell: bash
     - name: Install and configure Poetry
       run: |
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
@@ -39,6 +34,5 @@ runs:
         poetry config virtualenvs.in-project ${{ inputs.virtualenvs-in-project }}
         poetry config virtualenvs.path ${{ inputs.virtualenvs-path }}
       shell: bash
-      if: ${{ runner.os }} != 'Windows'
 
 
