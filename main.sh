@@ -12,7 +12,7 @@ if [ "$1" == "Windows" ]; then
   cd ..
   ls -la
   echo "------------------"
-  cd ..
+  cd bin
   ls -la
 else
   echo "Else block"
