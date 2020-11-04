@@ -1,9 +1,8 @@
-operating_system=$1
-echo "$operating_system"
 if [ "$1" == "Windows" ]; then
   echo "Windows block"
-  echo "%USERPROFILE%\.poetry\bin"
-  cd "%USERPROFILE%\.poetry\lib"
+  echo "%USERPROFILE%\.poetry\bin" >> $GITHUB_PATH
+  cd "%USERPROFILE%\.poetry"
+  ls -la
 else
   echo "Else block"
   echo "$HOME/.poetry/bin" >> $GITHUB_PATH
