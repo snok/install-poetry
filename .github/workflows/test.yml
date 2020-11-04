@@ -125,7 +125,7 @@ jobs:
         id: cached-poetry-dependencies
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-1
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-2
       - run: |
           $HOME/.poetry/bin/poetry.bat install
         shell: bash
