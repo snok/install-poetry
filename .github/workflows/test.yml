@@ -130,7 +130,7 @@ jobs:
           printenv
 #          poetry install
 #          ./poetry
-          $HOME/poetry/bin/poetry.bat install
+          echo "$HOME/poetry/bin/poetry.bat" install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 #      - run: |
 #          source .venv/bin/activate
