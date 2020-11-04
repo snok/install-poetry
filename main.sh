@@ -1,29 +1,23 @@
 if [ "$1" == "Windows" ]; then
 #  echo "%USERPROFILE%\.poetry\bin" >> $GITHUB_PATH
   cd ..
-  ls -la
-  echo "------------------"
   cd ..
-  ls -la
-  echo "------------------"
   cd ..
-  ls -la
-  echo "------------------"
   cd ..
-  ls -la
   echo "-------- outer layer ----------"
+  ls -la
   cd usr
+  cd bin
+  echo "------- usr/bin ----------"
   ls -la
-  echo "------------------"
   cd ..
-  ls -la
+  cd ..
   echo "-------- outer layer ----------"
+  ls -la
   cd tmp
+  cd bin
+  echo "------- tmp/bin -----------"
   ls -la
-  echo "------------------"
-  cd ..
-  ls -la
-  echo "-------- outer layer ----------"
 else
   echo "Else block"
   echo "$HOME/.poetry/bin" >> $GITHUB_PATH
