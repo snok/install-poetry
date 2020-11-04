@@ -1,7 +1,10 @@
 if [ "$1" == "Windows" ]; then
   echo "Windows block"
   echo "%USERPROFILE%\.poetry\bin" >> $GITHUB_PATH
-  cd "%USERPROFILE%\.poetry"
+  cd "%USERPROFILE%"
+  ls -la
+  echo "------------------"
+  cd "$2"
   ls -la
 else
   echo "Else block"
