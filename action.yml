@@ -28,6 +28,7 @@ runs:
       name: Install and configure Poetry for Windows
       run: |
         echo "1"
+      shell: bash
     - if: ${{ runner.os }} != 'Windows'
       name: Install and configure Poetry
       run: |
