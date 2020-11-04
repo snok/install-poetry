@@ -134,4 +134,4 @@ jobs:
   test-variables:
     runs-on: windows-latest
     steps:
-      - run: echo "${{ runs-on }}"
+      - run: echo "${{ runner.os }}"
