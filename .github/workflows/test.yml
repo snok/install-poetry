@@ -125,7 +125,7 @@ jobs:
         id: cached-poetry-dependencies
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-1
       - run: |
           printenv
           cd "$HOME/poetry/bin/"
