@@ -2,7 +2,7 @@ if [ "$1" == "Windows" ]; then
 a
   printenv
   echo "--------------"
-  echo "{poetry}={$HOME/.poetry/bin/poetry}" >> $GITHUB_ENV
+  echo "poetry=$HOME/.poetry/bin/poetry" >> $GITHUB_ENV
   printenv
   ls -la
   ./poetry.bat
