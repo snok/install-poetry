@@ -1,6 +1,7 @@
 if [ "$1" == "Windows" ]; then
   echo "$HOME/.poetry/bin" >> $GITHUB_PATH
   cd $HOME/.poetry/lib
+  ls -la
   poetry
 else
   source $HOME/.poetry/env
