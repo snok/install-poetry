@@ -131,7 +131,3 @@ jobs:
       - run: |
           source .venv/bin/activate
           poetry run pytest --version
-  test-variables:
-    runs-on: windows-latest
-    steps:
-      - run: echo "${{ runner.os }}"
