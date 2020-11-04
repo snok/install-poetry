@@ -29,6 +29,7 @@ runs:
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
         python get-poetry.py --yes --version=${{ inputs.version }}
         rm get-poetry.py
+        echo "${{ env.USERPROFILE }}
         ./main.sh "${{ runner.os }}" "${{ github.action_path }}"
         poetry config virtualenvs.create ${{ inputs.virtualenvs-create }}
         poetry config virtualenvs.in-project ${{ inputs.virtualenvs-in-project }}
