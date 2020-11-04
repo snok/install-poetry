@@ -24,15 +24,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install and configure Poetry
+    - if: ${{ runner.os }} == 'Windows'
+      name: Install and configure Poetry for Windows
+      run: |
+        echo "1"
+    - if: ${{ runner.os }} != 'Windows'
+      name: Install and configure Poetry
       run: |
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
         python get-poetry.py --yes --version=${{ inputs.version }}
-        echo "1"
         rm get-poetry.py
-        echo "2"
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-        echo "3"
         source $HOME/.poetry/env
         poetry config virtualenvs.create ${{ inputs.virtualenvs-create }}
         poetry config virtualenvs.in-project ${{ inputs.virtualenvs-in-project }}
