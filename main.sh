@@ -11,21 +11,19 @@ if [ "$1" == "Windows" ]; then
   echo "------------------"
   cd ..
   ls -la
-  echo "------------------"
-  cd ..
+  echo "-------- outer layer ----------"
+  cd usr
   ls -la
   echo "------------------"
   cd ..
   ls -la
-  echo "------------------"
-  cd ..
+  echo "-------- outer layer ----------"
+  cd tmp
   ls -la
   echo "------------------"
   cd ..
   ls -la
-  echo "------------------"
-  cd ..
-  ls -la
+  echo "-------- outer layer ----------"
 else
   echo "Else block"
   echo "$HOME/.poetry/bin" >> $GITHUB_PATH
