@@ -1,5 +1,5 @@
 if [ "$1" == "Windows" ]; then
-  ln -s $HOME/.poetry/bin .
+  ln -s $HOME/.poetry/bin/poetry .
   poetry.bat config virtualenvs.create "$2"
   poetry.bat config virtualenvs.in-project "$3"
   poetry.bat config virtualenvs.path "$4"
