@@ -3,26 +3,34 @@ name: tests
 on: push
 
 jobs:
-#  test-matrix:
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        os: [ubuntu-latest, macos-latest]
-#        python-version: [3.7, 3.8, 3.9]
-#        poetry-version: [1.1.2, 1.1.4]  # Add more versions when they are released
-#    runs-on: ${{ matrix.os }}
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Setup Poetry
-#        uses: ./
-#        with:
-#          version: ${{ matrix.poetry-version }}
-#      - name: Setup Python
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: ${{ matrix.python-version }}
-#      - name: Test poetry install
-#        run: poetry install
+  test-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.7, 3.8, 3.9]
+        poetry-version: [1.1.2, 1.1.4]  # Add more versions when they are released
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Poetry
+        uses: ./
+        with:
+          version: ${{ matrix.poetry-version }}
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Test poetry install
+        run: poetry install
+      - run: |
+          source .venv/bin/activate
+          poetry run pytest --version
+        if: runner.os != 'Windows'
+      - run: |
+          source .venv/Scripts/activate
+          poetry run pytest --version
+        if: runner.os == 'Windows'
 #  test-create-venv-false:
 #    strategy:
 #      fail-fast: true
@@ -111,33 +119,3 @@ jobs:
 #      - run: |
 #          source .venv/bin/activate
 #          poetry run pytest --version
-  test-windows:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - name: Install poetry
-        uses: ./
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-      - uses: actions/cache@v2
-        id: cached-poetry-dependencies
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-3
-      - run: |
-          $HOME/.poetry/bin/poetry.bat install
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      - run: |
-          source .venv/bin/activate
-          poetry run pytest --version
-        if: runner.os != 'Windows'
-      - run: |
-          source .venv/Scripts/activate
-          poetry run pytest --version
-        if: runner.os == 'Windows'
-

@@ -32,6 +32,4 @@ runs:
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
         ./main.sh "${{ runner.os }}" ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
       shell: bash
-    - if: runner.os == 'Windows'
-      run: echo "Test"
 
