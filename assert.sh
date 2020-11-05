@@ -11,12 +11,13 @@ assert_in() {
   fi
 }
 
-assert_in_one_or_the_other() {
+assert_in_one() {
   local option1="$1"
   local option2="$2"
-  local long="$3"
+  local option3="$3"
+  local long="$4"
 
-  if [[ "$long" == *"$option1"* || "$long" == *"$option2"* ]]; then
+  if [[ "$long" == *"$option1"* || "$long" == *"$option2"* || "$long" == *"$option3"* ]]; then
     echo "assertion succeeded: one of the options were found in ${long}"
     return 0
   else

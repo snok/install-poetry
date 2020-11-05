@@ -13,7 +13,7 @@ fi
 echo -e "\n\n-------------------------------------------------------------------------------\n\n$conf"
 if [ $2 == true ] || [ "$2" == "true" ]; then
   # If user is creating a venv in-project we tell them how to activate venv🎉
-  echo -e "\n\nIf you are creating a venv in your project, you can activate it by running '${act}' 🚀\n\nIf you're running this in an OS matrix, you can also use 'source $VENV' 🎉"
+  echo -e "\n\nIf you are creating a venv in your project, you can activate it by running '${act}' 🚀\n\nIf you're running this in an OS matrix, you can also use 'source \$VENV' 🎉"
 fi
 echo -e '\n-------------------------------------------------------------------------------\n'
 
