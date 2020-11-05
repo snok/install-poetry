@@ -16,7 +16,8 @@ if [ $2 == true ] || [ "$2" == "true" ]; then
   echo -e "\n\nIf you are creating a venv in your project, you can activate it by running '${act}' 🚀\n\nIf you're running this in an OS matrix, you can also use 'source \$VENV' 🎉"
 fi
 if [ "$5" != "/bin/bash" ]; then
-  echo -e "\033[33mYou are not running a bash shell. This might cause issues.\033[0m"
+  echo "$5"
+  echo -e "\n\033[33mYou are not running a bash shell. This might cause issues.\033[0m"
 fi
 echo -e '\n-------------------------------------------------------------------------------\n'
 
