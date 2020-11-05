@@ -145,6 +145,6 @@ jobs:
           python-version: 3.9
       - run: poetry install
       - run: |
-          echo "$VENV"
-          source $VENV
+#          echo "$VENV"
+#          source $VENV
           poetry run pytest --version
