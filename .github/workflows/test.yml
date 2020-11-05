@@ -133,10 +133,6 @@ jobs:
           $HOME/.poetry/bin/poetry.bat install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - run: |
-          echo "${{ runner.os }}"
-          echo "${{ runner.os }}" != "Windows"
-          echo "${{ runner.os }}" == "Windows"
-      - run: |
           source .venv/bin/activate
           poetry run pytest --version
         if: runner.os != 'Windows'
