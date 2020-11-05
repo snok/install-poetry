@@ -57,53 +57,55 @@ jobs:
 #          echo $output
 #          source "./assert.sh"
 #          assert_in "Skipping virtualenv creation, as specified in config file." "$output"
-#  test-create-venv-in-project:
-#    strategy:
-#      fail-fast: true
-#      matrix:
-#        os: [ubuntu-latest, macos-latest]
-#    runs-on: ${{ matrix.os }}
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Setup Poetry
-#        uses: ./
-#        with:
-#          version: $(cat requirements.txt | sed 's/poetry==//g')
-#          virtualenvs-create: true
-#          virtualenvs-in-project: true
-#      - uses: actions/setup-python@v2
-#        with:
-#          python-version: 3.9
-#      - name: Test venv in project
-#        run: |
-#          output=$(poetry install)
-#          echo $output
-#          source "./assert.sh"
-#          assert_in "/install-poetry/install-poetry/.venv" "$output"
-  test-create-venv-outside-project:
+  test-create-venv-in-project:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup Poetry
         uses: ./
         with:
-          version: 1.1.4
+          version: $(cat requirements.txt | sed 's/poetry==//g')
           virtualenvs-create: true
-          virtualenvs-in-project: false
+          virtualenvs-in-project: true
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Test venv outside project
+      - name: Test venv in project
         run: |
           output=$(poetry install)
           echo $output
           source "./assert.sh"
-          assert_in_one " in /home/runner/.cache/pypoetry/virtualenvs" "/Users/runner/Library/Caches/pypoetry/virtualenvs" "/home/runner/.cache/pypoetry/virtualenvs" "$output"
-          poetry run pytest --version
+          assert_in "/install-poetry/install-poetry/.venv" "$output"
+          source $VENV
+          pytest --version
+#  test-create-venv-outside-project:
+#    strategy:
+#      fail-fast: true
+#      matrix:
+#        os: [ubuntu-latest, macos-latest, windows-latest]
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Setup Poetry
+#        uses: ./
+#        with:
+#          version: 1.1.4
+#          virtualenvs-create: true
+#          virtualenvs-in-project: false
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: 3.9
+#      - name: Test venv outside project
+#        run: |
+#          output=$(poetry install)
+#          echo $output
+#          source "./assert.sh"
+#          assert_in_one " in /home/runner/.cache/pypoetry/virtualenvs" "/Users/runner/Library/Caches/pypoetry/virtualenvs" "/home/runner/.cache/pypoetry/virtualenvs" "$output"
+#          poetry run pytest --version
 #  test-caching:
 #    runs-on: ubuntu-latest
 #    steps:
