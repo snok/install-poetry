@@ -113,6 +113,9 @@ jobs:
 #          poetry run pytest --version
   test-windows:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -128,7 +131,6 @@ jobs:
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-2
       - run: |
           $HOME/.poetry/bin/poetry.bat install
-        shell: bash
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 #      - run: |
 #          source .venv/bin/activate
