@@ -16,7 +16,8 @@ assert_in_one() {
 assert_in() {
   local short="$1"
   local long="$2"
-
+  long="${$long/\\/\/}"
+  echo "$long"
   if [[ "$long" == *"$short"* ]]; then
     echo "assertion succeeded: ${short} was found in ${long}"
     return 0
