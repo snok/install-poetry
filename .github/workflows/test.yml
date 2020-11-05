@@ -68,7 +68,7 @@ jobs:
       - name: Setup Poetry
         uses: ./
         with:
-          version: $(cat requirements.txt | sed 's/poetry==//g')
+#          version: $(cat requirements.txt | sed 's/poetry==//g')
           virtualenvs-create: true
           virtualenvs-in-project: true
       - uses: actions/setup-python@v2
