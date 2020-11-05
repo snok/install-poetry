@@ -14,7 +14,7 @@ echo -e "\n\n-------------------------------------------------------------------
 if [ $2 == true ] || [ "$2" == "true" ]; then
   # If user is creating a venv in-project we tell them how to activate venv
   echo -e "\n\n\033[33mIf you are creating a venv in your project, you can activate it by running '$act'\033[0m"
-  echo -e "\n\033[33mIf you're running this in an OS matrix, an even better option is to use 'source \$VENV'\033[0m"
+  echo -e "\n\033[33mIf you're running this in an OS matrix, use 'source \$VENV'\033[0m"
 fi
 if [ "$1" == "Windows" ]; then
   # If $SHELL isn't some variation of bash, output a yellow-texted warning
