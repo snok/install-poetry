@@ -20,6 +20,8 @@ jobs:
         uses: ./
         with:
           version: ${{ matrix.poetry-version }}
+          virtualenvs-create: true
+          virtualenvs-in-project: true
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
