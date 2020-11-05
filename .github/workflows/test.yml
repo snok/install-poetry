@@ -124,14 +124,14 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-      - uses: actions/cache@v2
-        id: cached-poetry-dependencies
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-2
+#      - uses: actions/cache@v2
+#        id: cached-poetry-dependencies
+#        with:
+#          path: .venv
+#          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-3
       - run: |
           $HOME/.poetry/bin/poetry.bat install
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+#        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 #      - run: |
 #          source .venv/bin/activate
 #          poetry run pytest --version
