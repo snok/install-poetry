@@ -28,13 +28,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: poetry install
       - run: |
-          source .venv/bin/activate
-          poetry run pytest --version
-        if: runner.os != 'Windows'
-      - run: |
-          source .venv/scripts/activate
-          poetry run pytest --version
-        if: runner.os == 'Windows'
+          source $VENV
+          pytest --version
   test-create-venv-false:
     strategy:
       fail-fast: true
