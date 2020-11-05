@@ -1,18 +1,21 @@
-# Help texts
+# Define OS specific help text
 if [ "$1" == "Windows" ]; then
-  conf='Configuring Poetry for Windows!'
-  act='source .venv/scripts/activate'
+  conf="Configuring Poetry for Windows!"
+  act="source .venv/scripts/activate"
 else
-  conf='Configuring Poetry!'
-  act='source .venv/bin/activate'
+  conf="Configuring Poetry!"
+  act="source .venv/bin/activate"
 fi
-echo -e "\n\n----------------------------------------------------------------------------------------------------\n\n$conf"
-if [ $2 == true ] || [ "$2" == "true" ]; then
-    echo -e "\n\nIf you are creating a venv in your project, you can activate it by running `$act` 🚀"
-fi
-echo -e '\n\n----------------------------------------------------------------------------------------------------\n'
 
-# Poetry configuration
+# Echo help texts
+echo -e "\n\n----------------------------------------------------------------------------------------------------\n$conf"
+if [ $2 == true ] || [ "$2" == "true" ]; then
+  # If user is creating a venv in-project we tell them how to activate venv
+  echo -e "\n\nIf you are creating a venv in your project, you can activate it by running ${act} 🚀"
+fi
+echo -e '\n----------------------------------------------------------------------------------------------------\n'
+
+# Configure Poetry
 if [ "$1" == "Windows" ]; then
   ln -s "$HOME/.poetry/bin/poetry.bat" "poetry"
   "$HOME/.poetry/bin/poetry.bat" config virtualenvs.create "$2"
