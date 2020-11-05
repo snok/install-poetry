@@ -141,7 +141,7 @@ jobs:
           poetry run pytest --version
         if: runner.os != 'Windows'
       - run: |
-          .venv/Scripts/activate
+          source .venv/Scripts/activate
           poetry run pytest --version
         if: runner.os == 'Windows'
 
