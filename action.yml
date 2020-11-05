@@ -26,17 +26,11 @@ runs:
   steps:
     - name: Install and configure Poetry
       run: |
-        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --yes --version=${{ inputs.version }}
-        echo "1"
-
-        echo "2"
+        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
+        python get-poetry.py --yes --version=${{ inputs.version }}
         rm get-poetry.py
-        echo "3"
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-        echo "4"
         chmod +x ./main.sh
-        echo "5"
         ./main.sh ${{ runner.os }} ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
-        echo "6"
       shell: bash
 
