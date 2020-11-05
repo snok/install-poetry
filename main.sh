@@ -15,9 +15,9 @@ if [ $2 == true ] || [ "$2" == "true" ]; then
   # If user is creating a venv in-project we tell them how to activate venv🎉
   echo -e "\n\nIf you are creating a venv in your project, you can activate it by running '${act}' 🚀\n\nIf you're running this in an OS matrix, you can also use 'source \$VENV' 🎉"
 fi
-if [[ "$5" != *"/bin/bash"* ]]; then
+if [ "$1" == "Windows" ]; then
   # If $SHELL isn't some variation of bash, output a yellow-texted warning
-  echo -e "\n\033[33mYou don't seem to be running a bash shell. This might cause issues.\033[0m"
+  echo -e "\n\033[33mMake sure to set your default shell to bash when on Windows.\nSee the package docs for more information and examples.\033[0m"
 fi
 echo -e '\n-------------------------------------------------------------------------------\n'
 
