@@ -27,7 +27,7 @@ runs:
     - name: Install and configure Poetry
       run: |
         echo "--------------------"
-        echo "${{ runner.shell }}"
+        echo "$SHELL"
         echo "--------------------"
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
         python get-poetry.py --yes --version=${{ inputs.version }}
