@@ -17,7 +17,8 @@ if [ $2 == true ] || [ "$2" == "true" ]; then
 fi
 if [ "$1" == "Windows" ]; then
   # If $SHELL isn't some variation of bash, output a yellow-texted warning
-  echo -e "\n\033[33mMake sure to set your default shell to bash when on Windows.\nSee the package docs for more information and examples.\033[0m"
+  echo -e "\n\033[33mMake sure to set your default shell to bash when on Windows.\033[0m"
+  echo -e "\n\033[33mSee the package docs for more information and examples.\033[0m"
 fi
 echo -e '\n-------------------------------------------------------------------------------\n'
 
