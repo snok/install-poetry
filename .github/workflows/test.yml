@@ -99,53 +99,52 @@ jobs:
           python-version: 3.9
       - name: Test venv outside project
         run: |
-          poetry install
           output=$(poetry install)
           echo $output
           source "./assert.sh"
           assert_in_one " in /home/runner/.cache/pypoetry/virtualenvs" "/Users/runner/Library/Caches/pypoetry/virtualenvs" "/home/runner/.cache/pypoetry/virtualenvs" "$output"
           poetry run pytest --version
-  test-caching:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - name: Install poetry
-        uses: ./
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-      - uses: actions/cache@v2
-        id: cached-poetry-dependencies
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-1
-      - run: poetry install
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      - run: |
-          source $VENV
-          pytest --version
-  test-venv-env-var:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Poetry
-        uses: ./
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-      - run: poetry install
-      - run: |
-          source $VENV
-          pytest --version
+#  test-caching:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#      - name: Install poetry
+#        uses: ./
+#        with:
+#          virtualenvs-create: true
+#          virtualenvs-in-project: true
+#      - uses: actions/cache@v2
+#        id: cached-poetry-dependencies
+#        with:
+#          path: .venv
+#          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-1
+#      - run: poetry install
+#        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+#      - run: |
+#          source $VENV
+#          pytest --version
+#  test-venv-env-var:
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        os: [ubuntu-latest, macos-latest, windows-latest]
+#    runs-on: ${{ matrix.os }}
+#    defaults:
+#      run:
+#        shell: bash
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Setup Poetry
+#        uses: ./
+#        with:
+#          virtualenvs-create: true
+#          virtualenvs-in-project: true
+#      - name: Setup Python
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: 3.9
+#      - run: poetry install
+#      - run: |
+#          source $VENV
+#          pytest --version
