@@ -26,9 +26,9 @@ runs:
   steps:
     - name: Install and configure Poetry
       run: |
-        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
+        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --yes --version=${{ inputs.version }}
         echo "1"
-        python get-poetry.py --yes --version=${{ inputs.version }}
+
         echo "2"
         rm get-poetry.py
         echo "3"

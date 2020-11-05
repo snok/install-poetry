@@ -1,5 +1,5 @@
 echo "$1"
-echo "--------------------------------------------------------------------------------------------------------"
+echo -e "\n\n  ----------------------------------------------------------------------------------------------------"
 if [ $1 == Windows ]; then
   echo -e '\n\nConfiguring Poetry for Windows!\n\nIf you are creating a venv in your project, you can activate it by running `source .venv/scripts/activate` 🚀\n\n'
   ln -s $HOME/.poetry/bin/poetry.bat poetry
