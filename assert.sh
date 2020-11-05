@@ -8,7 +8,8 @@ assert_in_one() {
     echo "assertion succeeded: one of the options were found in ${long}"
     return 0
   else
-    echo "assertion failed: neither option was found in ${long}"
+    echo "assertion failed: none of the options were found in ${long}"
+    echo -e "options:\n- $option1\n- $option2\n- $option3"
     return 1
   fi
 }
