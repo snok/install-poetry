@@ -143,4 +143,4 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-      - runs: poetry show
+      - run: poetry show
