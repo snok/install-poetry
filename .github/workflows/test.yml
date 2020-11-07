@@ -16,7 +16,7 @@ env:
 #
 #  SUPPORTED_OS: ""
   one: 1
-  SUPPORTED_POETRY: "[1]"
+  SUPPORTED_POETRY: [1]
 
 
 jobs:
