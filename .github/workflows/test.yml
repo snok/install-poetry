@@ -2,20 +2,20 @@ name: tests
 
 on: push
 
+# The env section contains all our supported Poetry, Python, and OS versions
+# --------------------------------------------------------------------------
+# If you're reading this after a new version has been released, please feel
+# free to submit a PR. The same applies to outdated actions used in our tests.
+# --------------------------------------------------------------------------
+
 env:
-  # Python and Poetry versions should be added as the are released
-  # If you're reading this after a new release has been made to either,
-  # please feel free to submit a PR.
   SUPPORTED_POETRY: '\"poetry-version\":[\"1.1.2\", \"1.1.4\"]'
   SUPPORTED_PYTHON: '\"python-version\":[\"3.7\", \"3.8\", \"3.9\"]'
-
-  # This cat expression should represent the latest version of Pqoetry
+  SUPPORTED_OS: '\"os\":[\"ubuntu-latest\", \"macos-latest\", \"windows-latest\"]'
+  LATEST_PYTHON: "3.9"
+  # Expression represents the latest Poetry version
   # Dependabot is set up to commit PRs when a new version is released
   LATEST_POETRY: "$(cat requirements.txt | sed 's/poetry==//g')"
-  LATEST_PYTHON: "3.9"
-
-  SUPPORTED_OS: '\"os\":[\"ubuntu-latest\", \"macos-latest\", \"windows-latest\"]'
-  one: 1
 
 jobs:
   set-matrix-values:
