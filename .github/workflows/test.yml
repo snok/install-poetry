@@ -31,7 +31,7 @@ jobs:
     steps:
     - id: set-matrix
       run: |
-        echo "::set-output name=poetry-versions::${{ env.SUPPORTED_POETRY }}"
+        echo "::set-output name=poetry-versions::{\"poetry-versions\":${{ env.SUPPORTED_POETRY }} }"
 #        echo "::set-output name=python-versions::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
 #        echo "::set-output name=latest-poetry::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
 #        echo "::set-output name=latest-python::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
@@ -40,8 +40,7 @@ jobs:
     needs: set-matrix-values
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        poetry-version: ${{ fromJson(needs.set-matrix-values.outputs.poetry-versions) }}
+      matrix: ${{ fromJson(needs.set-matrix-values.outputs.poetry-versions) }}
     steps:
     - run: |
         echo "${{ env.one }}"
