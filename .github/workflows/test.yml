@@ -39,8 +39,8 @@ jobs:
       matrix: ${{fromJson(needs.set-matrix-values.outputs.matrix)}}
     steps:
     - run: echo ${{ matrix.poetry-versions }}
-    - run: echo ${{fromJson(needs.set-matrix-values.outputs.latest-poetry)}}
-    - run: echo ${{fromJson(needs.set-matrix-values.outputs.latest-python)}}
+    - run: echo ${{ needs.set-matrix-values.outputs.latest-poetry }}
+    - run: echo ${{ needs.set-matrix-values.outputs.latest-python }}
 #
 #jobs:
 #  set-matrix-values:
