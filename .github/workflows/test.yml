@@ -3,32 +3,27 @@ name: tests
 on: push
 
 env:
-  one: 1
-  two: zwei
-  three: tres
+  # Python and Poetry versions should be added as the are released
+  # If you're reading this after a new release has been made to either,
+  # please feel free to submit a PR.
+  SUPPORTED_POETRY: '{\"poetry-version\":[\"1.1.2\", \"1.1.4\"]}'
+  SUPPORTED_PYTHON: '{\"python-version\":[\"3.7\", \"3.8\", \"3.9\"]}'
+
+  # This cat expression should represent the latest version of Pqoetry
+  # Dependabot is set up to commit PRs when a new version is released
+  LATEST_POETRY: "$(cat requirements.txt | sed 's/poetry==//g')"
+  LATEST_PYTHON: "3.9"
+
+  SUPPORTED_OS: ""
+
 
 jobs:
   first-job:
     runs-on: ubuntu-latest
     steps:
     - run: |
-        echo "${{ env.one }}"
-        echo "${{ env.two }}"
-        echo "${{ env.three }}"
-#env:
-#  # Python and Poetry versions should be added as the are released
-#  # If you're reading this after a new release has been made to either,
-#  # please feel free to submit a PR.
-#  SUPPORTED_POETRY: '{\"poetry-version\":[\"1.1.2\", \"1.1.4\"]}'
-#  SUPPORTED_PYTHON: '{\"python-version\":[\"3.7\", \"3.8\", \"3.9\"]}'
-#
-#  # This cat expression should represent the latest version of Pqoetry
-#  # Dependabot is set up to commit PRs when a new version is released
-#  LATEST_POETRY: "$(cat requirements.txt | sed 's/poetry==//g')"
-#  LATEST_PYTHON: "3.9"
-#
-#  SUPPORTED_OS: ""
-#
+        echo "${{ env.SUPPORTED_POETRY }}"
+        echo "${{ fromJson(env.SUPPORTED_POETRY }}"
 #jobs:
 #  test-environment-variables:
 #    runs-on: ubuntu-latest
