@@ -23,7 +23,7 @@ jobs:
   first-job:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(env.SUPPORTED_POETRY) }}
+      matrix: "${{ fromJson(env.SUPPORTED_POETRY) }}"
     steps:
     - run: |
         echo "${{ env.one }}"
