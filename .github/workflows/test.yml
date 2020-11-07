@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: fromJson(env.SUPPORTED_PYTHON)
+        os: ${{ fromJson(env.SUPPORTED_PYTHON) }}
     steps:
       - run: echo "${{ env.SUPPORTED_PYTHON }}"
       - run: echo "${{ runner.os }}
