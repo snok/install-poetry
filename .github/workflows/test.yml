@@ -42,18 +42,12 @@ jobs:
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
-      latest-python: ${{ steps.set-env.outputs.latest-python }}
-      latest-poetry: ${{ steps.set-env.outputs.latest-poetry }}
     steps:
     - id: set-matrix
       run: |
         echo "::set-output name=full-matrix::{${{ env.SUPPORTED_POETRY }}, ${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
         echo "::set-output name=py-os-matrix::{${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
         echo "::set-output name=os-matrix::{${{ env.SUPPORTED_OS }}}"
-    - id: set-env
-      run: |
-        echo "::set-output name=latest-python::${{ env.LATEST_PYTHON }}"
-        echo "::set-output name=latest-poetry::${{ env.LATEST_POETRY }}"
   # Test makes sure the default action settings run on all combinations of
   # supported Python versions, Poetry versions, and operating systems
 #  test-all-os-python-and-poetry-versions:
@@ -90,12 +84,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          version: ${{ needs.set-matrix-values.outputs.latest-poetry }}
+          version: ${{ env.LATEST_POETRY }}
           virtualenvs-create: false
-      - run: echo ${{ env.LATEST_PYTHON }}
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.set-matrix-values.outputs.latest-python }}
+          python-version: ${{ env.LATEST_PYTHON }}
       - name: Test no venv is created
         run: |
           output=$(poetry install)
