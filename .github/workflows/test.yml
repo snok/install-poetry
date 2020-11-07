@@ -18,34 +18,50 @@ env:
   one: 1
   SUPPORTED_POETRY: '{\"poetry-version\":[\"1.1.2\", \"1.1.4\"]}'
 
-
 jobs:
-  set-matrix-values:
+  job1:
     runs-on: ubuntu-latest
     outputs:
-      poetry-versions: ${{ steps.set-matrix.outputs.poetry-versions }}
-#      python-versions: ${{ steps.set-matrix.outputs.python-versions }}
-#      latest-poetry: ${{ steps.set-matrix.outputs.latest-poetry }}
-#      latest-python: ${{ steps.set-matrix.outputs.latest-python }}
-#      supported-os: ${{ steps.set-matrix.outputs.supported-os }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
-      run: |
-        echo "::set-output name=poetry-versions::{\"poetry-versions\":${{ env.SUPPORTED_POETRY }} }"
-#        echo "::set-output name=python-versions::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-#        echo "::set-output name=latest-poetry::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-#        echo "::set-output name=latest-python::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-#        echo "::set-output name=supported-os::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-  first-job:
-    needs: set-matrix-values
+      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+  job2:
+    needs: job1
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(needs.set-matrix-values.outputs.poetry-versions) }}
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
     steps:
-    - run: |
-        echo "${{ env.one }}"
-        echo "${{ needs.set-matrix-values.outputs.poetry-versions }}"
-        echo "${{ matrix.poetry-version }}"
+    - run: echo ${{ matrix.project }}
+    - run: echo ${{ matrix.config }}
+#
+#jobs:
+#  set-matrix-values:
+#    runs-on: ubuntu-latest
+#    outputs:
+#      poetry-versions: ${{ steps.set-matrix.outputs.poetry-versions }}
+##      python-versions: ${{ steps.set-matrix.outputs.python-versions }}
+##      latest-poetry: ${{ steps.set-matrix.outputs.latest-poetry }}
+##      latest-python: ${{ steps.set-matrix.outputs.latest-python }}
+##      supported-os: ${{ steps.set-matrix.outputs.supported-os }}
+#    steps:
+#    - id: set-matrix
+#      run: |
+#        echo "::set-output name=poetry-versions::{\"poetry-versions\":${{ env.SUPPORTED_POETRY }} }"
+##        echo "::set-output name=python-versions::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+##        echo "::set-output name=latest-poetry::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+##        echo "::set-output name=latest-python::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+##        echo "::set-output name=supported-os::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+#  first-job:
+#    needs: set-matrix-values
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix: ${{ fromJson(needs.set-matrix-values.outputs.poetry-versions) }}
+#    steps:
+#    - run: |
+#        echo "${{ env.one }}"
+#        echo "${{ needs.set-matrix-values.outputs.poetry-versions }}"
+#        echo "${{ matrix.poetry-version }}"
 #jobs:
 #  test-environment-variables:
 #    runs-on: ubuntu-latest
