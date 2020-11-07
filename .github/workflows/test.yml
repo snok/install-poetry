@@ -22,10 +22,11 @@ env:
 jobs:
   first-job:
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(env.SUPPORTED_POETRY) }}
     steps:
     - run: |
         echo "${{ env.one }}"
-        echo "${{ fromJson(env.SUPPORTED_POETRY) }}"
 
 #jobs:
 #  test-environment-variables:
