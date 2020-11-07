@@ -27,7 +27,7 @@ jobs:
     steps:
     - run: |
         echo "${{ env.one }}"
-
+        echo "${{ matrix.poetry-version }}"
 #jobs:
 #  test-environment-variables:
 #    runs-on: ubuntu-latest
