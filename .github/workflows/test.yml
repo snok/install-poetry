@@ -21,7 +21,7 @@ jobs:
   test-environment-variables:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(env.SUPPORTED_PYTHON)}}
+      matrix: ${{fromJson(SUPPORTED_PYTHON)}}
     steps:
       - run: echo "${{ matrix.python-version }}"
 #  # This test makes sure the default settings run on
