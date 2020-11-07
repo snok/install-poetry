@@ -39,13 +39,14 @@ jobs:
   first-job:
     needs: set-matrix-values
     runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        poetry-version: ${{ fromJson(needs.set-matrix-values.outputs.poetry-versions) }}
+    strategy:
+      matrix:
+        poetry-version: ${{ fromJson(needs.set-matrix-values.outputs.poetry-versions) }}
     steps:
     - run: |
         echo "${{ env.one }}"
         echo "${{ needs.set-matrix-values.outputs.poetry-versions }}"
+        echo "${{ matrix.poetry-version }}"
 #jobs:
 #  test-environment-variables:
 #    runs-on: ubuntu-latest
