@@ -7,15 +7,20 @@ env:
   # Python and Poetry versions should be added as the are released
   # If you're reading this after a new release has been made to either,
   # please feel free to submit a PR.
-  SUPPORTED_POETRY: [1.1.2, 1.1.4]
-  SUPPORTED_PYTHON: [3.7, 3.8, 3.9]
-  LATEST_POETRY: $(cat requirements.txt | sed 's/poetry==//g')
-  LATEST_PYTHON: 3.9
+  SUPPORTED_POETRY: '["1.1.2", "1.1.4"]'
+  SUPPORTED_PYTHON: '["3.7", "3.8", "3.9"]'
+
+  # This cat expression should represent the latest version of Pqoetry
+  # Dependabot is set up to commit PRs when a new version is released
+  LATEST_POETRY: "$(cat requirements.txt | sed 's/poetry==//g')"
+  LATEST_PYTHON: "3.9"
+
 jobs:
   test-environment-variables:
     runs-on: ubuntu-latest
     steps:
       - run: echo "${{ env.SUPPORTED_PYTHON }}"
+      - run: echo "${{ fromJson(env.SUPPORTED_PYTHON) }}"
 #  # This test makes sure the default settings run on
 #  # all supported combinations of Python, Poetry, and operating systems
 #  test-all-os-python-and-poetry-versions:
@@ -58,8 +63,7 @@ jobs:
 #      - name: Setup Poetry
 #        uses: ./
 #        with:
-#          # This cat expression should represent the latest version of Poetry
-#          # Dependabot is set up to commit PRs when a new version is released
+
 #          version: ${{ env.LATEST_POETRY }}
 #          virtualenvs-create: false
 #      - uses: actions/setup-python@v2
