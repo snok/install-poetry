@@ -20,6 +20,9 @@ env:
 
 
 jobs:
+  env:
+    SUPPORTED_POETRY: '{"poetry-version":["1.1.2", "1.1.4"]}'
+
   first-job:
     runs-on: ubuntu-latest
     strategy:
