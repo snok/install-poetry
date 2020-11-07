@@ -50,7 +50,7 @@ jobs:
     needs: set-env
     strategy:
       fail-fast: true
-      matrix: ${{fromJson(needs.set-matrix-values.outputs.matrix)}}
+      matrix: ${{fromJson(needs.set-env.outputs.matrix)}}
     defaults:
       run:
         shell: bash
@@ -67,31 +67,31 @@ jobs:
       - run: poetry run pytest --version
 
   # Test makes sure no venv creation works
-  test-create-venv-false:
-    needs: set-env
-    strategy:
-      fail-fast: true
-      matrix: ${{fromJson(needs.set-matrix-values.outputs.matrix)}}
-    defaults:
-      run:
-        shell: bash
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          version: ${{ needs.set-matrix-values.outputs.latest-poetry }}
-          virtualenvs-create: false
-      - run: echo ${{ env.LATEST_PYTHON }}
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ needs.set-matrix-values.outputs.latest-python }}
-      - name: Test no venv is created
-        run: |
-          output=$(poetry install)
-          echo $output
-          source "./assert.sh"
-          assert_in "Skipping virtualenv creation, as specified in config file." "$output"
+#  test-create-venv-false:
+#    needs: set-env
+#    strategy:
+#      fail-fast: true
+#      matrix: ${{fromJson(needs.set-matrix-values.outputs.matrix)}}
+#    defaults:
+#      run:
+#        shell: bash
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: ./
+#        with:
+#          version: ${{ needs.set-matrix-values.outputs.latest-poetry }}
+#          virtualenvs-create: false
+#      - run: echo ${{ env.LATEST_PYTHON }}
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ needs.set-matrix-values.outputs.latest-python }}
+#      - name: Test no venv is created
+#        run: |
+#          output=$(poetry install)
+#          echo $output
+#          source "./assert.sh"
+#          assert_in "Skipping virtualenv creation, as specified in config file." "$output"
 #  test-create-venv-in-project:
 #    strategy:
 #      fail-fast: true
