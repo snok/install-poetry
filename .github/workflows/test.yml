@@ -27,7 +27,7 @@ jobs:
     steps:
     - id: set-matrix
       run: |
-        echo "::set-output name=matrix::{${{ env.SUPPORTED_POETRY }}, ${{ env.SUPPORTED_PYTHON }}}, ${{ env.SUPPORTED_OS }}"
+        echo "::set-output name=matrix::{${{ env.SUPPORTED_POETRY }}, ${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
     - id: set-env
       run: |
         echo "::set-output name=latest-python::${{ env.LATEST_PYTHON }}"
