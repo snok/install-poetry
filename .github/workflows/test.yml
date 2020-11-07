@@ -27,18 +27,29 @@ jobs:
   set-env:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      full-matrix: ${{ steps.set-matrix.outputs.full-matrix }}
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
       #   - python-version: [3.7, ...]
       #   - poetry-version: [1.1.2, ...]
+      py-os-matrix: ${{ steps.set-matrix.outputs.py-os-matrix }}
+      # ^ this matrix represents:
+      # matrix:
+      #   - os: [ubuntu-latest, ...]
+      #   - python-version: [3.7, ...]
+      os-matrix: ${{ steps.set-matrix.outputs.os-matrix }}
+      # ^ this matrix represents:
+      # matrix:
+      #   - os: [ubuntu-latest, ...]
       latest-python: ${{ steps.set-env.outputs.latest-python }}
       latest-poetry: ${{ steps.set-env.outputs.latest-poetry }}
     steps:
     - id: set-matrix
       run: |
-        echo "::set-output name=matrix::{${{ env.SUPPORTED_POETRY }}, ${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
+        echo "::set-output name=full-matrix::{${{ env.SUPPORTED_POETRY }}, ${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
+        echo "::set-output name=py-os-matrix::{${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
+        echo "::set-output name=os-matrix::{${{ env.SUPPORTED_OS }}}"
     - id: set-env
       run: |
         echo "::set-output name=latest-python::${{ env.LATEST_PYTHON }}"
@@ -50,7 +61,7 @@ jobs:
     needs: set-env
     strategy:
       fail-fast: true
-      matrix: ${{fromJson(needs.set-env.outputs.matrix)}}
+      matrix: ${{fromJson(needs.set-env.outputs.full-matrix)}}
     defaults:
       run:
         shell: bash
@@ -67,31 +78,31 @@ jobs:
       - run: poetry run pytest --version
 
   # Test makes sure no venv creation works
-#  test-create-venv-false:
-#    needs: set-env
-#    strategy:
-#      fail-fast: true
-#      matrix: ${{fromJson(needs.set-matrix-values.outputs.matrix)}}
-#    defaults:
-#      run:
-#        shell: bash
-#    runs-on: ${{ matrix.os }}
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: ./
-#        with:
-#          version: ${{ needs.set-matrix-values.outputs.latest-poetry }}
-#          virtualenvs-create: false
-#      - run: echo ${{ env.LATEST_PYTHON }}
-#      - uses: actions/setup-python@v2
-#        with:
-#          python-version: ${{ needs.set-matrix-values.outputs.latest-python }}
-#      - name: Test no venv is created
-#        run: |
-#          output=$(poetry install)
-#          echo $output
-#          source "./assert.sh"
-#          assert_in "Skipping virtualenv creation, as specified in config file." "$output"
+  test-create-venv-false:
+    needs: set-env
+    strategy:
+      fail-fast: true
+      matrix: ${{fromJson(needs.set-matrix-values.outputs.os-matrix)}}
+    defaults:
+      run:
+        shell: bash
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          version: ${{ needs.set-matrix-values.outputs.latest-poetry }}
+          virtualenvs-create: false
+      - run: echo ${{ env.LATEST_PYTHON }}
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ needs.set-matrix-values.outputs.latest-python }}
+      - name: Test no venv is created
+        run: |
+          output=$(poetry install)
+          echo $output
+          source "./assert.sh"
+          assert_in "Skipping virtualenv creation, as specified in config file." "$output"
 #  test-create-venv-in-project:
 #    strategy:
 #      fail-fast: true
