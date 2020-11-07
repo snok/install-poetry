@@ -15,7 +15,7 @@ jobs:
   test-environment-variables:
     runs-on: ubuntu-latest
     steps:
-      run: echo "${{ env.SUPPORTED_PYTHON }}"
+      - run: echo "${{ env.SUPPORTED_PYTHON }}"
 #  # This test makes sure the default settings run on
 #  # all supported combinations of Python, Poetry, and operating systems
 #  test-all-os-python-and-poetry-versions:
