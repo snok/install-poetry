@@ -54,35 +54,34 @@ jobs:
       run: |
         echo "::set-output name=latest-python::${{ env.LATEST_PYTHON }}"
         echo "::set-output name=latest-poetry::${{ env.LATEST_POETRY }}"
-
   # Test makes sure the default action settings run on all combinations of
   # supported Python versions, Poetry versions, and operating systems
-  test-all-os-python-and-poetry-versions:
-    needs: set-env
-    strategy:
-      fail-fast: true
-      matrix: ${{fromJson(needs.set-env.outputs.full-matrix)}}
-    defaults:
-      run:
-        shell: bash
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          version: ${{ matrix.poetry-version }}
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - run: poetry install
-      - run: poetry run pytest --version
+#  test-all-os-python-and-poetry-versions:
+#    needs: set-env
+#    strategy:
+#      fail-fast: true
+#      matrix: ${{fromJson(needs.set-env.outputs.full-matrix)}}
+#    defaults:
+#      run:
+#        shell: bash
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: ./
+#        with:
+#          version: ${{ matrix.poetry-version }}
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#      - run: poetry install
+#      - run: poetry run pytest --version
 
   # Test makes sure no venv creation works
   test-create-venv-false:
     needs: set-env
     strategy:
       fail-fast: true
-      matrix: ${{fromJson(needs.set-matrix-values.outputs.os-matrix)}}
+      matrix: ${{fromJson(needs.set-env.outputs.os-matrix)}}
     defaults:
       run:
         shell: bash
