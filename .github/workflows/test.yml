@@ -26,7 +26,6 @@ jobs:
     - run: |
         echo "${{ env.one }}"
         echo "${{ env.SUPPORTED_POETRY }}"
-        echo "${{ fromJson(env.SUPPORTED_POETRY }}"
 
 #jobs:
 #  test-environment-variables:
