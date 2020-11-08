@@ -74,7 +74,7 @@ Some of the examples are a bit long, so here's some links
 
 A basic example workflow for running your test-suite can be structured like this.
 
-```
+```yaml
 name: test
 
 on: pull_request
@@ -128,9 +128,8 @@ jobs:
 <a id="mtesting"></a>
 **Testing using a matrix**
 
-In many cases, the basic example might not be enough. For example,
-you might need to make sure that your tests run on multiple operating systems, across many package versions, 
-across many python versions, or all of the above.
+A more extensive example for running your test-suite on combinations of multiple 
+operating systems, python versions, or package-versions, can be structured like this.
 
 ```yaml
 name: test
@@ -139,7 +138,7 @@ on: pull_request
 
 jobs:
   #----------------------------------------------
-  #   check code quality before running tests  
+  #       initial code quality job
   #----------------------------------------------
   linting:
     runs-on: ubuntu-latest
@@ -214,6 +213,9 @@ jobs:
 
 <a id="codecov"></a>
 **Codecov upload**
+
+This section contains a simple codecov upload. See the 
+[codecov](https://github.com/codecov/codecov-action) action for more information.
 
 ```yaml
 name: coverage
