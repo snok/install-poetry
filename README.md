@@ -61,7 +61,7 @@ This section contains a collection of workflow examples to help
 - Demonstrate how to implement caching for performance improvements
 - Clarify the implications of different settings
 
-**Examples**:
+Some of the examples are a bit long, so here's some links
 
 - [Testing](#testing)
 - [Testing (using matrix)](#mtesting)
