@@ -70,7 +70,7 @@ This section contains a collection of workflow examples to help
 - [Virtualenv variations](#ovcv)
 
 <a id="testing"></a>
-### Testing
+**Testing** 
 
 A basic example workflow for running your test-suite can be structured like this.
 
@@ -126,7 +126,7 @@ jobs:
 ```
 
 <a id="mtesting"></a>
-### Testing using a matrix
+**Testing using a matrix**
 
 In many cases, the basic example might not be enough. For example,
 you might need to make sure that your tests run on multiple operating systems, across many package versions, 
@@ -213,7 +213,7 @@ jobs:
 ```
 
 <a id="codecov"></a>
-### Codecov upload
+**Codecov upload**
 
 ```yaml
 name: coverage
@@ -274,7 +274,7 @@ jobs:
 ```
 
 <a id="windows"></a>
-### Running on Windows
+**Running on Windows**
 
 Running this action on Windows is supported, but two things are important to note:
 
@@ -353,7 +353,7 @@ jobs:
 ```
 
 <a id="ovcv"></a>
-### Virtualenv variations
+**Virtualenv variations**
 
 All of the examples so far, use these settings
 
@@ -431,5 +431,4 @@ Contributions are always welcome; submit a PR!
 install-poetry is licensed under an MIT license. See the license file for details.
 
 ## Showing your support
-
 Leave a ★ if this project helped you!
