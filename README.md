@@ -224,7 +224,7 @@ jobs:
 **Codecov upload**
 
 This section contains a simple codecov upload. See the 
-[codecov](https://github.com/codecov/codecov-action) action for more information.
+[codecov action](https://github.com/codecov/codecov-action) for more information.
 
 ```yaml
 name: coverage
@@ -289,16 +289,17 @@ jobs:
 
 Running this action on Windows is supported, but two things are important to note:
 
-1. You need to set the default shell to bash at the job level
+1. You need to set the job-level default shell to `bash`
     
     ```yaml
     defaults:
       run:
         shell: bash
     ```
-2. If you are running an OS matrix, and want to activate your venv in-project you have to deal with different VENV structures for different operating systems.
+2. If you are running an OS matrix, and want to activate your venv `in-project` 
+you have to deal with different folder structures on different operating systems.
     
-   To make it work, you *can* do this
+   To make this work, you *can* do this
 
    ```yaml
    - run: |
