@@ -44,8 +44,8 @@ virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 ```
 
-If you want to make further config changes,.e.g, to change one of the `experimental` Poetry config settings, 
-or just to make changes to the Poetry config *after* invoking the action, 
+If you want to make further config changes - to change one of the `experimental` Poetry config settings, 
+or just to make changes to the Poetry config *after* invoking the action -
 you can do so in a subsequent step, like this
 
 ```yaml
