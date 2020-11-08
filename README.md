@@ -11,25 +11,28 @@ The action installs Poetry, adds executables to the runners system path, and set
 
 ## Usage
 
-If all you want to do is install Poetry, simply add this to your workflow:
+If all you need is default Poetry, simply add this to your workflow:
 
 ```yaml
-- uses: snok/install-poetry@v1.0.0
+- name: Install Poetry
+  uses: snok/install-poetry@v1.1.0
 ```
 
 If you wish to also edit Poetry config settings, or install a specific version, you can use the `with` keyword:
 
 ```yaml
 - name: Install and configure Poetry
-  uses: snok/install-poetry@v1.0.0
+  uses: snok/install-poetry@v1.1.0
   with:
     version: 1.1.4
     virtualenvs-create: true
     virtualenvs-in-project: false
-    virtualenvs-path: .venv
+    virtualenvs-path: ~/custom-path
 ```
 
-The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0. If you're using this with Windows, see the [Running on Windows](#windows) section.
+The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0. 
+
+If you're using this with Windows, see the [Running on Windows](#windows) section.
 
 ## Defaults
 
@@ -47,7 +50,7 @@ If you wish to change other config settings, you can do that in a following step
 - run: poetry config experimental.new-installer false
 ```
 
-## Real workflow examples
+## Real workflows and tips
 
 - [Basic testing](#testing)
 - [Matrix testing](#mtesting)
@@ -105,14 +108,14 @@ jobs:
       - name: Run tests
         run: |
           source .venv/bin/activate
-          poetry run pytest tests/
-          poetry run coverage report
+          pytest tests/
+          coverage report
 ```
 
 <a id="mtesting"></a>
 ### Matrix testing
 
-This example includes a linting pre-job, which has nothing to do with the matrix
+This example includes a linting job, which has nothing to do with the matrix
 logic, but we thought might be useful for someone to see how works.
 
 ```yaml
@@ -278,7 +281,7 @@ Running this action on Windows will work, but two things are important to note:
      if: runner.os == 'Windows'
    ```
    
-   but we recommend you do this
+   but we recommend using the $VENV environment variable
    
    ```yaml
    - run: |
@@ -288,7 +291,8 @@ Running this action on Windows will work, but two things are important to note:
    
    the $VENV environment variable is set by us, and will point to the OS-specific
    in-project default path 
-   (`.venv/bin/activate` on UNIX and `.venv/scripts/activate` on Windows).
+   (`.venv/bin/activate` on UNIX and `.venv/scripts/activate` on Windows). 
+   This eliminates the need for duplicate conditional code. 
 
 Full Windows workflow:
    
@@ -326,7 +330,7 @@ jobs:
 <a id="ovcv"></a>
 ### Other VENV creation variations
 
-All of the examples listed above use
+All of the examples listed above use these settings
 
 ```yaml
 - name: Install poetry
@@ -336,20 +340,24 @@ All of the examples listed above use
     virtualenvs-in-project: true
 ```
 
-which might not suit your workflow. 
+While this should work for most, there might be valid reasons for wanting 
+different `virtualenvs` settings.
 
-There are two other options you can use:
+In general there are two other combinations:
 
-1. Creating your VENV, but not in the project dir
+1. Creating a VENV, but not in the project dir
 
     If you're using the default settings, the venv location changes 
-    from `.venv` to using `{cache-dir}/virtualenvs`.
+    from `.venv` to using `{cache-dir}/virtualenvs`. You can also
+    change the path to whatever you'd like.
     
-    This directory will change depending on the OS, making it a little harder
-    to write OS agnostic instructions, but you can bypass this issue completely
-    by taking advantage of the built-in `poetry run` command.
+    If you're using the default, this directory will be different depending 
+    on the OS, making it a little harder to write OS agnostic workflows. However,
+    it is possible to bypass this issue completely by taking advantage of `poetry run`.
     
-    Using the last two steps in the [Matrix testing](#mtesting) example as a starting point
+    Using the last two steps in the [Matrix testing](#mtesting) example as a 
+    starting point, this is how we would install a matrix-specific dependency
+    and run our test suite:
     
     ```yaml
     - name: Install django ${{ matrix.django-version }}
@@ -363,9 +371,8 @@ There are two other options you can use:
         coverage report
     ```
    
-   these steps activate the VENV, then operate inside that environment.
-   
-   With a remote VENV you could do something like this instead
+   With a remote VENV you can bypass the VENV activation and 
+   do something like this instead:
    
     ```yaml
     - name: Install django ${{ matrix.django-version }}
@@ -376,18 +383,24 @@ There are two other options you can use:
         poetry run coverage report
     ```
    
-   We have never tested caching of a remote VENV in Github Actions, but if you
-   have, feel free to submit a PR explaining how.
+   > We have never needed to cache remote VENVs in our Github Actions, but if 
+   you have, please feel free to submit a PR explaining how it's done.
 
 2. Skipping VENV creation
 
-    If you want to skip venv creation, you *can* use the other examples, by 
-    ignoring the VENV activation lines.
+    If you want to skip VENV creation, all the original examples are valid if 
+    you simply remove the VENV activation logic:
     
-    For caching, you will want to do something similar to the linting job 
-    in the [Matrix testing](#mtesting) example,
-    where we're caching pip wheels instead of the VENV. This won't cache installed dependencies; just the installables, which
-    will still save you a lot of time and reduce the strain on PyPi.
+    ```yaml
+    source .venv/bin/activate
+    ```
+     
+    If you want to cache your dependencies, you will want to set up something
+    resembling the the linting job caching step in the [Matrix testing](#mtesting) 
+    example. In this case, you should cache the pip wheels instead of the VENV, 
+    meaning you won't cache installed dependencies; just the installables. 
+    This is still worth doing, as it still saves you a fair bit
+    of time for each run, and it reduces the strain on PyPi.
 
 ## Contributing
 Contributions are always welcome; submit a PR!
