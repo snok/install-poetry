@@ -18,7 +18,7 @@ If all you need is default Poetry, simply add this to your workflow:
   uses: snok/install-poetry@v1.1.0
 ```
 
-If you wish to also edit Poetry config settings, or install a specific version, you can use the `with` keyword:
+If you want to set Poetry config settings, or install a specific version, you can specify these as inputs:
 
 ```yaml
 - name: Install and configure Poetry
@@ -27,7 +27,7 @@ If you wish to also edit Poetry config settings, or install a specific version, 
     version: 1.1.4
     virtualenvs-create: true
     virtualenvs-in-project: false
-    virtualenvs-path: ~/custom-path
+    virtualenvs-path: ~/my-custom-path
 ```
 
 The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0. 
@@ -44,10 +44,17 @@ virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 ```
 
-If you wish to change other config settings, you can do that in a following step like this
+If you want to access one of the experimental config settings or make changes to the Poetry
+config *after* invoking this action, you can do that in a separate step like this:
 
 ```yaml
-- run: poetry config experimental.new-installer false
+- name: Install Poetry
+  uses: snok/install-poetry@v1.1.0
+  with:
+    virtualenvs-create: true
+    virtualenvs-in-project: true
+- name: Configure experimental settings
+  run: poetry config experimental.new-installer false
 ```
 
 ## Real workflows and tips
@@ -82,7 +89,7 @@ jobs:
       #----------------------------------------------
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
-      - name: Install poetry
+      - name: Install Poetry
         uses: snok/install-poetry@v1.1.0
         with:
           virtualenvs-create: true
@@ -161,7 +168,7 @@ jobs:
       #----------------------------------------------
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
-      - name: Install poetry
+      - name: Install Poetry
         uses: snok/install-poetry@v1.1.0
         with:
           virtualenvs-create: true
@@ -220,7 +227,7 @@ jobs:
       #----------------------------------------------
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
-    - name: Install poetry
+    - name: Install Poetry
       uses: snok/install-poetry@v1.1.0
       with:
         virtualenvs-create: true
@@ -313,7 +320,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: Install poetry
+      - name: Install Poetry
         uses: snok/install-poetry@v1.1.0
         with:
           virtualenvs-create: true
@@ -333,7 +340,7 @@ jobs:
 All of the examples listed above use these settings
 
 ```yaml
-- name: Install poetry
+- name: Install Poetry
   uses: snok/install-poetry@v1.1.0
   with:
     virtualenvs-create: true
