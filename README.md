@@ -443,4 +443,4 @@ Contributions are always welcome; submit a PR!
 install-poetry is licensed under an MIT license. See the license file for details.
 
 ## Showing your support
-Leave a ★ if this project helped you!
+Leave a ✭ if this project helped you!
