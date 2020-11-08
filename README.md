@@ -70,7 +70,7 @@ Some of the examples are a bit long, so here's some links
 - [Virtualenv variations](#ovcv)
 
 <a id="testing"></a>
-**Testing** 
+#### Testing
 
 A basic example workflow for running your test-suite can be structured like this.
 
@@ -126,7 +126,7 @@ jobs:
 ```
 
 <a id="mtesting"></a>
-**Testing using a matrix**
+#### Testing using a matrix
 
 A more extensive example for running your test-suite on combinations of multiple 
 operating systems, python versions, or package-versions, can be structured like this.
@@ -221,7 +221,7 @@ jobs:
 ```
 
 <a id="codecov"></a>
-**Codecov upload**
+#### Codecov upload
 
 This section contains a simple codecov upload. See the 
 [codecov action](https://github.com/codecov/codecov-action) for more information.
@@ -285,7 +285,7 @@ jobs:
 ```
 
 <a id="windows"></a>
-**Running on Windows**
+#### Running on Windows
 
 Running this action on Windows is supported, but two things are important to note:
 
@@ -364,7 +364,7 @@ jobs:
 ```
 
 <a id="ovcv"></a>
-**Virtualenv variations**
+#### Virtualenv variations
 
 All of the examples we've added use these Poetry settings
 
