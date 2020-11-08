@@ -48,13 +48,8 @@ If you want to access one of the experimental config settings or make changes to
 config *after* invoking this action, you can do that in a separate step like this:
 
 ```yaml
-- name: Install Poetry
-  uses: snok/install-poetry@v1.1.0
-  with:
-    virtualenvs-create: true
-    virtualenvs-in-project: true
-- name: Configure experimental settings
-  run: poetry config experimental.new-installer false
+- uses: snok/install-poetry@v1.1.0
+- run: poetry config experimental.new-installer false
 ```
 
 ## Real workflows and tips
