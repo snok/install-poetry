@@ -2,11 +2,10 @@ name: tests
 
 on: push
 
-# The env section contains all our supported Poetry, Python, and OS versions
-# --------------------------------------------------------------------------
-# If you find anything outdated, please feel free to submit a PR.
-# The same applies to outdated actions used in our tests.
-# --------------------------------------------------------------------------
+# The env section of the file contains all our supported Poetry, Python,
+# and OS versions - if you're reading through this and find anything to be
+# outdated (workflows, pyhon-versions, poetry-versions, or os'),
+# please feel free to submit a PR.
 
 env:
   SUPPORTED_POETRY: '\"poetry-version\":[\"1.1.2\", \"1.1.4\"]'
@@ -21,43 +20,35 @@ jobs:
   # Job imports our workflow level environment variables to a format we can
   # apply to our strategy.matrix setting
   set-env:
-    # Note: the env + set-matrix-values job is overcomplicated for the
-    # function it serves; but at the time of writing, there doesn't seem to be an
-    # alternative - if you have a suggestion for a way to make this section
-    # simpler - a solution is always welcome!
+    # Note: Setting our supported versions in env, and having a whole job
+    # dedicated to presenting those environment variables in a format that
+    # is usable by the strategy/matrix input is overcomplicated for the
+    # function it serves; but at the time of writing, there doesn't seem to be
+    # any good alternatives - if you have a suggestion for a way to make this
+    # section simpler, submit a PR!
     runs-on: ubuntu-latest
     outputs:
-      full-matrix: ${{ steps.set-full-matrix.outputs.full-matrix }}
+      full-matrix: ${{ steps.set-matrix-vars.outputs.full-matrix }}
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
       #   - python-version: [3.7, ...]
       #   - poetry-version: [1.1.2, ...]
-      py-os-matrix: ${{ steps.set-py-os-matrix.outputs.py-os-matrix }}
+      py-os-matrix: ${{ steps.set-matrix-vars.outputs.py-os-matrix }}
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
       #   - python-version: [3.7, ...]
-      os-matrix: ${{ steps.set-os-matrix.outputs.os-matrix }}
+      os-matrix: ${{ steps.set-matrix-vars.outputs.os-matrix }}
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
     steps:
-    - id: set-full-matrix
-      run: echo "::set-output name=full-matrix::{>-
-          ${{ env.SUPPORTED_POETRY }},
-          ${{ env.SUPPORTED_PYTHON }},
-          ${{ env.SUPPORTED_OS }}
-        }"
-    - id: set-py-os-matrix
-      run: echo "::set-output name=py-os-matrix::{>-
-          ${{ env.SUPPORTED_PYTHON }},
-          ${{ env.SUPPORTED_OS }}
-        }"
-    - id: set-os-matrix
-      run: echo "::set-output name=os-matrix::{>-
-          ${{ env.SUPPORTED_OS }}
-        }"
+    - id: set-matrix-vars
+      run: |
+        echo "::set-output name=full-matrix::{${{ env.SUPPORTED_POETRY }},${{ env.SUPPORTED_PYTHON }},${{ env.SUPPORTED_OS }}}"
+        echo "::set-output name=py-os-matrix::{${{ env.SUPPORTED_PYTHON }},${{ env.SUPPORTED_OS }}}"
+        echo "::set-output name=os-matrix::{${{ env.SUPPORTED_OS }}}"
 
   # Test makes sure the default action settings run on all combinations of
   # supported Python versions, Poetry versions, and operating systems
@@ -81,7 +72,7 @@ jobs:
       - run: poetry install
       - run: poetry run pytest --version
 
-  # Test makes sure no venv creation works
+  # Test makes sure not creating a venv works
   test-create-venv-false:
     needs: set-env
     strategy:
@@ -107,7 +98,7 @@ jobs:
           source "./assert.sh"
           assert_in "Skipping virtualenv creation, as specified in config file." "$output"
 
-  # Test makes sure venv creation in-project works
+  # Test makes sure creating a venv in-project works
   test-create-venv-in-project:
     needs: set-env
     strategy:
@@ -158,7 +149,7 @@ jobs:
           pytest --version
 
   # Test makes sure all operating system combinations can activate venvs
-  # using the $VENV environment variable that this action defines
+  # using the custom install-poetry $VENV environment variable
   test-venv-env-var:
     needs: set-env
     strategy:
