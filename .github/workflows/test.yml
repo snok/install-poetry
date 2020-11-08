@@ -54,7 +54,7 @@ jobs:
           ${{ env.SUPPORTED_PYTHON }},
           ${{ env.SUPPORTED_OS }}
         }"
-    - if: set-os-matrix
+    - id: set-os-matrix
       run: echo "::set-output name=os-matrix::{>-
           ${{ env.SUPPORTED_OS }}
         }"
