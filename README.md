@@ -18,7 +18,7 @@ If all you need is default Poetry, simply add this to your workflow:
   uses: snok/install-poetry@v1.1.0
 ```
 
-If you want to set Poetry config settings, or install a specific version, you can specify these as inputs:
+If you want to set Poetry config settings, or install a specific version, you can specify inputs
 
 ```yaml
 - name: Install and configure Poetry
@@ -36,7 +36,7 @@ If you're using this with Windows, see the [Running on Windows](#windows) sectio
 
 ## Defaults
 
-The config defaults are
+The config default settings are
 ```yaml
 version: 1.1.4
 virtualenvs-create: true
@@ -44,9 +44,9 @@ virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 ```
 
-If you want to access one of the `experimental` Poetry config settings, 
-or make changes to the Poetry config *after* invoking the action, 
-you can do so in a separate step, like this:
+If you want to make further config changes,.e.g, to change one of the `experimental` Poetry config settings, 
+or just to make changes to the Poetry config *after* invoking the action, 
+you can do so in a subsequent step, like this
 
 ```yaml
 - uses: snok/install-poetry@v1.1.0
