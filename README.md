@@ -298,8 +298,7 @@ Running this action on Windows is supported, but two things are important to not
     ```
 2. If you are running an OS matrix, and want to activate your venv `in-project` 
 you have to deal with different folder structures on different operating systems.
-    
-   To make this work, you *can* do this
+To make this work, you *can* do this
 
    ```yaml
    - run: |
@@ -312,16 +311,14 @@ you have to deal with different folder structures on different operating systems
      if: runner.os != 'Windows'
    ```
    
-   but we recommend using the $VENV environment variable instead
+   but we set a custom environment variable, `$VENV`, pointed at the activate
+   script, to prevent you from having to repeat yourself. Instead do this
    
    ```yaml
    - run: |
        source $VENV
        pytest --version
    ```
-   
-   $VENV is set by us, and will point to the OS-specific in-project default path 
-   (`.venv/bin/activate` on UNIX and `.venv/scripts/activate` on Windows). 
 
 For context, a full os-matrix using `windows-latest` could be set up like this:
    
