@@ -55,24 +55,27 @@ you can do so in a separate step, like this:
 
 ## Workflows and tips
 
-This section contains a collection of workflow examples to help you e.g,
-figure out what settings to use, 
-how to implement caching, or just generally how to structure your workflow.
+This section contains a collection of workflow examples to help you:
 
-If something didn't work for you, or you have suggested improvements, 
-please feel free to contribute. 
+- Give you a starting point for setting up your own workflow,
+- Figure out what settings to use, or
+- How to increase performance by implementing caching in your workflow
 
-- [Basic testing example](#testing)
-- [Full matrix testing example](#mtesting)
-- [Codecov upload example](#codecov)
+> If anything doesn't work for you, or you have suggested improvements, 
+please feel free to submit an issue or submitting a PR. 
+
+**Examples**:
+
+- [Testing](#testing)
+- [Testing (using matrix)](#mtesting)
+- [Codecov upload](#codecov)
 - [Running on Windows](#windows)
-- [VENV creation variations](#ovcv)
+- [Virtualenv variations](#ovcv)
 
 <a id="testing"></a>
-### Basic testing example
+### Testing
 
 A basic example workflow for running your test-suite can be structured like this.
-The comments and `name`s are optional.
 
 ```
 name: test
@@ -126,14 +129,11 @@ jobs:
 ```
 
 <a id="mtesting"></a>
-### Full matrix testing example
+### Testing using a matrix
 
 In many cases, the basic example might not be enough. For example,
-you might need to make sure that your tests run on multiple operating systems,
-and across many package, and python versions.
-
-Note: this example also includes a linting job, which has nothing to do with 
-the matrix logic, but is left in to show how a multi-job workflow looks like.
+you might need to make sure that your tests run on multiple operating systems, across many package versions, 
+across many python versions, or all of the above.
 
 ```yaml
 name: test
@@ -141,6 +141,9 @@ name: test
 on: pull_request
 
 jobs:
+  #----------------------------------------------
+  #   check code quality before running tests  
+  #----------------------------------------------
   linting:
     runs-on: ubuntu-latest
     steps:
@@ -213,7 +216,7 @@ jobs:
 ```
 
 <a id="codecov"></a>
-### Codecov upload example
+### Codecov upload
 
 ```yaml
 name: coverage
@@ -311,7 +314,7 @@ Running this action on Windows is supported, but two things are important to not
    $VENV is set by us, and will point to the OS-specific in-project default path 
    (`.venv/bin/activate` on UNIX and `.venv/scripts/activate` on Windows). 
 
-A complete example might look like this:
+For context, a full os-matrix using `windows-latest` could be set up like this:
    
 ```yaml
 name: test
@@ -321,29 +324,39 @@ on: pull_request
 jobs: 
   test-windows:
     strategy:
-      matrix: [ubuntu-latest, macos-latest, windows-latest]
+      matrix: [ "ubuntu-latest", "macos-latest", "windows-latest" ]
     defaults:
-      # 1. set default shell (required)
       run:
         shell: bash
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python 
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - name: Install Poetry
         uses: snok/install-poetry@v1.1.0
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-      - uses: actions/setup-python@v2
-      - run: poetry install
-      # 2. use $VENV to write OS-agnostic instructions
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - run: | 
           source $VENV
           pytest --version
 ```
 
 <a id="ovcv"></a>
-### VENV creation variations
+### Virtualenv variations
 
 All of the examples so far, use these settings
 
@@ -355,10 +368,10 @@ All of the examples so far, use these settings
     virtualenvs-in-project: true
 ```
 
-While this should work for most, there might be valid reasons for wanting 
-different `virtualenvs` settings.
-
-In general there are then two other relevant cases to document:
+While this should work for most, and we generally prefer creating our 
+`virtualenvs` in-project to make the caching step as simple as possible 
+there are valid reasons for wanting different `virtualenvs` settings. In 
+general there are then two other relevant cases to document:
 
 1. Creating a VENV, but not in the project dir
     
@@ -371,8 +384,8 @@ In general there are then two other relevant cases to document:
     You can, however, bypass this issue completely by taking advantage of 
     `poetry run`.
      
-    Using the last two steps in the [Matrix testing](#mtesting) example as a 
-    starting point, this is how we would install a matrix-specific dependency
+    Using the last two steps in the [Matrix testing](#mtesting) example as an 
+    example, this is how we would install a matrix-specific dependency
     and run our test suite:
     
     ```yaml
@@ -387,7 +400,7 @@ In general there are then two other relevant cases to document:
         coverage report
     ```
    
-   With a remote VENV do something like this instead:
+   With a remote VENV you can do this instead:
    
     ```yaml
     - name: Install django ${{ matrix.django-version }}
@@ -404,11 +417,11 @@ In general there are then two other relevant cases to document:
 2. Skipping VENV creation
 
     If you want to skip VENV creation, all the original examples are made valid 
-    by removing the VENV activation line: `source .venv/bin/activate`
-     
-    To enable caching, you will want to set up something resembling the the 
-    linting job caching step in the [Matrix testing](#mtesting); caching your 
-    pip wheels rather than your installed dependencies.
+    by removing the VENV activation line: `source .venv/bin/activate`.
+    
+    To enable caching in this case, you will want to set up something resembling 
+    the the linting job caching step in the [Matrix testing](#mtesting); caching 
+    your pip wheels rather than your installed dependencies.
     Since you're not caching your whole VENV, you will need to re-install
     dependencies every time you run the job; however, caching will save 
     you the time it would otherwise take to download the wheels, 
