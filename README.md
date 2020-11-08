@@ -131,15 +131,15 @@ jobs:
 A more extensive example for running your test-suite on combinations of multiple 
 operating systems, python versions, or package-versions, can be structured like this.
 
+*The linting job has nothing to do with the matrix, and is only included 
+for inspiration.*
+
 ```yaml
 name: test
 
 on: pull_request
 
 jobs:
-  #----------------------------------------------
-  #       initial code quality job
-  #----------------------------------------------
   linting:
     runs-on: ubuntu-latest
     steps:
