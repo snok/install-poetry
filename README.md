@@ -54,14 +54,24 @@ config *after* invoking this action, you can do that in a separate step like thi
 
 ## Real workflows and tips
 
-- [Basic testing](#testing)
-- [Matrix testing](#mtesting)
-- [Codecov upload](#codecov)
+This section contains a collection of workflow examples to help you e.g,
+figure out what settings to use, 
+how to implement caching, or just generally how to structure your workflow.
+
+If something didn't work for you, or you have suggested improvements, 
+please feel free to contribute. 
+
+- [Basic testing example](#testing)
+- [Full matrix testing example](#mtesting)
+- [Codecov upload example](#codecov)
 - [Running on Windows](#windows)
-- [Other VENV creation variations](#ovcv)
+- [VENV creation variations](#ovcv)
 
 <a id="testing"></a>
-### Basic testing
+### Basic testing example
+
+A basic example workflow for running your test-suite can be structured like this.
+The comments and `name`s are optional.
 
 ```
 name: test
@@ -115,10 +125,14 @@ jobs:
 ```
 
 <a id="mtesting"></a>
-### Matrix testing
+### Full matrix testing example
 
-This example includes a linting job, which has nothing to do with the matrix
-logic, but we thought might be useful for someone to see how works.
+In many cases, the basic example might not be enough. For example,
+you might need to make sure that your tests run on multiple operating systems,
+and across many package, and python versions.
+
+Note: this example also includes a linting job, which has nothing to do with 
+the matrix logic, but is left in to show how a multi-job workflow looks like.
 
 ```yaml
 name: test
@@ -198,7 +212,7 @@ jobs:
 ```
 
 <a id="codecov"></a>
-### Codecov upload
+### Codecov upload example
 
 ```yaml
 name: coverage
@@ -261,29 +275,31 @@ jobs:
 <a id="windows"></a>
 ### Running on Windows
 
-Running this action on Windows will work, but two things are important to note:
+Running this action on Windows is supported, but two things are important to note:
 
-1. You need to set the default shell to bash
+1. You need to set the default shell to bash at the job level
     
     ```yaml
     defaults:
       run:
         shell: bash
     ```
-2. If you are running an OS matrix, and want to activate your venv in-project, you *can* do this
+2. If you are running an OS matrix, and want to activate your venv in-project you have to deal with different VENV structures for different operating systems.
+    
+   To make it work, you *can* do this
 
    ```yaml
-   - run: |
-       source .venv/bin/activate
-       pytest --version
-     if: runner.os != 'Windows'
    - run: |
        source .venv/scripts/activate
        pytest --version
      if: runner.os == 'Windows'
+   - run: |
+       source .venv/bin/activate
+       pytest --version
+     if: runner.os != 'Windows'
    ```
    
-   but we recommend using the $VENV environment variable
+   but we recommend using the $VENV environment variable instead
    
    ```yaml
    - run: |
@@ -291,12 +307,10 @@ Running this action on Windows will work, but two things are important to note:
        pytest --version
    ```
    
-   the $VENV environment variable is set by us, and will point to the OS-specific
-   in-project default path 
+   $VENV is set by us, and will point to the OS-specific in-project default path 
    (`.venv/bin/activate` on UNIX and `.venv/scripts/activate` on Windows). 
-   This eliminates the need for duplicate conditional code. 
 
-Full Windows workflow:
+A complete example might look like this:
    
 ```yaml
 name: test
@@ -305,11 +319,10 @@ on: pull_request
 
 jobs: 
   test-windows:
-    needs: set-env
     strategy:
       matrix: [ubuntu-latest, macos-latest, windows-latest]
-    # 1. Set default shell
     defaults:
+      # 1. set default shell (required)
       run:
         shell: bash
     runs-on: ${{ matrix.os }}
@@ -322,17 +335,16 @@ jobs:
           virtualenvs-in-project: true
       - uses: actions/setup-python@v2
       - run: poetry install
-      # 2. Use $VENV environment variable 
-      # to remove the need for conditional blocks and duplicate code
+      # 2. use $VENV to write OS-agnostic instructions
       - run: | 
           source $VENV
           pytest --version
 ```
 
 <a id="ovcv"></a>
-### Other VENV creation variations
+### VENV creation variations
 
-All of the examples listed above use these settings
+All of the examples so far, use these settings
 
 ```yaml
 - name: Install Poetry
@@ -345,18 +357,19 @@ All of the examples listed above use these settings
 While this should work for most, there might be valid reasons for wanting 
 different `virtualenvs` settings.
 
-In general there are two other combinations:
+In general there are then two other relevant cases to document:
 
 1. Creating a VENV, but not in the project dir
-
+    
     If you're using the default settings, the venv location changes 
     from `.venv` to using `{cache-dir}/virtualenvs`. You can also
     change the path to whatever you'd like.
     
     If you're using the default, this directory will be different depending 
-    on the OS, making it a little harder to write OS agnostic workflows. However,
-    it is possible to bypass this issue completely by taking advantage of `poetry run`.
-    
+    on the OS, making it a little harder to write OS agnostic workflows. 
+    You can, however, bypass this issue completely by taking advantage of 
+    `poetry run`.
+     
     Using the last two steps in the [Matrix testing](#mtesting) example as a 
     starting point, this is how we would install a matrix-specific dependency
     and run our test suite:
@@ -373,8 +386,7 @@ In general there are two other combinations:
         coverage report
     ```
    
-   With a remote VENV you can bypass the VENV activation and 
-   do something like this instead:
+   With a remote VENV do something like this instead:
    
     ```yaml
     - name: Install django ${{ matrix.django-version }}
@@ -390,19 +402,16 @@ In general there are two other combinations:
 
 2. Skipping VENV creation
 
-    If you want to skip VENV creation, all the original examples are valid if 
-    you simply remove the VENV activation logic:
-    
-    ```yaml
-    source .venv/bin/activate
-    ```
+    If you want to skip VENV creation, all the original examples are made valid 
+    by removing the VENV activation line: `source .venv/bin/activate`
      
-    If you want to cache your dependencies, you will want to set up something
-    resembling the the linting job caching step in the [Matrix testing](#mtesting) 
-    example. In this case, you should cache the pip wheels instead of the VENV, 
-    meaning you won't cache installed dependencies; just the installables. 
-    This is still worth doing, as it still saves you a fair bit
-    of time for each run, and it reduces the strain on PyPi.
+    To enable caching, you will want to set up something resembling the the 
+    linting job caching step in the [Matrix testing](#mtesting); caching your 
+    pip wheels rather than your installed dependencies.
+    Since you're not caching your whole VENV, you will need to re-install
+    dependencies every time you run the job; however, caching will save 
+    you the time it would otherwise take to download the wheels, 
+    and it will reduce the strain on PyPi.
 
 ## Contributing
 Contributions are always welcome; submit a PR!
