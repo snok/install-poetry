@@ -143,13 +143,22 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
+      #----------------------------------------------
+      #       check-out repo and set-up python     
+      #----------------------------------------------
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+      #----------------------------------------------
+      #        load pip cache if cache exists      
+      #----------------------------------------------
       - uses: actions/cache@v2
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip
           restore-keys: ${{ runner.os }}-pip
+      #----------------------------------------------
+      #          install and run linters      
+      #----------------------------------------------
       - run: python -m pip install black flake8 isort
       - run: |
           flake8 .
