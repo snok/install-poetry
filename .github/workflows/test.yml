@@ -1,6 +1,6 @@
 name: tests
 
-on: push
+on: pull_request
 
 # The env section of the file contains all our supported Poetry, Python,
 # and OS versions - if you're reading through this and find anything to be
