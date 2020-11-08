@@ -55,14 +55,11 @@ you can do so in a subsequent step, like this
 
 ## Workflows and tips
 
-This section contains a collection of workflow examples to help you:
+This section contains a collection of workflow examples to help
 
 - Give you a starting point for setting up your own workflow,
-- Figure out what settings to use, or
-- How to increase performance by implementing caching in your workflow
-
-> If anything doesn't work for you, or you have suggested improvements, 
-please feel free to submit an issue or submitting a PR. 
+- Demonstrate how to implement caching for performance improvements
+- Clarify the implications of different settings
 
 **Examples**:
 
