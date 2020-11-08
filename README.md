@@ -311,8 +311,10 @@ To make this work, you *can* do this
      if: runner.os != 'Windows'
    ```
    
-   but we set a custom environment variable, `$VENV`, pointed at the activate
-   script, to prevent you from having to repeat yourself. Instead do this
+   but we think this is an annoying way to have to structure our workflows,
+   so we set a custom environment variable, `$VENV` which will point to the 
+   OS-specific venv activation script, whether you're running UNIX or Windows.
+   This means you can do this instead
    
    ```yaml
    - run: |
