@@ -366,7 +366,7 @@ jobs:
 <a id="ovcv"></a>
 **Virtualenv variations**
 
-All of the examples so far, use these settings
+All of the examples we've added use these Poetry settings
 
 ```yaml
 - name: Install Poetry
@@ -377,24 +377,25 @@ All of the examples so far, use these settings
 ```
 
 While this should work for most, and we generally prefer creating our 
-`virtualenvs` in-project to make the caching step as simple as possible 
-there are valid reasons for wanting different `virtualenvs` settings. In 
-general there are then two other relevant cases to document:
+`virtualenvs` in-project to make the caching step as simple as possible, 
+there are valid reasons for not wanting to construct a venv in your project directory. 
 
-1. Creating a VENV, but not in the project dir
+There are two other relevant scenarios:
+
+1. Creating a venv, but not in the project dir
     
     If you're using the default settings, the venv location changes 
     from `.venv` to using `{cache-dir}/virtualenvs`. You can also
-    change the path to whatever you'd like.
-    
-    If you're using the default, this directory will be different depending 
-    on the OS, making it a little harder to write OS agnostic workflows. 
-    You can, however, bypass this issue completely by taking advantage of 
-    `poetry run`.
+    change the path to whatever you'd like. Generally though, this can make
+    things a little tricky, because the directory will be vary depending 
+    on the OS, making it harder to write OS agnostic workflows. 
+
+    A solution to this is to bypass this issue completely by taking advantage of
+    Poetry's `poetry run` command.
      
     Using the last two steps in the [Matrix testing](#mtesting) example as an 
-    example, this is how we would install a matrix-specific dependency
-    and run our test suite:
+    example, this is how we have otherwise documented installing a 
+    matrix-specific dependency and running the test suite:
     
     ```yaml
     - name: Install django ${{ matrix.django-version }}
@@ -408,7 +409,7 @@ general there are then two other relevant cases to document:
         coverage report
     ```
    
-   With a remote VENV you can do this instead:
+   With a remote venv you can do this instead:
    
     ```yaml
     - name: Install django ${{ matrix.django-version }}
@@ -420,20 +421,20 @@ general there are then two other relevant cases to document:
     ```
    
    > We have never needed to cache remote VENVs in our Github Actions, but if 
-   you have, please feel free to submit a PR explaining how it's done.
+   you've done this, please feel free to submit a PR explaining how it's done.
 
-2. Skipping VENV creation
+2. Skipping venv creation
 
-    If you want to skip VENV creation, all the original examples are made valid 
-    by removing the VENV activation line: `source .venv/bin/activate`.
+    If you want to skip venv creation, all the original examples are made valid 
+    by simply removing the venv activation line: `source .venv/bin/activate`.
     
     To enable caching in this case, you will want to set up something resembling 
     the the linting job caching step in the [Matrix testing](#mtesting); caching 
     your pip wheels rather than your installed dependencies.
-    Since you're not caching your whole VENV, you will need to re-install
-    dependencies every time you run the job; however, caching will save 
-    you the time it would otherwise take to download the wheels, 
-    and it will reduce the strain on PyPi.
+    
+    Since you're not caching your whole venv, you will need to re-install
+    dependencies every time you run the job; caching will, however, still save 
+    you the time it would take to download the wheels (and it will reduce the strain on PyPi).
 
 ## Contributing
 Contributions are always welcome; submit a PR!
