@@ -27,27 +27,37 @@ jobs:
     # simpler - a solution is always welcome!
     runs-on: ubuntu-latest
     outputs:
-      full-matrix: ${{ steps.set-matrix.outputs.full-matrix }}
+      full-matrix: ${{ steps.set-full-matrix.outputs.full-matrix }}
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
       #   - python-version: [3.7, ...]
       #   - poetry-version: [1.1.2, ...]
-      py-os-matrix: ${{ steps.set-matrix.outputs.py-os-matrix }}
+      py-os-matrix: ${{ steps.set-py-os-matrix.outputs.py-os-matrix }}
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
       #   - python-version: [3.7, ...]
-      os-matrix: ${{ steps.set-matrix.outputs.os-matrix }}
+      os-matrix: ${{ steps.set-os-matrix.outputs.os-matrix }}
       # ^ this matrix represents:
       # matrix:
       #   - os: [ubuntu-latest, ...]
     steps:
-    - id: set-matrix
-      run: |
-        echo "::set-output name=full-matrix::{${{ env.SUPPORTED_POETRY }}, ${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
-        echo "::set-output name=py-os-matrix::{${{ env.SUPPORTED_PYTHON }}, ${{ env.SUPPORTED_OS }}}"
-        echo "::set-output name=os-matrix::{${{ env.SUPPORTED_OS }}}"
+    - id: set-full-matrix
+      run: echo "::set-output name=full-matrix::{>-
+          ${{ env.SUPPORTED_POETRY }},
+          ${{ env.SUPPORTED_PYTHON }},
+          ${{ env.SUPPORTED_OS }}
+        }"
+    - id: set-py-os-matrix
+      run: echo "::set-output name=py-os-matrix::{>-
+          ${{ env.SUPPORTED_PYTHON }},
+          ${{ env.SUPPORTED_OS }}
+        }"
+    - if: set-os-matrix
+      run: echo "::set-output name=os-matrix::{>-
+          ${{ env.SUPPORTED_OS }}
+        }"
 
   # Test makes sure the default action settings run on all combinations of
   # supported Python versions, Poetry versions, and operating systems
