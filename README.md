@@ -44,15 +44,16 @@ virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 ```
 
-If you want to access one of the experimental config settings or make changes to the Poetry
-config *after* invoking this action, you can do that in a separate step like this:
+If you want to access one of the `experimental` Poetry config settings, 
+or make changes to the Poetry config *after* invoking the action, 
+you can do so in a separate step, like this:
 
 ```yaml
 - uses: snok/install-poetry@v1.1.0
 - run: poetry config experimental.new-installer false
 ```
 
-## Real workflows and tips
+## Workflows and tips
 
 This section contains a collection of workflow examples to help you e.g,
 figure out what settings to use, 
