@@ -169,3 +169,46 @@ jobs:
       - run: |
           source $VENV
           pytest --version
+
+  builder-test:
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        os: [windows-2019, macos-10.15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8 for Windows
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8.6
+          architecture: x86
+        if: runner.os == "Windows"
+      - name: Set up Python 3.8 for Mac
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8.6
+          architecture: x64
+        if: runner.os != "Windows"
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.1.1rcN
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - name: Load cached dependencies
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      - name: Commit changed files on Mac
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git status
+        if: runner.os != "Windows"
