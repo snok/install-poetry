@@ -31,6 +31,6 @@ runs:
         rm get-poetry.py
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
         chmod +x ${{ github.action_path }}/main.sh
-        ${{ github.action_path }}//main.sh ${{ runner.os }} ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
+        ${{ github.action_path }}/main.sh ${{ runner.os }} ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
       shell: bash
 
