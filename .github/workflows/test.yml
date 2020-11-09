@@ -185,13 +185,13 @@ jobs:
         with:
           python-version: 3.8.6
           architecture: x86
-        if: runner.os == "Windows"
+        if: ${{ runner.os }} == "Windows"
       - name: Set up Python 3.8 for Mac
         uses: actions/setup-python@v2
         with:
           python-version: 3.8.6
           architecture: x64
-        if: runner.os != "Windows"
+        if: ${{ runner.os }} != "Windows"
       - name: Install Poetry
         uses: snok/install-poetry@v1.1.1rcN
         with:
