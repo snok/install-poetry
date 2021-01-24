@@ -1,7 +1,7 @@
 [![release](https://img.shields.io/github/release/snok/install-poetry.svg)](https://github.com/snok/install-poetry/releases/latest)
 [![tests](https://github.com/snok/install-poetry/workflows/test/badge.svg)](https://github.com/snok/install-poetry)
 
-# Install Poetry action
+# Install Poetry Action
 
 A Github action for installing and configuring Poetry.
 
@@ -61,7 +61,7 @@ This section contains a collection of workflow examples to help
 - Demonstrate how to implement caching for performance improvements
 - Clarify the implications of different settings
 
-Some of the examples are a bit long, so here's some links
+Some of the examples are a bit long, so here are some links
 
 - [Testing](#testing)
 - [Testing (using matrix)](#mtesting)
