@@ -4,7 +4,7 @@ on: pull_request
 
 # The env section of the file contains all the versions of
 # Poetry, Python, and OS versions we "support"
-# If you find anything needing an update, please feel free to submit a PR.
+# If you find anything needing to be updated, please feel free to submit a PR.
 
 env:
   # JSON variables (used in our strategy/matrix)
@@ -12,7 +12,7 @@ env:
   SUPPORTED_PYTHON_VERSIONS: '\"python-version\":[\"3.7\", \"3.8\", \"3.9\"]'
   SUPPORTED_OPERATING_SYSTEMS: '\"os\":[\"ubuntu-latest\", \"macos-latest\", \"windows-latest\"]'
 
-  # Normal variables (using in steps/*)
+  # Normal variables (used in steps/*)
   LATEST_PYTHON: "3.9"
   LATEST_POETRY: "$(cat requirements.txt | sed 's/poetry==//g')"
 
@@ -66,7 +66,8 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - run: poetry install
+      - run: poetry install --no-root --no-interaction
+      - run: poetry install --no-interaction
       - run: poetry run pytest --version
 
   # Makes sure not creating a venv works

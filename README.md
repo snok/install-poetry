@@ -113,8 +113,13 @@ jobs:
       # install dependencies if cache does not exist 
       #----------------------------------------------
       - name: Install dependencies
-        run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      # install your root project, if required 
+      #----------------------------------------------      
+      - name: Install library
+        run: poetry install --no-interaction
       #----------------------------------------------
       #              run test suite   
       #----------------------------------------------
@@ -204,8 +209,13 @@ jobs:
       # install dependencies if cache does not exist 
       #----------------------------------------------
       - name: Install dependencies
-        run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      # install your root project, if required 
+      #----------------------------------------------      
+      - name: Install library
+        run: poetry install --no-interaction
       #----------------------------------------------
       #    add matrix specifics and run test suite   
       #----------------------------------------------
@@ -265,9 +275,14 @@ jobs:
       #----------------------------------------------
       # install dependencies if cache does not exist 
       #----------------------------------------------
-    - name: Install dependencies
-      run: poetry install
-      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      # install your root project, if required 
+      #----------------------------------------------      
+      - name: Install library
+        run: poetry install --no-interaction
       #----------------------------------------------
       #    run test suite and output coverage file   
       #----------------------------------------------
@@ -356,8 +371,10 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-interaction --no-root
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      - name: Install library
+        run: poetry install --no-interaction
       - run: | 
           source $VENV
           pytest --version
