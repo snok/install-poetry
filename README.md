@@ -380,6 +380,15 @@ jobs:
           pytest --version
 ```
 
+##### Caching on Windows runners
+
+For some reason, caching your `venv` does not seem to work as expected on Windows runners. You can see an
+example of what happens [here](https://github.com/snok/install-poetry/actions/runs/507576956), where a 
+workflow stalls and runs for over 3 hours before it was manually cancelled.
+
+If you do want to cache your dependencies on a Windows runner, you should look
+into caching your pip wheels instead of your venv; this seems to work fine.
+
 <a id="ovcv"></a>
 #### Virtualenv variations
 
