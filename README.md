@@ -365,14 +365,13 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
       - name: Load cached venv
-        id: cached-poetry-dependencies
+        id: cached-pip-wheels
         uses: actions/cache@v2
         with:
-          path: .venv
+          path: ~/.cache
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Install library
         run: poetry install --no-interaction
       - run: | 
