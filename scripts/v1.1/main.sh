@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Give inputs sensible names
 os=$1
 venv_create=$2
@@ -17,7 +19,7 @@ fi
 
 # Echo help texts
 echo -e "\n\n-------------------------------------------------------------------------------\n\n$conf 🎉"
-if [ $venv_create == true ] || [ "$venv_create" == "true" ]; then
+if [ "$venv_create" == true ] || [ "$venv_create" == "true" ]; then
   # If user is creating a venv in-project we tell them how to activate venv
   echo -e "\n\n\033[33mIf you are creating a venv in your project, you can activate it by running '$act'\033[0m"
   echo -e "\n\033[33mIf you're running this in an OS matrix, use 'source \$VENV'\033[0m"
@@ -36,7 +38,7 @@ if [ "$os" == "Windows" ]; then
   "$HOME/.poetry/bin/poetry.bat" config virtualenvs.in-project "$venv_in_project"
   "$HOME/.poetry/bin/poetry.bat" config virtualenvs.path "$venv_path"
 else
-  source $HOME/.poetry/env
+  source "$HOME"/.poetry/env
   poetry config virtualenvs.create "$venv_create"
   poetry config virtualenvs.in-project "$venv_in_project"
   poetry config virtualenvs.path "$venv_path"
