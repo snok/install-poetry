@@ -8,7 +8,7 @@ inputs:
   version:
     description: "The Poetry version to install"
     required: true
-    default: "1.1.4"
+    default: "1.1.5"
   virtualenvs-create:
     description: "Whether Poetry should create a virtualenv or not"
     required: false
