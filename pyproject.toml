@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Test"
-version = "1.1.1"
+version = "1.1.2"
 description = ""
 authors = ["Sondre Lillebø Gundersen <sondrelg@live.no.com>"]
 maintainers = ["Jonas Krüger Svensson <jonasks@hotmail.com>"]
