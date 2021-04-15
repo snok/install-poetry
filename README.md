@@ -3,7 +3,7 @@
 
 # Install Poetry Action
 
-A Github action for installing and configuring Poetry.
+A Github action for installing and configuring [Poetry](https://python-poetry.org/).
 
 The action installs Poetry, adds executables to the runners system path, and sets relevant Poetry config settings.
 
