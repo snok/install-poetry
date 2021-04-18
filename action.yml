@@ -28,7 +28,6 @@ runs:
       run: |
         get_poetry="$(mktemp)"
         curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py --output "$get_poetry"
-        chmod +x "$get_poetry"
         python $get_poetry --yes --version=${{ inputs.version }}
 
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
@@ -38,4 +37,3 @@ runs:
         chmod +x "$install"
         $install ${{ runner.os }} ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
       shell: bash
-
