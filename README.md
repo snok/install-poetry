@@ -3,7 +3,7 @@
 
 # Install Poetry Action
 
-A Github action for installing and configuring Poetry.
+A Github action for installing and configuring [Poetry](https://python-poetry.org/).
 
 The action installs Poetry, adds executables to the runners system path, and sets relevant Poetry config settings.
 
@@ -15,14 +15,14 @@ If all you need is default Poetry, simply add this to your workflow:
 
 ```yaml
 - name: Install Poetry
-  uses: snok/install-poetry@v1.1.1
+  uses: snok/install-poetry@v1.1.4
 ```
 
 If you want to set Poetry config settings, or install a specific version, you can specify inputs
 
 ```yaml
 - name: Install and configure Poetry
-  uses: snok/install-poetry@v1.1.1
+  uses: snok/install-poetry@v1.1.4
   with:
     version: 1.1.6
     virtualenvs-create: true
@@ -49,7 +49,7 @@ or just to make changes to the Poetry config *after* invoking the action -
 you can do so in a subsequent step, like this
 
 ```yaml
-- uses: snok/install-poetry@v1.1.1
+- uses: snok/install-poetry@v1.1.4
 - run: poetry config experimental.new-installer false
 ```
 
@@ -96,7 +96,7 @@ jobs:
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
       - name: Install Poetry
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1.1.4
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
@@ -192,7 +192,7 @@ jobs:
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
       - name: Install Poetry
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1.1.4
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
@@ -259,7 +259,7 @@ jobs:
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
     - name: Install Poetry
-      uses: snok/install-poetry@v1.1.1
+      uses: snok/install-poetry@v1.1.4
       with:
         virtualenvs-create: true
         virtualenvs-in-project: true
@@ -360,7 +360,7 @@ jobs:
         with:
           python-version: 3.9
       - name: Install Poetry
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1.1.4
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
@@ -395,7 +395,7 @@ All of the examples we've added use these Poetry settings
 
 ```yaml
 - name: Install Poetry
-  uses: snok/install-poetry@v1.1.1
+  uses: snok/install-poetry@v1.1.4
   with:
     virtualenvs-create: true
     virtualenvs-in-project: true

@@ -8,7 +8,7 @@ inputs:
   version:
     description: "The Poetry version to install"
     required: true
-    default: "1.1.5"
+    default: "1.1.6"
   virtualenvs-create:
     description: "Whether Poetry should create a virtualenv or not"
     required: false
@@ -26,13 +26,14 @@ runs:
   steps:
     - name: Install and configure Poetry
       run: |
-        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
-        python get-poetry.py --yes --version=${{ inputs.version }}
-        rm get-poetry.py
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-        curl -O -sSL https://raw.githubusercontent.com/snok/install-poetry/main/scripts/v1.1/main.sh
-        chmod +x ./main.sh
-        ./main.sh ${{ runner.os }} ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
-        rm main.sh
-      shell: bash
+        get_poetry="$(mktemp)"
+        curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py --output "$get_poetry"
+        python $get_poetry --yes --version=${{ inputs.version }}
 
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+
+        install="$(mktemp)"
+        curl -sSL https://raw.githubusercontent.com/snok/install-poetry/main/scripts/v1.1/main.sh --output "$install"
+        chmod +x "$install"
+        $install ${{ runner.os }} ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
+      shell: bash
