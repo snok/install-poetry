@@ -26,10 +26,7 @@ runs:
   steps:
     - name: Install and configure Poetry
       run: |
-        get_poetry="$(mktemp)"
-        curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py --output "$get_poetry"
-        python $get_poetry --uninstall
-        python $get_poetry --yes --version=${{ inputs.version }}
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - --yes --version=${{ inputs.version }}
 
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
