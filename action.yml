@@ -30,7 +30,7 @@ runs:
         curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py --output "$installation_script"
 
         config_script="$(mktemp)"
-        curl -sSL https://raw.githubusercontent.com/snok/install-poetry/v1.2/scripts/v1.2/main.sh --output "$config_script"
+        curl -sSL https://raw.githubusercontent.com/snok/install-poetry/main/scripts/v1.2/main.sh --output "$config_script"
         chmod +x "$config_script"
 
         $config_script \
