@@ -26,14 +26,18 @@ runs:
   steps:
     - name: Install and configure Poetry
       run: |
-        get_poetry="$(mktemp)"
-        curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py --output "$get_poetry"
-        python $get_poetry --yes --version=${{ inputs.version }}
+        installation_script="$(mktemp)"
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py --output "$installation_script"
 
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+        config_script="$(mktemp)"
+        curl -sSL https://raw.githubusercontent.com/snok/install-poetry/v1.2/scripts/v1.2/main.sh --output "$config_script"
+        chmod +x "$config_script"
 
-        install="$(mktemp)"
-        curl -sSL https://raw.githubusercontent.com/snok/install-poetry/main/scripts/v1.1/main.sh --output "$install"
-        chmod +x "$install"
-        $install ${{ runner.os }} ${{ inputs.virtualenvs-create }} ${{ inputs.virtualenvs-in-project }} ${{ inputs.virtualenvs-path }}
+        $config_script \
+          ${{ runner.os }} \
+          ${{ inputs.virtualenvs-create }} \
+          ${{ inputs.virtualenvs-in-project }} \
+          ${{ inputs.virtualenvs-path }} \
+          ${{ inputs.version }} \
+          $installation_script
       shell: bash
