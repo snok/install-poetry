@@ -251,27 +251,27 @@ jobs:
       #----------------------------------------------
       #       check-out repo and set-up python     
       #----------------------------------------------
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       #----------------------------------------------
       #  -----  install & configure poetry  -----      
       #----------------------------------------------
-    - name: Install Poetry
-      uses: snok/install-poetry@v1.1.6
-      with:
-        virtualenvs-create: true
-        virtualenvs-in-project: true
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.1.6
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
       #----------------------------------------------
       #       load cached venv if cache exists      
       #----------------------------------------------
-    - name: Load cached venv
-      id: cached-poetry-dependencies
-      uses: actions/cache@v2
-      with:
-        path: .venv
-        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
       # install dependencies if cache does not exist 
       #----------------------------------------------
@@ -286,17 +286,17 @@ jobs:
       #----------------------------------------------
       #    run test suite and output coverage file   
       #----------------------------------------------
-    - name: Test with pytest
-      run: poetry run pytest --cov=<project-dir> --cov-report=xml
+      - name: Test with pytest
+        run: poetry run pytest --cov=<project-dir> --cov-report=xml
       #----------------------------------------------
       #             upload coverage stats              
       # (requires CODECOV_TOKEN in repository secrets)   
       #----------------------------------------------
-    - name: Upload coverage
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
 ```
 
 <a id="windows"></a>
