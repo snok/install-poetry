@@ -6,7 +6,8 @@ venv_create=$2
 venv_in_project=$3
 venv_path=$4
 version=$5
-installation_script=$6
+poetry_home_path=$6
+installation_script=$7
 
 # Define OS specific help text
 if [ "$os" == "Windows" ]; then
@@ -33,16 +34,18 @@ if [ "$os" == "Windows" ]; then
 fi
 echo -e '\n-------------------------------------------------------------------------------\n'
 
-if [ "$os" == "Windows" ]; then
-  path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts/"
-else
-  path="$HOME/.local/"
+if [ -z "$poetry_home_path" ]; then
+  if [ "$os" == "Windows" ]; then
+    poetry_home_path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts/"
+  else
+    poetry_home_path="$HOME/.local/"
+  fi
 fi
 
-POETRY_HOME=$path python3 $installation_script --yes --version=$version
+POETRY_HOME=$poetry_home_path python3 $installation_script --yes --version=$version
 
-echo "$path/bin" >>$GITHUB_PATH
-export PATH="$path/bin:$PATH"
+echo "$poetry_home_path/bin" >>$GITHUB_PATH
+export PATH="$poetry_home_path/bin:$PATH"
 
 if [ "$os" == "Windows" ]; then
   # Adding to path on windows doesn't immediately take effect

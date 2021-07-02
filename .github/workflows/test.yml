@@ -70,6 +70,29 @@ jobs:
       - run: poetry install --no-interaction
       - run: poetry run pytest --version
 
+  # Make sure custom poetry-home installation works
+  test-install-poetry-home:
+    needs: set-env
+    strategy:
+      fail-fast: true
+      matrix: ${{fromJson(needs.set-env.outputs.os-matrix)}}
+    defaults:
+      run:
+        shell: bash
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          poetry-home: ./poetry
+          version: ${{ env.LATEST_POETRY }}
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.LATEST_PYTHON }}
+      - run: poetry install --no-root --no-interaction
+      - run: poetry install --no-interaction
+      - run: poetry run pytest --version
+
   # Makes sure not creating a venv works
   test-create-venv-false:
     needs: set-env
