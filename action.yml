@@ -8,7 +8,7 @@ inputs:
   poetry-home:
     description: "The Poetry installation path"
     required: false
-    default: ""
+    default: "default"
   version:
     description: "The Poetry version to install"
     required: true
@@ -43,6 +43,6 @@ runs:
           ${{ inputs.virtualenvs-in-project }} \
           ${{ inputs.virtualenvs-path }} \
           ${{ inputs.version }} \
-          "${{ inputs.poetry-home }}" \
+          ${{ inputs.poetry-home }} \
           $installation_script
       shell: bash

@@ -34,7 +34,7 @@ if [ "$os" == "Windows" ]; then
 fi
 echo -e '\n-------------------------------------------------------------------------------\n'
 
-if [ -z "$poetry_home_path" ]; then
+if [ "$poetry_home_path" == "default" ]; then
   if [ "$os" == "Windows" ]; then
     poetry_home_path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts/"
   else
@@ -51,9 +51,9 @@ if [ "$os" == "Windows" ]; then
   # Adding to path on windows doesn't immediately take effect
   # so calling the executable directly here - should be available
   # in next steps regardless.
-  "$path/bin/poetry.exe" config virtualenvs.create "$venv_create"
-  "$path/bin/poetry.exe" config virtualenvs.in-project "$venv_in_project"
-  "$path/bin/poetry.exe" config virtualenvs.path "$venv_path"
+  "$poetry_home_path/bin/poetry.exe" config virtualenvs.create "$venv_create"
+  "$poetry_home_path/bin/poetry.exe" config virtualenvs.in-project "$venv_in_project"
+  "$poetry_home_path/bin/poetry.exe" config virtualenvs.path "$venv_path"
 else
   poetry config virtualenvs.create "$venv_create"
   poetry config virtualenvs.in-project "$venv_in_project"

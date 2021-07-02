@@ -82,6 +82,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
+      - run: mkdir poetry
       - uses: ./
         with:
           poetry-home: ./poetry
