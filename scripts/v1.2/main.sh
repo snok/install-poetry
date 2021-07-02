@@ -36,24 +36,26 @@ echo -e '\n---------------------------------------------------------------------
 
 if [ "$poetry_home_path" == "default" ]; then
   if [ "$os" == "Windows" ]; then
-    poetry_home_path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts/"
+    path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts/"
   else
-    poetry_home_path="$HOME/.local/"
+    path="$HOME/.local/"
   fi
+else
+  path="$poetry_home_path"
 fi
 
-POETRY_HOME=$poetry_home_path python3 $installation_script --yes --version=$version
+POETRY_HOME=$path python3 $installation_script --yes --version=$version
 
-echo "$poetry_home_path/bin" >>$GITHUB_PATH
-export PATH="$poetry_home_path/bin:$PATH"
+echo "$path/bin" >>$GITHUB_PATH
+export PATH="$path/bin:$PATH"
 
 if [ "$os" == "Windows" ]; then
   # Adding to path on windows doesn't immediately take effect
   # so calling the executable directly here - should be available
   # in next steps regardless.
-  "$poetry_home_path/bin/poetry.exe" config virtualenvs.create "$venv_create"
-  "$poetry_home_path/bin/poetry.exe" config virtualenvs.in-project "$venv_in_project"
-  "$poetry_home_path/bin/poetry.exe" config virtualenvs.path "$venv_path"
+  "$path/bin/poetry.exe" config virtualenvs.create "$venv_create"
+  "$path/bin/poetry.exe" config virtualenvs.in-project "$venv_in_project"
+  "$path/bin/poetry.exe" config virtualenvs.path "$venv_path"
 else
   poetry config virtualenvs.create "$venv_create"
   poetry config virtualenvs.in-project "$venv_in_project"
