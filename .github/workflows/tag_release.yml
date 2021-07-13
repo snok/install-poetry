@@ -1,3 +1,5 @@
+name: Tag releases with v1
+
 on:
   # Make sure the workflow can be triggered manually
   workflow_dispatch:
@@ -10,10 +12,9 @@ jobs:
   tag-v1:
     name: Tag v1
     runs-on: ubuntu-latest
-    timeout-minutes: 2
     steps:
       - uses: actions/checkout@v2
-      - name: Bump version and push tag
+      - name: Update tag
         run: |
           git tag v1
           git push origin HEAD:refs/heads/master --tags --force
