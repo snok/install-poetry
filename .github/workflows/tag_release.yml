@@ -1,0 +1,21 @@
+on:
+  # Make sure the workflow can be triggered manually
+  workflow_dispatch:
+
+  # And is triggered whenever we publish a release
+  release:
+    types: [published]
+
+jobs:
+  tag-v1:
+    name: Tag v1
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        run: |
+          git tag v1
+          git push origin HEAD:refs/heads/master --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
