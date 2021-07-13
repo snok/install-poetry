@@ -16,6 +16,6 @@ jobs:
       - name: Bump version and push tag
         run: |
           git tag v1
-          git push origin HEAD:refs/heads/master --tags
+          git push origin HEAD:refs/heads/master --tags --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
