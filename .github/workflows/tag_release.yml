@@ -1,10 +1,6 @@
-name: Tag releases with v1
+name: Tag releases with minor and major version
 
 on:
-  # Make sure the workflow can be triggered manually
-  workflow_dispatch:
-
-  # And is triggered whenever we publish a release
   release:
     types: [published]
 
@@ -16,7 +12,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update tag
         run: |
-          git tag v1
+          major_tag="$(python get_version.py "${GITHUB_REF}" major)"
+          minor_tag="$(python get_version.py "${GITHUB_REF}" minor)"
+          git tag $major_tag
+          git tag $minor_tag
           git push origin HEAD:refs/heads/master --tags --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
