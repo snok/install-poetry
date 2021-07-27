@@ -64,10 +64,11 @@ This section contains a collection of workflow examples to help
 Some of the examples are a bit long, so here are some links
 
 - [Testing](#testing)
-- [Testing (using matrix)](#mtesting)
-- [Codecov upload](#codecov)
-- [Running on Windows](#windows)
-- [Virtualenv variations](#ovcv)
+- [Testing (using an OS matrix)](#testing-using-a-matrix)
+- [Codecov upload](#codecov-upload)
+- [Running on Windows](#running-on-windows)
+- [Virtualenv variations](#virtualenv-variations)
+- [Caching the Poetry installation](#caching-the-poetry-installation)
 
 <a id="testing"></a>
 #### Testing
@@ -450,16 +451,46 @@ There are two other relevant scenarios:
 
 2. Skipping venv creation
 
-    If you want to skip venv creation, all the original examples are made valid 
-    by simply removing the venv activation line: `source .venv/bin/activate`.
-    
-    To enable caching in this case, you will want to set up something resembling 
-    the the linting job caching step in the [Matrix testing](#mtesting); caching 
-    your pip wheels rather than your installed dependencies.
-    
-    Since you're not caching your whole venv, you will need to re-install
-    dependencies every time you run the job; caching will, however, still save 
-    you the time it would take to download the wheels (and it will reduce the strain on PyPi).
+   If you want to skip venv creation, all the original examples are made valid by simply removing the venv activation
+   line: `source .venv/bin/activate`.
+
+   To enable caching in this case, you will want to set up something resembling the the linting job caching step in
+   the [Matrix testing](#mtesting); caching your pip wheels rather than your installed dependencies.
+
+   Since you're not caching your whole venv, you will need to re-install dependencies every time you run the job;
+   caching will, however, still save you the time it would take to download the wheels (and it will reduce the strain on
+   PyPi).
+
+#### Caching the Poetry installation
+
+In addition to caching your python dependencies you might find it useful to cache the Poetry installation itself. This
+should cut ~10 seconds of your total runtime and roughly 95% of this action's runtime.
+
+```yaml
+name: test
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Load cached Poetry installation
+        uses: actions/cache@v2
+        with:
+          path: ~/.local  # the path depends on the OS
+          key: poetry-0  # increment to reset cache
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+```
+
+The directory to cache will depend on the operating system of the runner.
 
 ## Contributing
 Contributions are always welcome; submit a PR!
