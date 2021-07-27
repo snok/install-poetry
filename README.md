@@ -5,7 +5,7 @@
 
 A Github action for installing and configuring [Poetry](https://python-poetry.org/).
 
-The action installs Poetry, adds executables to the runners system path, and sets relevant Poetry config settings.
+The action installs Poetry, adds executables to the runner system path, and sets relevant Poetry config settings.
 
 > Inspired by [dschep's](https://github.com/dschep) [archived poetry action](https://github.com/dschep/install-poetry-action).
 
@@ -18,58 +18,58 @@ If all you need is default Poetry, simply add this to your workflow:
   uses: snok/install-poetry@v1
 ```
 
-If you want to set Poetry config settings, or install a specific version, you can specify inputs
+If you want to set Poetry config settings, or install a specific version, you can specify inputs:
 
 ```yaml
 - name: Install and configure Poetry
   uses: snok/install-poetry@v1
   with:
-    version: 1.1.6
+    version: 1.1.7
     virtualenvs-create: true
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
 ```
 
-The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0. 
+The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0.
 
 If you're using this with Windows, see the [Running on Windows](#windows) section.
 
 ## Defaults
 
-The config default settings are
+The current default settings are:
+
 ```yaml
-version: 1.1.6
+version: 1.1.7
 virtualenvs-create: true
 virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 ```
 
-If you want to make further config changes - to change one of the `experimental` Poetry config settings, 
-or just to make changes to the Poetry config *after* invoking the action -
-you can do so in a subsequent step, like this
+If you want to make further config changes - e.g., to change one of the `experimental` Poetry config settings, or just
+to make changes to the Poetry config *after* invoking the action - you can do so in a subsequent step, like this:
 
 ```yaml
 - uses: snok/install-poetry@v1
 - run: poetry config experimental.new-installer false
 ```
 
-## Workflows and tips
+## Workflow examples and tips
 
-This section contains a collection of workflow examples to help
+This section contains a collection of workflow examples to try and help
 
-- Give you a starting point for setting up your own workflow,
+- Give you a starting point for setting up your own workflows
 - Demonstrate how to implement caching for performance improvements
 - Clarify the implications of different settings
 
 Some of the examples are a bit long, so here are some links
 
 - [Testing](#testing)
-- [Testing (using matrix)](#mtesting)
-- [Codecov upload](#codecov)
-- [Running on Windows](#windows)
-- [Virtualenv variations](#ovcv)
+- [Testing (using an OS matrix)](#testing-using-a-matrix)
+- [Codecov upload](#codecov-upload)
+- [Running on Windows](#running-on-windows)
+- [Virtualenv variations](#virtualenv-variations)
+- [Caching the Poetry installation](#caching-the-poetry-installation)
 
-<a id="testing"></a>
 #### Testing
 
 A basic example workflow for running your test-suite can be structured like this.
@@ -88,7 +88,7 @@ jobs:
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v2
-      - name: Set up python 
+      - name: Set up python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
@@ -130,14 +130,12 @@ jobs:
           coverage report
 ```
 
-<a id="mtesting"></a>
 #### Testing using a matrix
 
-A more extensive example for running your test-suite on combinations of multiple 
-operating systems, python versions, or package-versions, can be structured like this.
+A more extensive example for running your test-suite on combinations of multiple operating systems, python versions, or
+package-versions, can be structured like this.
 
-*The linting job has nothing to do with the matrix, and is only included 
-for inspiration.*
+*The linting job has nothing to do with the matrix, and is only included for inspiration.*
 
 ```yaml
 name: test
@@ -230,10 +228,9 @@ jobs:
           coverage report
 ```
 
-<a id="codecov"></a>
 #### Codecov upload
 
-This section contains a simple codecov upload. See the 
+This section contains a simple codecov upload. See the
 [codecov action](https://github.com/codecov/codecov-action) for more information.
 
 ```yaml
@@ -299,21 +296,20 @@ jobs:
           fail_ci_if_error: true
 ```
 
-<a id="windows"></a>
 #### Running on Windows
 
 Running this action on Windows is supported, but two things are important to note:
 
 1. You need to set the job-level default shell to `bash`
-    
+
     ```yaml
     defaults:
       run:
         shell: bash
     ```
-2. If you are running an OS matrix, and want to activate your venv `in-project` 
-you have to deal with different folder structures on different operating systems.
-To make this work, you *can* do this
+2. If you are running an OS matrix, and want to activate your venv `in-project`
+   you have to deal with different folder structures on different operating systems. To make this work, you *can* do
+   this
 
    ```yaml
    - run: |
@@ -325,12 +321,11 @@ To make this work, you *can* do this
        pytest --version
      if: runner.os != 'Windows'
    ```
-   
-   but we think this is an annoying way to have to structure our workflows,
-   so we set a custom environment variable, `$VENV` which will point to the 
-   OS-specific venv activation script, whether you're running UNIX or Windows.
+
+   but we think this is an annoying way to have to structure our workflows, so we set a custom environment
+   variable, `$VENV` which will point to the OS-specific venv activation script, whether you're running UNIX or Windows.
    This means you can do this instead
-   
+
    ```yaml
    - run: |
        source $VENV
@@ -338,13 +333,13 @@ To make this work, you *can* do this
    ```
 
 For context, a full os-matrix using `windows-latest` could be set up like this:
-   
+
 ```yaml
 name: test
 
 on: pull_request
 
-jobs: 
+jobs:
   test-windows:
     strategy:
       matrix: [ "ubuntu-latest", "macos-latest", "windows-latest" ]
@@ -355,7 +350,7 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
-      - name: Set up python 
+      - name: Set up python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
@@ -374,21 +369,20 @@ jobs:
         run: poetry install --no-interaction --no-root
       - name: Install library
         run: poetry install --no-interaction
-      - run: | 
+      - run: |
           source $VENV
           pytest --version
 ```
 
 ##### Caching on Windows runners
 
-For some reason, caching your `venv` does not seem to work as expected on Windows runners. You can see an
-example of what happens [here](https://github.com/snok/install-poetry/actions/runs/507576956), where a 
-workflow stalls and runs for over 3 hours before it was manually cancelled.
+For some reason, caching your `venv` does not seem to work as expected on Windows runners. You can see an example of
+what happens [here](https://github.com/snok/install-poetry/actions/runs/507576956), where a workflow stalls and runs for
+over 3 hours before it was manually cancelled.
 
-If you do want to cache your dependencies on a Windows runner, you should look
-into caching your pip wheels instead of your venv; this seems to work fine.
+If you do want to cache your dependencies on a Windows runner, you should look into caching your pip wheels instead of
+your venv; this seems to work fine.
 
-<a id="ovcv"></a>
 #### Virtualenv variations
 
 All of the examples we've added use these Poetry settings
@@ -401,27 +395,23 @@ All of the examples we've added use these Poetry settings
     virtualenvs-in-project: true
 ```
 
-While this should work for most, and we generally prefer creating our 
-`virtualenvs` in-project to make the caching step as simple as possible, 
-there are valid reasons for not wanting to construct a venv in your project directory. 
+While this should work for most, and we generally prefer creating our
+`virtualenvs` in-project to make the caching step as simple as possible, there are valid reasons for not wanting to
+construct a venv in your project directory.
 
 There are two other relevant scenarios:
 
 1. Creating a venv, but not in the project dir
-    
-    If you're using the default settings, the venv location changes 
-    from `.venv` to using `{cache-dir}/virtualenvs`. You can also
-    change the path to whatever you'd like. Generally though, this can make
-    things a little tricky, because the directory will be vary depending 
-    on the OS, making it harder to write OS agnostic workflows. 
 
-    A solution to this is to bypass this issue completely by taking advantage of
-    Poetry's `poetry run` command.
-     
-    Using the last two steps in the [Matrix testing](#mtesting) example as an 
-    example, this is how we have otherwise documented installing a 
-    matrix-specific dependency and running the test suite:
-    
+   If you're using the default settings, the venv location changes from `.venv` to using `{cache-dir}/virtualenvs`. You
+   can also change the path to whatever you'd like. Generally though, this can make things a little tricky, because the
+   directory will be vary depending on the OS, making it harder to write OS agnostic workflows.
+
+   A solution to this is to bypass this issue completely by taking advantage of Poetry's `poetry run` command.
+
+   Using the last two steps in the [Matrix testing](#mtesting) example as an example, this is how we have otherwise
+   documented installing a matrix-specific dependency and running the test suite:
+
     ```yaml
     - name: Install django ${{ matrix.django-version }}
       run: |
@@ -433,9 +423,9 @@ There are two other relevant scenarios:
         pytest tests/
         coverage report
     ```
-   
+
    With a remote venv you can do this instead:
-   
+
     ```yaml
     - name: Install django ${{ matrix.django-version }}
       run: poetry add "Django==${{ matrix.django-version }}"
@@ -444,28 +434,61 @@ There are two other relevant scenarios:
         poetry run pytest tests/
         poetry run coverage report
     ```
-   
-   > We have never needed to cache remote VENVs in our Github Actions, but if 
-   you've done this, please feel free to submit a PR explaining how it's done.
+
+   > We have never needed to cache remote venvs in our workflows.
+   > If you have, feel free to submit a PR explaining how it's done.
 
 2. Skipping venv creation
 
-    If you want to skip venv creation, all the original examples are made valid 
-    by simply removing the venv activation line: `source .venv/bin/activate`.
-    
-    To enable caching in this case, you will want to set up something resembling 
-    the the linting job caching step in the [Matrix testing](#mtesting); caching 
-    your pip wheels rather than your installed dependencies.
-    
-    Since you're not caching your whole venv, you will need to re-install
-    dependencies every time you run the job; caching will, however, still save 
-    you the time it would take to download the wheels (and it will reduce the strain on PyPi).
+   If you want to skip venv creation, all the original examples are made valid by simply removing the venv activation
+   line: `source .venv/bin/activate`.
+
+   To enable caching in this case, you will want to set up something resembling the the linting job caching step in
+   the [Matrix testing](#mtesting); caching your pip wheels rather than your installed dependencies.
+
+   Since you're not caching your whole venv, you will need to re-install dependencies every time you run the job;
+   caching will, however, still save you the time it would take to download the wheels (and it will reduce the strain on
+   PyPi).
+
+#### Caching the Poetry installation
+
+In addition to caching your python dependencies you might find it useful to cache the Poetry installation itself. This
+should cut ~10 seconds of your total runtime and roughly 95% of this action's runtime.
+
+```yaml
+name: test
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Load cached Poetry installation
+        uses: actions/cache@v2
+        with:
+          path: ~/.local  # the path depends on the OS
+          key: poetry-0  # increment to reset cache
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+```
+
+The directory to cache will depend on the operating system of the runner.
 
 ## Contributing
+
 Contributions are always welcome; submit a PR!
 
 ## License
+
 install-poetry is licensed under an MIT license. See the license file for details.
 
 ## Showing your support
-Leave a ✭ if this project helped you!
+
+Leave a ⭐️ if this project helped you!
