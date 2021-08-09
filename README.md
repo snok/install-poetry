@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #----------------------------------------------
-      #       check-out repo and set-up python     
+      #       check-out repo and set-up python
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v2
@@ -93,7 +93,7 @@ jobs:
         with:
           python-version: 3.9
       #----------------------------------------------
-      #  -----  install & configure poetry  -----      
+      #  -----  install & configure poetry  -----
       #----------------------------------------------
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -101,7 +101,7 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
       #----------------------------------------------
-      #       load cached venv if cache exists      
+      #       load cached venv if cache exists
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
@@ -110,18 +110,18 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
-      # install dependencies if cache does not exist 
+      # install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
       #----------------------------------------------
-      # install your root project, if required 
-      #----------------------------------------------      
+      # install your root project, if required
+      #----------------------------------------------
       - name: Install library
         run: poetry install --no-interaction
       #----------------------------------------------
-      #              run test suite   
+      #              run test suite
       #----------------------------------------------
       - name: Run tests
         run: |
@@ -147,12 +147,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #----------------------------------------------
-      #       check-out repo and set-up python     
+      #       check-out repo and set-up python
       #----------------------------------------------
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       #----------------------------------------------
-      #        load pip cache if cache exists      
+      #        load pip cache if cache exists
       #----------------------------------------------
       - uses: actions/cache@v2
         with:
@@ -160,7 +160,7 @@ jobs:
           key: ${{ runner.os }}-pip
           restore-keys: ${{ runner.os }}-pip
       #----------------------------------------------
-      #          install and run linters      
+      #          install and run linters
       #----------------------------------------------
       - run: python -m pip install black flake8 isort
       - run: |
@@ -178,7 +178,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       #----------------------------------------------
-      #       check-out repo and set-up python     
+      #       check-out repo and set-up python
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v2
@@ -187,7 +187,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       #----------------------------------------------
-      #  -----  install & configure poetry  -----      
+      #  -----  install & configure poetry  -----
       #----------------------------------------------
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -195,7 +195,7 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
       #----------------------------------------------
-      #       load cached venv if cache exists      
+      #       load cached venv if cache exists
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
@@ -204,18 +204,18 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
-      # install dependencies if cache does not exist 
+      # install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
       #----------------------------------------------
-      # install your root project, if required 
-      #----------------------------------------------      
+      # install your root project, if required
+      #----------------------------------------------
       - name: Install library
         run: poetry install --no-interaction
       #----------------------------------------------
-      #    add matrix specifics and run test suite   
+      #    add matrix specifics and run test suite
       #----------------------------------------------
       - name: Install django ${{ matrix.django-version }}
         run: |
@@ -246,14 +246,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #----------------------------------------------
-      #       check-out repo and set-up python     
+      #       check-out repo and set-up python
       #----------------------------------------------
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
       #----------------------------------------------
-      #  -----  install & configure poetry  -----      
+      #  -----  install & configure poetry  -----
       #----------------------------------------------
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -261,7 +261,7 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
       #----------------------------------------------
-      #       load cached venv if cache exists      
+      #       load cached venv if cache exists
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
@@ -270,24 +270,24 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
-      # install dependencies if cache does not exist 
+      # install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
       #----------------------------------------------
-      # install your root project, if required 
-      #----------------------------------------------      
+      # install your root project, if required
+      #----------------------------------------------
       - name: Install library
         run: poetry install --no-interaction
       #----------------------------------------------
-      #    run test suite and output coverage file   
+      #    run test suite and output coverage file
       #----------------------------------------------
       - name: Test with pytest
         run: poetry run pytest --cov=<project-dir> --cov-report=xml
       #----------------------------------------------
-      #             upload coverage stats              
-      # (requires CODECOV_TOKEN in repository secrets)   
+      #             upload coverage stats
+      # (requires CODECOV_TOKEN in repository secrets)
       #----------------------------------------------
       - name: Upload coverage
         uses: codecov/codecov-action@v1
