@@ -292,6 +292,7 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v1
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
           fail_ci_if_error: true
 ```
