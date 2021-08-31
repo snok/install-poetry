@@ -126,6 +126,22 @@ jobs:
           source $VENV
           pytest --version
 
+
+  # Make sure the default version corresponds to 'latest'
+  test-latest-version-when-unspecified:
+    needs: set-env
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Poetry
+        uses: ./
+      # This test will need to change every time poetry releases a new version
+      # If you're submitting a PR and this fails because Poetry release a new version
+      # feel free to update it
+      - run: |
+          source "./assert.sh"
+          assert_in "1.1.8" "$(poetry --version)"
+
   # Make sure scripts are not deleted.
   # If we deleted the scripts folder (or subfolders) by accident,
   # different versions of the action would fail
