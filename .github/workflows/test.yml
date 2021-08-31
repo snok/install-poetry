@@ -8,7 +8,7 @@ on: pull_request
 
 env:
   # JSON variables (used in our strategy/matrix)
-  SUPPORTED_POETRY_VERSIONS: '\"poetry-version\":[\"1.1.0\", \"1.1.7\", \"1.2.0a2\"]'
+  SUPPORTED_POETRY_VERSIONS: '\"poetry-version\":[\"1.1.0\", \"1.1.7\", \"1.1.8\", \"1.2.0a2\"]'
   SUPPORTED_PYTHON_VERSIONS: '\"python-version\":[\"3.7\", \"3.9\", \"3.10.0-beta.4\"]'
   SUPPORTED_OPERATING_SYSTEMS: '\"os\":[\"ubuntu-latest\", \"macos-latest\", \"windows-latest\"]'
 
@@ -152,6 +152,8 @@ jobs:
       - uses: snok/install-poetry@v1.1.4
       # v1.2 script loaded in > 1.1.4
       - uses: snok/install-poetry@v1.1.6
+      # v1.3 script loaded in > 1.1.8
+      - uses: snok/install-poetry@v1.1.8
 
   # Make sure we're able to run the action with major and
   # minor version, not just with complete versions.
@@ -160,3 +162,29 @@ jobs:
     steps:
       - uses: snok/install-poetry@v1
       - uses: snok/install-poetry@v1.1
+
+  # Makes sure disabling parallel installs works
+  test-installer-parallel-false:
+    needs: set-env
+    strategy:
+      fail-fast: true
+      matrix: ${{fromJson(needs.set-env.outputs.os-matrix)}}
+    defaults:
+      run:
+        shell: bash
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          version: ${{ env.LATEST_POETRY }}
+          installer-parallel: false
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.LATEST_PYTHON }}
+      - name: Test no venv is created
+        run: |
+          output=$(poetry config installer.parallel)
+          echo $output
+          source "./assert.sh"
+          assert_in "false" "$output"

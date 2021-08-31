@@ -21,6 +21,10 @@ inputs:
     description: "The Poetry virtualenv path"
     required: false
     default: "{cache-dir}/virtualenvs"
+  installer-parallel:
+    description: "Whether to install many packages at once or one by one. This can fix pypi dns resolution errors but it slows down the project installation"
+    required: false
+    default: "true"
 runs:
   using: "composite"
   steps:
