@@ -5,8 +5,9 @@ os=$1
 venv_create=$2
 venv_in_project=$3
 venv_path=$4
-version=$5
-installation_script=$6
+installer_parallel=$5
+version=$6
+installation_script=$7
 
 # Set path for each OS - done because Poetry inference is inconsistent
 # on mac-runners, and we need to know the install path so we can add it to $GITHUB_PATH
@@ -31,10 +32,12 @@ if [ "$os" == "Windows" ]; then
   "$path/bin/poetry.exe" config virtualenvs.create "$venv_create"
   "$path/bin/poetry.exe" config virtualenvs.in-project "$venv_in_project"
   "$path/bin/poetry.exe" config virtualenvs.path "$venv_path"
+  "$path/bin/poetry.exe" config installer.parallel "$installer_parallel"
 else
   poetry config virtualenvs.create "$venv_create"
   poetry config virtualenvs.in-project "$venv_in_project"
   poetry config virtualenvs.path "$venv_path"
+  poetry config installer.parallel "$installer_parallel"
 fi
 
 # Define OS specific help texts

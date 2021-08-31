@@ -24,10 +24,11 @@ If you want to set Poetry config settings, or install a specific version, you ca
 - name: Install and configure Poetry
   uses: snok/install-poetry@v1
   with:
-    version: 1.1.7
+    version: 1.1.8
     virtualenvs-create: true
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
+    installer-parallel: true
 ```
 
 The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0.
@@ -39,10 +40,11 @@ If you're using this with Windows, see the [Running on Windows](#windows) sectio
 The current default settings are:
 
 ```yaml
-version: 1.1.7
+version: 1.1.8
 virtualenvs-create: true
 virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
+installer-parallel: true
 ```
 
 If you want to make further config changes - e.g., to change one of the `experimental` Poetry config settings, or just
@@ -100,6 +102,8 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
+          installer-parallel: true
+
       #----------------------------------------------
       #       load cached venv if cache exists
       #----------------------------------------------
