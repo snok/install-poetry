@@ -8,7 +8,7 @@ inputs:
   version:
     description: "The Poetry version to install"
     required: true
-    default: "1.1.7"
+    default: "latest"
   virtualenvs-create:
     description: "Whether Poetry should create a virtualenv or not"
     required: false
@@ -36,7 +36,12 @@ runs:
         fi
 
         echo -e "\n\033[33mSetting Poetry installation path as $path\033[0m\n"
-        POETRY_HOME=$path python3 $installation_script --yes --version=${{ inputs.version }}
+
+        if [ "${{ inputs.version }}" == "latest" ]; then
+          POETRY_HOME=$path python3 $installation_script --yes
+        else
+          POETRY_HOME=$path python3 $installation_script --yes --version=${{ inputs.version }}
+        fi
 
         echo "$path/bin" >>$GITHUB_PATH
         export PATH="$path/bin:$PATH"

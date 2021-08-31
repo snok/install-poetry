@@ -39,7 +39,7 @@ If you're using this with Windows, see the [Running on Windows](#windows) sectio
 The current default settings are:
 
 ```yaml
-version: 1.1.7
+version: latest
 virtualenvs-create: true
 virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
