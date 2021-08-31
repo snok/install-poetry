@@ -136,6 +136,8 @@ jobs:
       - uses: snok/install-poetry@v1.1.4
       # v1.2 script loaded in > 1.1.4
       - uses: snok/install-poetry@v1.1.6
+      # v1.3 script loaded in > 1.1.8
+      - uses: snok/install-poetry@v1.1.8
 
   # Make sure we're able to run the action with major and
   # minor version, not just with complete versions.
