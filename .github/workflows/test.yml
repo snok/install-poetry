@@ -171,4 +171,4 @@ jobs:
           output=$(poetry config installer.parallel)
           echo $output
           source "./assert.sh"
-          assert_in "true" "$output"
+          assert_in "false" "$output"
