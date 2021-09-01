@@ -2,7 +2,7 @@ name: Tag releases with minor and major version
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   tag-v1:
