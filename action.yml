@@ -36,6 +36,7 @@ runs:
         fi
 
         echo -e "\n\033[33mSetting Poetry installation path as $path\033[0m\n"
+        echo -e "\033[33mInstalling Poetry 👷\033[0m\n"
 
         if [ "${{ inputs.version }}" == "latest" ]; then
           POETRY_HOME=$path python3 $installation_script --yes
@@ -57,24 +58,22 @@ runs:
         fi
 
         if [ "${{ runner.os }}" == "Windows" ]; then
-          conf="\033[33mConfiguring Poetry for Windows!\033[0m"
           act="source .venv/scripts/activate"
           echo "VENV=.venv/scripts/activate" >>"$GITHUB_ENV"
         else
-          conf="\033[33mConfiguring Poetry!\033[0m"
           act="source .venv/bin/activate"
           echo "VENV=.venv/bin/activate" >>"$GITHUB_ENV"
         fi
 
-        echo -e "\n\n-------------------------------------------------------------------------------\n\n$conf 🎉"
+        echo -e "\n\033[33mInstallation completed. Configuring settings 🛠\033[0m"
+        echo -e "\n\033[33mDone ✅\033[0m"
+
         if [ "${{ inputs.virtualenvs-create }}" == true ] || [ "${{ inputs.virtualenvs-create }}" == "true" ]; then
-          echo -e "\n\n\033[33mIf you are creating a venv in your project, you can activate it by running '$act'\033[0m"
-          echo -e "\n\033[33mIf you're running this in an OS matrix, use 'source \$VENV'\033[0m"
+          echo -e "\n\033[33mIf you are creating a venv in your project, you can activate it by running '$act'. If you're running this in an OS matrix, you can use 'source \$VENV' instead, as an OS agnostic option\033[0m"
         fi
         if [ "${{ runner.os }}" == "Windows" ]; then
-          echo -e "\n\n\033[33mMake sure to set your default shell to bash when on Windows.\033[0m"
+          echo -e "\n\033[33mMake sure to set your default shell to bash when on Windows.\033[0m"
           echo -e "\n\033[33mSee the github action docs for more information and examples.\033[0m"
         fi
-        echo -e '\n-------------------------------------------------------------------------------\n'
 
       shell: bash
