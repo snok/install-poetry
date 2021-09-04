@@ -14,7 +14,7 @@ env:
 
   # Normal variables (used in steps/*)
   LATEST_PYTHON: "3.9"
-  LATEST_POETRY: "$(cat requirements.txt | sed 's/poetry==//g')"
+  LATEST_POETRY: "1.1.8"
 
 jobs:
   # The set-env job translates our json variables to a format we
