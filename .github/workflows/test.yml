@@ -94,7 +94,7 @@ jobs:
         run: |
           output=$(poetry config virtualenvs.create)
           echo $output
-          source "./assert.sh"
+          source "./.github/scripts/assert.sh"
           assert_in "false" "$output"
 
   # Makes sure creating a venv in-project works
@@ -120,7 +120,7 @@ jobs:
           python-version: ${{ env.LATEST_PYTHON }}
       - run: |
           output="$(poetry install)"
-          source "./assert.sh"
+          source "./.github/scripts/assert.sh"
           echo "$output"
           assert_in "/install-poetry/install-poetry/.venv" "$output"
           source $VENV
@@ -139,7 +139,7 @@ jobs:
       # If you're submitting a PR and this fails because Poetry release a new version
       # feel free to update it
       - run: |
-          source "./assert.sh"
+          source "./.github/scripts/assert.sh"
           assert_in "1.1.8" "$(poetry --version)"
 
   # Make sure scripts are not deleted.
@@ -184,5 +184,5 @@ jobs:
         run: |
           output=$(poetry config installer.parallel)
           echo $output
-          source "./assert.sh"
+          source "./.github/scripts/assert.sh"
           assert_in "false" "$output"
