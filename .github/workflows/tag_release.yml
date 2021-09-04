@@ -12,8 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update tag
         run: |
-          major_tag="$(python get_version.py "${GITHUB_REF}" major)"
-          minor_tag="$(python get_version.py "${GITHUB_REF}" minor)"
+          major_tag="$(python .github/scripts/get_version.py "${GITHUB_REF}" major)"
+          minor_tag="$(python .github/scripts/get_version.py "${GITHUB_REF}" minor)"
           git tag $major_tag
           git tag $minor_tag
           git push origin HEAD:refs/heads/master --tags --force
