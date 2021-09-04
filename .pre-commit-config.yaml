@@ -9,3 +9,8 @@ repos:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: trailing-whitespace
+  - repo: https://github.com/sirosen/check-jsonschema
+    rev: '0.4.1'
+    hooks:
+      - id: check-github-actions
+      - id: check-github-workflows
