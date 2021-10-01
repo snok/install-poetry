@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "install-poetry"
-version = "1.1.8"
+version = "1"  # doesn't matter
 description = ""
 authors = ["Sondre Lillebø Gundersen <sondrelg@live.no.com>"]
 maintainers = ["Jonas Krüger Svensson <jonasks@hotmail.com>"]
