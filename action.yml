@@ -63,7 +63,7 @@ runs:
 
         config="$($poetry_ config --list)"
 
-        if echo "$config" | grep -c "installer.parallel"; then
+        if echo "$config" | grep -q -c "installer.parallel"; then
           $poetry_ config installer.parallel "${{ inputs.installer-parallel }}"
         fi
 
