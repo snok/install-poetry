@@ -48,7 +48,7 @@ runs:
         if [ "${{ inputs.version }}" == "latest" ]; then
           POETRY_HOME=$path python3 $installation_script --yes ${{ inputs.other_options}}
         else
-          POETRY_HOME=$path python3 $installation_script --yes --version=${{ inputs.version }}
+          POETRY_HOME=$path python3 $installation_script --yes --version=${{ inputs.version }} ${{ inputs.other_options}}
         fi
 
         echo "$path/bin" >>$GITHUB_PATH
