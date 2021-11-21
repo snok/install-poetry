@@ -25,6 +25,9 @@ inputs:
     description: "Whether to install many packages at once or one by one. This can fix PyPI DNS resolution errors, but also slows down the installation"
     required: false
     default: "true"
+  other-options:
+    description: "Other options to pass directly to poetry. For example --force."
+    required: false
 runs:
   using: "composite"
   steps:
