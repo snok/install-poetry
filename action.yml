@@ -46,7 +46,7 @@ runs:
         echo -e "\033[33mInstalling Poetry 👷\033[0m\n"
 
         if [ "${{ inputs.version }}" == "latest" ]; then
-          POETRY_HOME=$path python3 $installation_script --yes
+          POETRY_HOME=$path python3 $installation_script --yes ${{ inputs.other_options}}
         else
           POETRY_HOME=$path python3 $installation_script --yes --version=${{ inputs.version }}
         fi
