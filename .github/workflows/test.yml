@@ -186,9 +186,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
-        # This test will need to change every time poetry releases a new version
-        # If you're submitting a PR and this fails because Poetry release a new version
-        # feel free to update it
         with:
           installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
       - run: |
