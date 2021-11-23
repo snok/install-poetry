@@ -193,7 +193,7 @@ jobs:
           additional-options: --git https://github.com/python-poetry/poetry.git@master
       - run: |
           source .github/scripts/assert.sh
-          assert_in "1.1.11"                            "$(poetry --version)"
+          assert_in "1.1.9"                            "$(poetry --version)"
 
   test-additional-options-version-specified:
     runs-on: ubuntu-latest
@@ -205,4 +205,4 @@ jobs:
           additional-options: --force
       - run: |
           source .github/scripts/assert.sh
-          assert_in "1.1.7"                            "$(poetry --version)"
+          assert_in "1.1.9"                            "$(poetry --version)"
