@@ -140,7 +140,7 @@ jobs:
       # feel free to update it
       - run: |
           source .github/scripts/assert.sh
-          assert_in "1.1.10" "$(poetry --version)"
+          assert_in "1.1.11" "$(poetry --version)"
 
   # Make sure scripts are not deleted.
   # If we deleted the scripts folder (or subfolders) by accident,
@@ -180,3 +180,26 @@ jobs:
           assert_in  "true"                             "$(poetry config virtualenvs.in-project)"
           assert_in  "/home/runner/.cache/virtualenvs"  "$(poetry config virtualenvs.path)"
           assert_in  "false"                            "$(poetry config installer.parallel)"
+
+  test-installation-arguments-version-unspecified:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
+      - run: |
+          source .github/scripts/assert.sh
+          assert_in "1.1.9" "$(poetry --version)"
+
+  test-installation-arguments-version-specified:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          version: 1.1.7
+          installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
+      - run: |
+          source .github/scripts/assert.sh
+          assert_in "1.1.9" "$(poetry --version)"

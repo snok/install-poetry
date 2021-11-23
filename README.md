@@ -31,9 +31,9 @@ If you want to set Poetry config settings, or install a specific version, you ca
     installer-parallel: true
 ```
 
-The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0.
+If you need to pass extra arguments to the installer script, you can specify these with `installation-arguments`.
 
-If you're using this with Windows, see the [Running on Windows](#windows) section.
+The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0. If you're using this with Windows, see the [Running on Windows](#windows) section.
 
 ## Defaults
 
@@ -45,6 +45,16 @@ virtualenvs-create: true
 virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 installer-parallel: true
+```
+
+You can specify installation arguments directly to the poetry installer using the installation-arguments in the following
+way:
+
+```yaml
+- name: Install and configure Poetry
+  uses: snok/install-poetry@v1
+  with:
+    installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
 ```
 
 If you want to make further config changes - e.g., to change one of the `experimental` Poetry config settings, or just
@@ -63,7 +73,7 @@ This section contains a collection of workflow examples to try and help
 - Demonstrate how to implement caching for performance improvements
 - Clarify the implications of different settings
 
-Some of the examples are a bit long, so here are some links
+Some examples are a bit long, so here are some links
 
 - [Testing](#testing)
 - [Testing (using an OS matrix)](#testing-using-a-matrix)
