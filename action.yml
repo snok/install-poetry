@@ -25,8 +25,8 @@ inputs:
     description: "Whether to install many packages at once or one by one. This can fix PyPI DNS resolution errors, but also slows down the installation"
     required: false
     default: "true"
-  other-options:
-    description: "Other options to pass directly to poetry. For example --force."
+  installation-arguments:
+    description: "Arguments passed directly to the Poetry installation script. For example --force."
     required: false
 runs:
   using: "composite"
@@ -46,9 +46,9 @@ runs:
         echo -e "\033[33mInstalling Poetry 👷\033[0m\n"
 
         if [ "${{ inputs.version }}" == "latest" ]; then
-          POETRY_HOME=$path python3 $installation_script --yes ${{ inputs.other_options}}
+          POETRY_HOME=$path python3 $installation_script --yes ${{ inputs.installation-arguments}}
         else
-          POETRY_HOME=$path python3 $installation_script --yes --version=${{ inputs.version }} ${{ inputs.other_options}}
+          POETRY_HOME=$path python3 $installation_script --yes --version=${{ inputs.version }} ${{ inputs.installation-arguments}}
         fi
 
         echo "$path/bin" >>$GITHUB_PATH
