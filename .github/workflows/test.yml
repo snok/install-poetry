@@ -181,7 +181,7 @@ jobs:
           assert_in  "/home/runner/.cache/virtualenvs"  "$(poetry config virtualenvs.path)"
           assert_in  "false"                            "$(poetry config installer.parallel)"
 
-  test-additional-options-version-unspecified:
+  test-installation-arguments-version-unspecified:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -190,19 +190,19 @@ jobs:
         # If you're submitting a PR and this fails because Poetry release a new version
         # feel free to update it
         with:
-          additional-options: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
+          installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
       - run: |
           source .github/scripts/assert.sh
           assert_in "1.1.9" "$(poetry --version)"
 
-  test-additional-options-version-specified:
+  test-installation-arguments-version-specified:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./
         with:
           version: 1.1.7
-          additional-options: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
+          installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
       - run: |
           source .github/scripts/assert.sh
           assert_in "1.1.9" "$(poetry --version)"
