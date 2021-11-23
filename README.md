@@ -16,6 +16,8 @@ If all you need is default Poetry, simply add this to your workflow:
 ```yaml
 - name: Install Poetry
   uses: snok/install-poetry@v1
+  with:
+    installation-arguments: --force
 ```
 
 If you want to set Poetry config settings, or install a specific version, you can specify inputs:
@@ -29,6 +31,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
     installer-parallel: true
+    installation-arguments: --force
 ```
 
 The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0.
@@ -45,6 +48,16 @@ virtualenvs-create: true
 virtualenvs-in-project: false
 virtualenvs-path: {cache-dir}/virtualenvs
 installer-parallel: true
+```
+
+You can specify installation arguments directly to the poetry installer using the installation-arguments in the following
+way.
+
+```yaml
+- name: Install and configure Poetry
+  uses: snok/install-poetry@v1
+  with:
+    installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
 ```
 
 If you want to make further config changes - e.g., to change one of the `experimental` Poetry config settings, or just
