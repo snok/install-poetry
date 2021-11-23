@@ -16,8 +16,6 @@ If all you need is default Poetry, simply add this to your workflow:
 ```yaml
 - name: Install Poetry
   uses: snok/install-poetry@v1
-  with:
-    installation-arguments: --force
 ```
 
 If you want to set Poetry config settings, or install a specific version, you can specify inputs:
@@ -31,12 +29,11 @@ If you want to set Poetry config settings, or install a specific version, you ca
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
     installer-parallel: true
-    installation-arguments: --force
 ```
 
-The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0.
+If you need to pass extra arguments to the installer script, you can specify these with `installation-arguments`.
 
-If you're using this with Windows, see the [Running on Windows](#windows) section.
+The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0. If you're using this with Windows, see the [Running on Windows](#windows) section.
 
 ## Defaults
 
@@ -51,7 +48,7 @@ installer-parallel: true
 ```
 
 You can specify installation arguments directly to the poetry installer using the installation-arguments in the following
-way.
+way:
 
 ```yaml
 - name: Install and configure Poetry
@@ -76,7 +73,7 @@ This section contains a collection of workflow examples to try and help
 - Demonstrate how to implement caching for performance improvements
 - Clarify the implications of different settings
 
-Some of the examples are a bit long, so here are some links
+Some examples are a bit long, so here are some links
 
 - [Testing](#testing)
 - [Testing (using an OS matrix)](#testing-using-a-matrix)
