@@ -101,6 +101,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Set up python
+        id: setup-python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
@@ -122,7 +123,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
       # install dependencies if cache does not exist
       #----------------------------------------------
@@ -197,6 +198,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Set up python ${{ matrix.python-version }}
+        id: setup-python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -216,7 +218,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
       # install dependencies if cache does not exist
       #----------------------------------------------
@@ -264,6 +266,7 @@ jobs:
       #----------------------------------------------
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+        id: setup-python
         with:
           python-version: 3.9
       #----------------------------------------------
@@ -282,7 +285,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
       # install dependencies if cache does not exist
       #----------------------------------------------
@@ -366,6 +369,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Set up python
+        id: setup-python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
@@ -379,7 +383,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
       - name: Install library
