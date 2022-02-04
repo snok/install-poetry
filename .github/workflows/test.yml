@@ -13,8 +13,8 @@ env:
   SUPPORTED_OPERATING_SYSTEMS: '\"os\":[\"ubuntu-latest\", \"macos-latest\", \"windows-latest\"]'
 
   # Normal variables (used in steps/*)
-  LATEST_PYTHON: "3.9"
-  LATEST_POETRY: "1.1.10"
+  LATEST_PYTHON: "3.10"
+  LATEST_POETRY: "1.1.12"
 
 jobs:
   # The set-env job translates our json variables to a format we
