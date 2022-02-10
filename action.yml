@@ -34,3 +34,10 @@ runs:
     - name: Install and configure Poetry
       run: /bin/bash $GITHUB_ACTION_PATH/main.sh
       shell: bash
+      env:
+        VERSION:                ${{ inputs.version }}
+        VIRTUALENVS_CREATE:     ${{ inputs.virtualenvs-create }}
+        VIRTUALENVS_IN_PROJECT: ${{ inputs.virtualenvs-in-project }}
+        VIRTUALENVS_PATH:       ${{ inputs.virtualenvs-path }}
+        INSTALLER_PARALLEL:     ${{ inputs.installer-parallel }}
+        INSTALLATION_ARGUMENTS: ${{ inputs.installation-arguments }}
