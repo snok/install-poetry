@@ -1,0 +1,7 @@
+
+# Ensure git handles line endings correctly
+# Set the default behavior, in case core.autocrlf is not set.
+* text=auto
+
+# Ensure shell scripts are strictly linux-style
+*.sh text eol=lf
