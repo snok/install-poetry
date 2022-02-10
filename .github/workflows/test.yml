@@ -139,7 +139,7 @@ jobs:
       # feel free to update it
       - run: |
           source .github/scripts/assert.sh
-          assert_in "1.1.12" "$(poetry --version)"
+          assert_in "1.1.13" "$(poetry --version)"
 
   # Make sure scripts are not deleted.
   # If we deleted the scripts folder (or subfolders) by accident,
