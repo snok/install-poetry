@@ -18,7 +18,7 @@ else
     POETRY_HOME=$path python3 $installation_script --yes --version=${VERSION} ${INSTALLATION_ARGUMENTS}
 fi
 
-echo "$path/bin" >>$GITHUB_PATH
+echo "$path/bin" >>"$GITHUB_PATH"
 export PATH="$path/bin:$PATH"
 
 if [ "${RUNNER_OS}" == "Windows" ]; then
@@ -27,9 +27,9 @@ else
     poetry_=poetry
 fi
 
-$poetry_ config virtualenvs.create ${VIRTUALENVS_CREATE}
-$poetry_ config virtualenvs.in-project ${VIRTUALENVS_IN_PROJECT}
-$poetry_ config virtualenvs.path ${VIRTUALENVS_PATH}
+$poetry_ config virtualenvs.create "${VIRTUALENVS_CREATE}"
+$poetry_ config virtualenvs.in-project "${VIRTUALENVS_IN_PROJECT}"
+$poetry_ config virtualenvs.path "${VIRTUALENVS_PATH}"
 
 config="$($poetry_ config --list)"
 
