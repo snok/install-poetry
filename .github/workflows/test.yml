@@ -202,3 +202,16 @@ jobs:
       - run: |
           source .github/scripts/assert.sh
           assert_in "1.1.9" "$(poetry --version)"
+
+  test-plugin-installation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          version: 1.2.0a2
+          plugins: poetry-version-plugin
+      - run: |
+          source .github/scripts/assert.sh
+          poetry plugin show
+          assert_in "poetry-version-plugin" "$(poetry plugin show)"
