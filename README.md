@@ -73,7 +73,7 @@ This section contains a collection of workflow examples to try and help
 - Demonstrate how to implement caching for performance improvements
 - Clarify the implications of different settings
 
-Some examples are a bit long, so here are some links
+Some examples are a bit long, so here are some links:
 
 - [Testing](#testing)
 - [Testing (using an OS matrix)](#testing-using-a-matrix)
@@ -81,6 +81,7 @@ Some examples are a bit long, so here are some links
 - [Running on Windows](#running-on-windows)
 - [Virtualenv variations](#virtualenv-variations)
 - [Caching the Poetry installation](#caching-the-poetry-installation)
+- [Installing Poetry Plugins](#installing-poetry-plugins)
 
 #### Testing
 
@@ -325,6 +326,7 @@ Running this action on Windows is supported, but two things are important to not
       run:
         shell: bash
     ```
+
 2. If you are running an OS matrix, and want to activate your venv `in-project`
    you have to deal with different folder structures on different operating systems. To make this work, you *can* do
    this
@@ -499,6 +501,37 @@ jobs:
 ```
 
 The directory to cache will depend on the operating system of the runner.
+
+#### Installing Poetry Plugins
+
+With Poetry 1.2 or later, you can use this action to install plugins:
+
+```yaml
+- uses: snok/install-poetry@v1
+  with:
+    version: 1.2.0a2
+    plugins: poetry-plugin-a
+```
+
+You can use a comma delimited list:
+
+```yaml
+- uses: snok/install-poetry@v1
+  with:
+    version: 1.2.0a2
+    plugins: poetry-plugin-a, poetry-plugin-b
+```
+
+or a whitespace delimited list:
+
+```yaml
+- uses: snok/install-poetry@v1
+  with:
+    version: 1.2.0a2
+    plugins: |
+        poetry-plugin-a
+        poetry-plugin-b
+```
 
 ## Contributing
 
