@@ -34,6 +34,14 @@ $poetry_ config virtualenvs.create ${VIRTUALENVS_CREATE}
 $poetry_ config virtualenvs.in-project ${VIRTUALENVS_IN_PROJECT}
 $poetry_ config virtualenvs.path ${VIRTUALENVS_PATH}
 
+# Install plugins from whitespace or commas-delimited list
+read -r -a plugins <<< "$(echo "$POETRY_PLUGINS" | tr "," " ")"
+for plugin in "${plugins[@]}"
+do
+    echo "Installing plugin: $plugin"
+    $poetry_ plugin add "$plugin"
+done 
+
 config="$($poetry_ config --list)"
 
 if echo "$config" | grep -q -c "installer.parallel"; then
