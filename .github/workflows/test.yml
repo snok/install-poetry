@@ -215,3 +215,33 @@ jobs:
           source .github/scripts/assert.sh
           poetry plugin show
           assert_in "poetry-version-plugin" "$(poetry plugin show)"
+
+  test-plugins-comma-delimited:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          version: 1.2.0a2
+          plugins: poetry-version-plugin, poetry-export-plugin
+      - run: |
+          source .github/scripts/assert.sh
+          poetry plugin show
+          assert_in "poetry-version-plugin" "$(poetry plugin show)"
+          assert_in "poetry-export-plugin" "$(poetry plugin show)"
+
+  test-plugins-whitespace-delimited:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          version: 1.2.0a2
+          plugins: |
+            poetry-version-plugin
+            poetry-export-plugin
+      - run: |
+          source .github/scripts/assert.sh
+          poetry plugin show
+          assert_in "poetry-version-plugin" "$(poetry plugin show)"
+          assert_in "poetry-export-plugin" "$(poetry plugin show)"
