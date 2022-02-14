@@ -34,7 +34,7 @@ $poetry_ config virtualenvs.create ${VIRTUALENVS_CREATE}
 $poetry_ config virtualenvs.in-project ${VIRTUALENVS_IN_PROJECT}
 $poetry_ config virtualenvs.path ${VIRTUALENVS_PATH}
 
-# Parse plugin array from comma- or whitespace-delimited string
+# Parse plugin array from string, handle comma, whitespace or newline delimiters
 read -r -d "" -a plugins <<< "$(echo "$POETRY_PLUGINS" | tr "," " ")"
 if [ ${#plugins[@]} -gt 0 ]; then
 
@@ -42,17 +42,14 @@ if [ ${#plugins[@]} -gt 0 ]; then
     # Simplistic version comparison, will need to be updated if Poetry 2.X is released
     major=${VERSION:0:1}
     minor=${VERSION:2:1}
-    if [ $major -lt 1 ] || [ $minor -lt 2 ]; then
+    if [ "$major" -lt 1 ] || [ "$minor" -lt 2 ]; then
         echo "Use of plugins requires Poetry version >= 1.2"
         exit 1
     fi
 
     # Install plugins
-    for plugin in "${plugins[@]}"
-    do
-        echo "Installing plugin: $plugin"
-        $poetry_ plugin add "$plugin" || exit 1
-    done 
+    echo "Installing plugins: " "${plugins[@]}"
+    $poetry_ plugin add "${plugins[@]}" || exit 1
 fi
 
 config="$($poetry_ config --list)"
