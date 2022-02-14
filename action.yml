@@ -32,7 +32,7 @@ runs:
   using: "composite"
   steps:
     - name: Install and configure Poetry
-      run: /bin/bash $GITHUB_ACTION_PATH/main.sh
+      run: $GITHUB_ACTION_PATH/main.sh
       shell: bash
       env:
         VERSION:                ${{ inputs.version }}
