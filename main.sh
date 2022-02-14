@@ -35,11 +35,7 @@ $poetry_ config virtualenvs.in-project ${VIRTUALENVS_IN_PROJECT}
 $poetry_ config virtualenvs.path ${VIRTUALENVS_PATH}
 
 # Parse plugin array from comma- or whitespace-delimited string
-echo "AAA all plugins: $POETRY_PLUGINS"
-read -r -a plugins <<< "$(echo "$POETRY_PLUGINS" | tr "," " ")"
-echo "** My array:" "${plugins[@]}"
-echo "** Number of elements in the array:" "${#plugins[@]}"
-
+read -r -d "" -a plugins <<< "$(echo "$POETRY_PLUGINS" | tr "," " ")"
 if [ ${#plugins[@]} -gt 0 ]; then
 
     # Ensure poetry version >= 1.2
