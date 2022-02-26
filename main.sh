@@ -58,5 +58,3 @@ if [ "${RUNNER_OS}" == "Windows" ]; then
     echo -e "\n\033[33mMake sure to set your default shell to bash when on Windows.\033[0m"
     echo -e "\n\033[33mSee the github action docs for more information and examples.\033[0m"
 fi
-
-echo "test"
