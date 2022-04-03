@@ -202,3 +202,12 @@ jobs:
       - run: |
           source .github/scripts/assert.sh
           assert_in "1.1.9" "$(poetry --version)"
+
+  test-action-outputs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: poetry-installation
+      # Make sure the install-path output is set correctly
+      - run: assert_in "$HOME/.local/" "${{ steps.poetry-installation.outputs.install-path }}"
