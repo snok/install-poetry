@@ -104,7 +104,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: "3.10"
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -188,8 +188,8 @@ jobs:
       fail-fast: true
       matrix:
         os: [ "ubuntu-latest", "macos-latest" ]
-        python-version: [ "3.6", "3.7", "3.8", "3.9" ]
-        django-version: [ "2.2", "3.0", "3.1" ]
+        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
+        django-version: [ "3.0", "3.1", "3.2", "4.0" ]
     runs-on: ${{ matrix.os }}
     steps:
       #----------------------------------------------
@@ -268,7 +268,7 @@ jobs:
       - uses: actions/setup-python@v2
         id: setup-python
         with:
-          python-version: 3.9
+          python-version: "3.10"
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -372,7 +372,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: "3.10"
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
@@ -488,7 +488,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: "3.10"
       - name: Load cached Poetry installation
         uses: actions/cache@v2
         with:
