@@ -28,6 +28,9 @@ inputs:
   installation-arguments:
     description: "Arguments passed directly to the Poetry installation script. For example --force."
     required: false
+outputs:
+  install-path:
+    description: "Where Poetry was installed to."
 runs:
   using: "composite"
   steps:
