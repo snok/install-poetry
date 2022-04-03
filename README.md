@@ -500,6 +500,33 @@ jobs:
 
 The directory to cache will depend on the operating system of the runner.
 
+## Outputs
+
+The action outputs the `install-path` of the Poetry installation. To access the output
+simply reference it like this in a subsequent step:
+
+```yaml
+name: test
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Install Poetry
+        id: install-poetry  # <-- this ID is what we reference below
+        uses: snok/install-poetry@v1
+      - name: Echo install path
+        run: echo "${{ steps.install-poetry.outputs.install-path }}"
+```
+
 ## Contributing
 
 Contributions are always welcome; submit a PR!
