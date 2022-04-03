@@ -12,7 +12,7 @@ else
 fi
 
 # Set the `path` action output, so subsequent workflow steps can use this if needed
-echo "::set-output name=install-path::$path"
+echo "::set-output name=install-path::test"
 
 echo -e "\n\033[33mSetting Poetry installation path as $path\033[0m\n"
 echo -e "\033[33mInstalling Poetry 👷\033[0m\n"
@@ -69,3 +69,5 @@ if [ "${RUNNER_OS}" == "Windows" ]; then
     echo -e "\n\033[33mMake sure to set your default shell to bash when on Windows.\033[0m"
     echo -e "\n\033[33mSee the github action docs for more information and examples.\033[0m"
 fi
+
+echo "test"
