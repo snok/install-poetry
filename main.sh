@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 installation_script="$(mktemp)"
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py --output "$installation_script"
+curl -sSL https://install.python-poetry.org/ --output "$installation_script"
 
 if [ "${RUNNER_OS}" == "Windows" ]; then
     path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts"
