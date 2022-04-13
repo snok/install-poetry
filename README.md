@@ -462,7 +462,7 @@ There are two other relevant scenarios:
    If you want to skip venv creation, all the original examples are made valid by simply removing the venv activation
    line: `source .venv/bin/activate`.
 
-   To enable caching in this case, you will want to set up something resembling the the linting job caching step in
+   To enable caching in this case, you will want to set up something resembling the linting job caching step in
    the [Matrix testing](#mtesting); caching your pip wheels rather than your installed dependencies.
 
    Since you're not caching your whole venv, you will need to re-install dependencies every time you run the job;
