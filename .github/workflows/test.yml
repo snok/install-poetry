@@ -8,13 +8,13 @@ on: pull_request
 
 env:
   # JSON variables (used in our strategy/matrix)
-  SUPPORTED_POETRY_VERSIONS: '\"poetry-version\":[\"1.1.0\", \"1.1.10\", \"1.2.0a2\"]'
+  SUPPORTED_POETRY_VERSIONS: '\"poetry-version\":[\"1.1.0\", \"1.1.10\", \"1.1.14\", \"1.2.0a2\", \"1.2.0b1\", \"1.2.0b2\", \"1.2.0b3\"]'
   SUPPORTED_PYTHON_VERSIONS: '\"python-version\":[\"3.7\", \"3.9\", \"3.10.0-rc.2\"]'
   SUPPORTED_OPERATING_SYSTEMS: '\"os\":[\"ubuntu-latest\", \"macos-latest\", \"windows-latest\"]'
 
   # Normal variables (used in steps/*)
   LATEST_PYTHON: "3.10"
-  LATEST_POETRY: "1.1.12"
+  LATEST_POETRY: "1.1.14"
 
 jobs:
   # The set-env job translates our json variables to a format we
@@ -139,7 +139,7 @@ jobs:
       # feel free to update it
       - run: |
           source .github/scripts/assert.sh
-          assert_in "1.1.13" "$(poetry --version)"
+          assert_in "${{LATEST_POETRY}} "$(poetry --version)"
 
   # Make sure scripts are not deleted.
   # If we deleted the scripts folder (or subfolders) by accident,
