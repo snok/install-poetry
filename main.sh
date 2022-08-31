@@ -6,7 +6,7 @@ curl -sSL https://install.python-poetry.org/ --output "$installation_script"
 if [ "${RUNNER_OS}" == "Windows" ]; then
     path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts"
 else
-    path="$HOME/.local/"
+    path="$HOME/.local"
 fi
 
 echo -e "\n\033[33mSetting Poetry installation path as $path\033[0m\n"
@@ -24,7 +24,7 @@ export PATH="$path/bin:$PATH"
 if [ "${RUNNER_OS}" == "Windows" ]; then
     poetry_="$path/bin/poetry.exe"
 else
-    poetry_=poetry
+    poetry_="$path/bin/poetry"
 fi
 
 # Expand any "~" in VIRTUALENVS_PATH
