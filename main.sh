@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+
 installation_script="$(mktemp)"
 curl -sSL https://install.python-poetry.org/ --output "$installation_script"
 
 if [ "${RUNNER_OS}" == "Windows" ]; then
     path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts"
 else
-    path="$HOME/.local/"
+    path="$HOME/.local"
 fi
 
 echo -e "\n\033[33mSetting Poetry installation path as $path\033[0m\n"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 assert_in_one() {
     local option1="$1"
     local option2="$2"
