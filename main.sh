@@ -13,9 +13,12 @@ echo -e "\n\033[33mSetting Poetry installation path as $path\033[0m\n"
 echo -e "\033[33mInstalling Poetry 👷\033[0m\n"
 
 if [ "${VERSION}" == "latest" ]; then
-    POETRY_HOME=$path python3 $installation_script --yes ${INSTALLATION_ARGUMENTS}
+    # Note: If we quote installation arguments, the call below fails
+    # shellcheck disable=SC2086
+    POETRY_HOME=$path python3 "${installation_script}" --yes ${INSTALLATION_ARGUMENTS}
 else
-    POETRY_HOME=$path python3 $installation_script --yes --version=${VERSION} ${INSTALLATION_ARGUMENTS}
+    # shellcheck disable=SC2086
+    POETRY_HOME=$path python3 "${installation_script}" --yes --version="${VERSION}" ${INSTALLATION_ARGUMENTS}
 fi
 
 echo "$path/bin" >>"$GITHUB_PATH"
@@ -30,14 +33,14 @@ fi
 # Expand any "~" in VIRTUALENVS_PATH
 VIRTUALENVS_PATH="${VIRTUALENVS_PATH/#\~/$HOME}"
 
-$poetry_ config virtualenvs.create ${VIRTUALENVS_CREATE}
-$poetry_ config virtualenvs.in-project ${VIRTUALENVS_IN_PROJECT}
-$poetry_ config virtualenvs.path ${VIRTUALENVS_PATH}
+"$poetry_" config virtualenvs.create "${VIRTUALENVS_CREATE}"
+"$poetry_" config virtualenvs.in-project "${VIRTUALENVS_IN_PROJECT}"
+"$poetry_" config virtualenvs.path "${VIRTUALENVS_PATH}"
 
-config="$($poetry_ config --list)"
+config="$("$poetry_" config --list)"
 
 if echo "$config" | grep -q -c "installer.parallel"; then
-    $poetry_ config installer.parallel "${INSTALLER_PARALLEL}"
+    "$poetry_" config installer.parallel "${INSTALLER_PARALLEL}"
 fi
 
 if [ "${RUNNER_OS}" == "Windows" ]; then
