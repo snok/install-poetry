@@ -14,7 +14,7 @@ env:
 
   # Normal variables (used in steps/*)
   LATEST_PYTHON: "3.10"
-  LATEST_POETRY: "1.1.14"
+  LATEST_POETRY: "1.2.1"
 
 jobs:
   # The set-env job translates our json variables to a format we
