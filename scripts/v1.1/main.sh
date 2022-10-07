@@ -10,11 +10,11 @@ venv_path=$4
 if [ "$os" == "Windows" ]; then
   conf="\033[33mConfiguring Poetry for Windows!\033[0m"
   act="source .venv/scripts/activate"
-  echo "VENV=.venv/scripts/activate" >> "$GITHUB_ENV"
+  echo "VENV=.venv/scripts/activate" >>"$GITHUB_ENV"
 else
   conf="\033[33mConfiguring Poetry!\033[0m"
   act="source .venv/bin/activate"
-  echo "VENV=.venv/bin/activate" >> "$GITHUB_ENV"
+  echo "VENV=.venv/bin/activate" >>"$GITHUB_ENV"
 fi
 
 # Echo help texts
