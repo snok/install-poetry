@@ -1,0 +1,20 @@
+name: lint
+
+on: pull_request
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - run: pip install pre-commit
+      - uses: actions/cache@v3
+        id: pre-commit-cache
+        with:
+          path: ~/.cache/pre-commit
+          key: key-0
+      - uses: mfinelli/setup-shfmt@v1
+      - run: pre-commit run --all-files
