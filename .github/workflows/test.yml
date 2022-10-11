@@ -167,14 +167,14 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          version: 1.1.7
+          version: 1.2.2
           virtualenvs-create: false
           virtualenvs-in-project: true
           virtualenvs-path: ~/.cache/virtualenvs
           installer-parallel: false
       - run: |
           source .github/scripts/assert.sh
-          assert_in  "1.1.7"                            "$(poetry --version)"
+          assert_in  "1.2.2"                            "$(poetry --version)"
           assert_in  "false"                            "$(poetry config virtualenvs.create)"
           assert_in  "true"                             "$(poetry config virtualenvs.in-project)"
           assert_in  "/home/runner/.cache/virtualenvs"  "$(poetry config virtualenvs.path)"
