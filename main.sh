@@ -2,13 +2,16 @@
 
 set -eo pipefail
 
+INSTALL_PATH="$HOME/.local"
+
+YELLOW="\033[33m"
+RESET="\033[0m"
+
 INSTALLATION_SCRIPT="$(mktemp)"
 curl -sSL https://install.python-poetry.org/ --output "$INSTALLATION_SCRIPT"
 
-INSTALL_PATH="$HOME/.local"
-
-echo -e "\n\033[33mSetting Poetry installation path as $INSTALL_PATH\033[0m\n"
-echo -e "\033[33mInstalling Poetry 👷\033[0m\n"
+echo -e "\n${YELLOW}Setting Poetry installation path as $INSTALL_PATH${RESET}\n"
+echo -e "${YELLOW}Installing Poetry 👷${RESET}\n"
 
 if [ "$VERSION" == "latest" ]; then
   # Note: If we quote installation arguments, the call below fails
@@ -44,13 +47,13 @@ else
   echo "VENV=.venv/bin/activate" >>"$GITHUB_ENV"
 fi
 
-echo -e "\n\033[33mInstallation completed. Configuring settings 🛠\033[0m"
-echo -e "\n\033[33mDone ✅\033[0m"
+echo -e "\n${YELLOW}Installation completed. Configuring settings 🛠${RESET}"
+echo -e "\n${YELLOW}Done ✅${RESET}"
 
 if [ "$VIRTUALENVS_CREATE" == true ] || [ "$VIRTUALENVS_CREATE" == "true" ]; then
-  echo -e "\n\033[33mIf you are creating a venv in your project, you can activate it by running '$act'. If you're running this in an OS matrix, you can use 'source \$VENV' instead, as an OS agnostic option\033[0m"
+  echo -e "\n${YELLOW}If you are creating a venv in your project, you can activate it by running '$act'. If you're running this in an OS matrix, you can use 'source \$VENV' instead, as an OS agnostic option${RESET}"
 fi
 if [ "$RUNNER_OS" == "Windows" ]; then
-  echo -e "\n\033[33mMake sure to set your default shell to bash when on Windows.\033[0m"
-  echo -e "\n\033[33mSee the github action docs for more information and examples.\033[0m"
+  echo -e "\n${YELLOW}Make sure to set your default shell to bash when on Windows.${RESET}"
+  echo -e "\n${YELLOW}See the github action docs for more information and examples.${RESET}"
 fi
