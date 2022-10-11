@@ -34,7 +34,7 @@ jobs:
 
   # Make sure the action sets config options correctly
   test-config-options:
-    name: Set non-standard config options - ${{ matrix.os }}
+    name: non-standard config - ${{ matrix.os }} ${{ matrix.python-version }}
     strategy:
       fail-fast: true
       matrix:
