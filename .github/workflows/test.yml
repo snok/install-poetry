@@ -2,158 +2,134 @@ name: tests
 
 on: pull_request
 
-# The env section of the file contains all the versions of
-# Poetry, Python, and OS versions we "support"
-# If you find anything needing to be updated, please feel free to submit a PR.
-
-env:
-  # JSON variables (used in our strategy/matrix)
-  SUPPORTED_POETRY_VERSIONS: '\"poetry-version\":[\"1.1.14\", \"1.2.2\"]'
-  SUPPORTED_PYTHON_VERSIONS: '\"python-version\":[\"3.7\", \"3.8\", \"3.9\", \"3.10\", \"3.11.0-rc.2\"]'
-  SUPPORTED_OPERATING_SYSTEMS: '\"os\":[\"ubuntu-latest\", \"macos-latest\", \"windows-latest\"]'
-
-  # Normal variables (used in steps/*)
-  LATEST_PYTHON: "3.10"
-  LATEST_POETRY: "1.2.2"
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  # The set-env job translates our json variables to a format we
-  # can use in our workflow specifications. Without this step,
-  # we're not able to use the json values in our matrices.
-  # If you know of a better way of doing this, please submit a PR :)
-  set-env:
-    runs-on: ubuntu-latest
-    outputs:
-      full-matrix: ${{ steps.set-matrix-vars.outputs.full-matrix }}
-      # ^ this represents:
-      # matrix:
-      #   - os: [ubuntu-latest, ...]
-      #   - python-version: [3.7, ...]
-      #   - poetry-version: [1.1.2, ...]
-      py-os-matrix: ${{ steps.set-matrix-vars.outputs.py-os-matrix }}
-      # ^ this represents:
-      # matrix:
-      #   - os: [ubuntu-latest, ...]
-      #   - python-version: [3.7, ...]
-      os-matrix: ${{ steps.set-matrix-vars.outputs.os-matrix }}
-      # ^ this represents:
-      # matrix:
-      #   - os: [ubuntu-latest, ...]
-    steps:
-      - id: set-matrix-vars
-        run: |
-          echo "::set-output name=full-matrix::{${{ env.SUPPORTED_POETRY_VERSIONS }},${{ env.SUPPORTED_PYTHON_VERSIONS }},${{ env.SUPPORTED_OPERATING_SYSTEMS }}}"
-          echo "::set-output name=py-os-matrix::{${{ env.SUPPORTED_PYTHON_VERSIONS }},${{ env.SUPPORTED_OPERATING_SYSTEMS }}}"
-          echo "::set-output name=os-matrix::{${{ env.SUPPORTED_OPERATING_SYSTEMS }}}"
-
-  # This job makes sure that the install-poetry action works,
-  # using the default settings, on all combinations of Python versions,
-  # Poetry versions, and operating systems that we want to test
+  # Make sure the action works using the default settings
   test-install:
-    name: basic install - ${{ matrix.poetry-version }} - ${{ matrix.os }} - ${{ matrix.python-version }}
-    needs: set-env
+    name: default ${{ matrix.poetry-version }} ${{ matrix.os }} ${{ matrix.python-version }}
     strategy:
       fail-fast: true
-      matrix: ${{ fromJson(needs.set-env.outputs.full-matrix )}}
-    defaults:
-      run:
-        shell: bash
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11.0-rc.2" ]
+        poetry-version: [ "1.1.14", "1.2.2" ]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./
         with:
-          version: ${{ matrix.poetry-version }}
-      - uses: actions/setup-python@v2
+          version: "${{ matrix.poetry-version }}"
+      - uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
-      - run: poetry install --no-root --no-interaction
-      - run: poetry install --no-interaction
-      - run: poetry run pytest --version
+          python-version: "${{ matrix.python-version }}"
+      - run: |
+          poetry install --no-root --no-interaction
+          poetry install --no-interaction
+          poetry run pytest --version
 
-  test-create-venv-false:
-    name: Skip venv creation - ${{ matrix.os }}
-    needs: set-env
+
+  # Make sure the action sets config options correctly
+  test-config-options:
+    name: Set non-standard config options - ${{ matrix.os }}
     strategy:
       fail-fast: true
-      matrix: ${{ fromJson(needs.set-env.outputs.os-matrix) }}
-    defaults:
-      run:
-        shell: bash
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
       - uses: ./
         with:
-          version: ${{ env.LATEST_POETRY }}
+          version: 1.2.1
           virtualenvs-create: false
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ env.LATEST_PYTHON }}
-      - name: Test no venv is created
-        run: |
-          output=$(poetry config virtualenvs.create)
-          echo $output
+          virtualenvs-in-project: true
+          virtualenvs-path: ~/.cache/test
+          installer-parallel: false
+      - run: |
           source .github/scripts/assert.sh
-          assert_in "false" "$output"
+          assert_in  "1.2.1"                            "$(poetry --version)"
+          assert_in  "false"                            "$(poetry config virtualenvs.create)"
+          assert_in  "true"                             "$(poetry config virtualenvs.in-project)"
+          assert_in  "test"                             "$(poetry config virtualenvs.path)"
+          assert_in  "false"                            "$(poetry config installer.parallel)"
 
-  # Makes sure creating a venv in-project works
-  # Makes sure all operating system combinations can activate venvs
-  # using the custom install-poetry $VENV environment variable
-  test-venv-env-var:
-    needs: set-env
+
+
+  # Make sure that install dir matches expectations
+  test-venv-in-project:
+    name: Check in-project install dir - ${{ matrix.os }}
     strategy:
       fail-fast: true
-      matrix: ${{ fromJson(needs.set-env.outputs.os-matrix) }}
-    defaults:
-      run:
-        shell: bash
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Poetry
-        uses: ./
+      - uses: actions/checkout@v3
+      - uses: ./
         with:
           virtualenvs-in-project: true
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.LATEST_PYTHON }}
+          python-version: "3.10"
       - run: |
-          output="$(poetry install)"
           source .github/scripts/assert.sh
-          echo "$output"
+
+          echo "Test actual installation directory matches expectations"
+          output="$(poetry install)"
           assert_in "/install-poetry/install-poetry/.venv" "$output"
+
+          echo "..and test that we can source the dir, just to double check"
           source $VENV
           pytest --version
 
-  # Make sure the default version corresponds to 'latest'
-  test-latest-version-when-unspecified:
-    needs: set-env
+
+
+  # Check that installation-arguments works
+  test-installation-arguments:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Poetry
-        uses: ./
-      # This test will need to change every time poetry releases a new version
-      # If you're submitting a PR and this fails because Poetry release a new version
-      # feel free to update it
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
       - run: |
           source .github/scripts/assert.sh
-          assert_in "${{ env.LATEST_POETRY }}" "$(poetry --version)"
+          assert_in "1.1.9" "$(poetry --version)"
 
-  # Make sure scripts are not deleted.
-  # If we deleted the scripts folder (or subfolders) by accident,
-  # different versions of the action would fail
-  test-scripts-exist:
+
+
+
+  # Retrieve latest poetry version from PyPI
+  check-latest:
+    runs-on: ubuntu-latest
+    outputs:
+      latest-poetry-version: ${{ steps.fetch.outputs.version }}
+    steps:
+      - name: Fetch latest Poetry version from PyPI
+        id: fetch
+        run: echo "::set-output name=version::$(python -c "import requests;response = requests.get(f'https://pypi.org/pypi/poetry/json');latest_version = response.json()['info']['version'];print(latest_version)")"
+
+  # Make sure the the action installs the latest version by default
+  test-latest-version-when-unspecified:
+    needs: check-latest
     runs-on: ubuntu-latest
     steps:
-      # v1.1 script loaded in < 1.1.4
-      - uses: snok/install-poetry@v1.1.4
-      # v1.2 script loaded in > 1.1.4
-      - uses: snok/install-poetry@v1.1.6
+      - uses: actions/checkout@v3
+      - uses: ./
+      - run: |
+          source .github/scripts/assert.sh
+          assert_in "." "${{ needs.check-latest.outputs.latest-poetry-version }}"
+          assert_in "${{ needs.check-latest.outputs.latest-poetry-version }}" "$(poetry --version)"
 
-  # Make sure we're able to run the action with major and
-  # minor version, not just with complete versions.
+
+
+  # Make sure we're able to run the action with both major and minor versions
   test-major-and-minor-versions:
     runs-on: ubuntu-latest
     steps:
@@ -161,44 +137,14 @@ jobs:
       - uses: snok/install-poetry@v1.1
       - uses: snok/install-poetry@v1.2
 
-  test-setting-non-default-settings:
+  # Legacy: make sure old scripts are not deleted
+  # The scripts folder contains scripts that are fetched by older versions of the
+  # action. They're unfortunately fetched from the main branch.
+  # If we delete these scripts, those versions of the action will fail.
+  test-scripts-exist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          version: 1.2.2
-          virtualenvs-create: false
-          virtualenvs-in-project: true
-          virtualenvs-path: ~/.cache/virtualenvs
-          installer-parallel: false
-      - run: |
-          source .github/scripts/assert.sh
-          assert_in  "1.2.2"                            "$(poetry --version)"
-          assert_in  "false"                            "$(poetry config virtualenvs.create)"
-          assert_in  "true"                             "$(poetry config virtualenvs.in-project)"
-          assert_in  "/home/runner/.cache/virtualenvs"  "$(poetry config virtualenvs.path)"
-          assert_in  "false"                            "$(poetry config installer.parallel)"
-
-  test-installation-arguments-version-unspecified:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
-      - run: |
-          source .github/scripts/assert.sh
-          assert_in "1.1.9" "$(poetry --version)"
-
-  test-installation-arguments-version-specified:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          version: 1.1.7
-          installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
-      - run: |
-          source .github/scripts/assert.sh
-          assert_in "1.1.9" "$(poetry --version)"
+      # v1.1 script loaded in < 1.1.4
+      - uses: snok/install-poetry@v1.1.4
+      # v1.2 script loaded in > 1.1.4
+      - uses: snok/install-poetry@v1.1.6
