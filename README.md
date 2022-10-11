@@ -7,8 +7,6 @@ A Github action for installing and configuring [Poetry](https://python-poetry.or
 
 The action installs Poetry, adds executables to the runner system path, and sets relevant Poetry config settings.
 
-> Inspired by [dschep's](https://github.com/dschep) [archived poetry action](https://github.com/dschep/install-poetry-action).
-
 ## Usage
 
 If all you need is default Poetry, simply add this to your workflow:
@@ -24,7 +22,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
 - name: Install and configure Poetry
   uses: snok/install-poetry@v1
   with:
-    version: 1.1.10
+    version: 1.2.2
     virtualenvs-create: true
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
@@ -33,7 +31,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
 
 If you need to pass extra arguments to the installer script, you can specify these with `installation-arguments`.
 
-The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1.0. If you're using this with Windows, see the [Running on Windows](#running-on-windows) section.
+The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1. If you're using this with Windows, see the [Running on Windows](#running-on-windows) section.
 
 ## Defaults
 
@@ -104,7 +102,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.10
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -133,7 +131,7 @@ jobs:
       #----------------------------------------------
       # install your root project, if required
       #----------------------------------------------
-      - name: Install library
+      - name: Install project
         run: poetry install --no-interaction
       #----------------------------------------------
       #              run test suite
@@ -188,8 +186,8 @@ jobs:
       fail-fast: true
       matrix:
         os: [ "ubuntu-latest", "macos-latest" ]
-        python-version: [ "3.6", "3.7", "3.8", "3.9" ]
-        django-version: [ "2.2", "3.0", "3.1" ]
+        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
+        django-version: [ "2", "3" ]
     runs-on: ${{ matrix.os }}
     steps:
       #----------------------------------------------
@@ -268,7 +266,7 @@ jobs:
       - uses: actions/setup-python@v4
         id: setup-python
         with:
-          python-version: 3.9
+          python-version: 3.10
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -372,7 +370,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.10
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
@@ -488,7 +486,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.10
       - name: Load cached Poetry installation
         uses: actions/cache@v3
         with:
