@@ -10,7 +10,7 @@ RESET="\033[0m"
 INSTALLATION_SCRIPT="$(mktemp)"
 
 if [ "${RUNNER_OS}" == "Windows" ]; then
-  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py --output "$INSTALLATION_SCRIPT"
+  curl -sSL https://raw.githubusercontent.com/snok/install-poetry/windows-bug/.github/scripts/install-poetry.py --output "$INSTALLATION_SCRIPT"
 else
   curl -sSL https://install.python-poetry.org/ --output "$INSTALLATION_SCRIPT"
 fi
