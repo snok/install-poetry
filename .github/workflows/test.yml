@@ -60,6 +60,10 @@ jobs:
           assert_in  "true"                             "$(poetry config virtualenvs.in-project)"
           assert_in  "test"                             "$(poetry config virtualenvs.path)"
           assert_in  "false"                            "$(poetry config installer.parallel)"
+      - run: |
+          poetry install --no-root --no-interaction
+          poetry install --no-interaction
+          poetry run pytest --version
 
 
 
