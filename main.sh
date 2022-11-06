@@ -30,17 +30,23 @@ fi
 echo "$INSTALL_PATH/bin" >>"$GITHUB_PATH"
 export PATH="$INSTALL_PATH/bin:$PATH"
 
+if [ "${RUNNER_OS}" == "Windows" ]; then
+  poetry_="poetry.exe"
+else
+  poetry_=poetry
+fi
+
 # Expand any "~" in VIRTUALENVS_PATH
 VIRTUALENVS_PATH="${VIRTUALENVS_PATH/#\~/$HOME}"
 
-poetry config virtualenvs.create "$VIRTUALENVS_CREATE"
-poetry config virtualenvs.in-project "$VIRTUALENVS_IN_PROJECT"
-poetry config virtualenvs.path "$VIRTUALENVS_PATH"
+$poetry_ config virtualenvs.create "$VIRTUALENVS_CREATE"
+$poetry_ config virtualenvs.in-project "$VIRTUALENVS_IN_PROJECT"
+$poetry_ config virtualenvs.path "$VIRTUALENVS_PATH"
 
-config="$(poetry config --list)"
+config="$($poetry_ config --list)"
 
 if echo "$config" | grep -q -c "installer.parallel"; then
-  poetry config installer.parallel "$INSTALLER_PARALLEL"
+  $poetry_ config installer.parallel "$INSTALLER_PARALLEL"
 fi
 
 if [ "$RUNNER_OS" == "Windows" ]; then
