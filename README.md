@@ -102,7 +102,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: '3.10'
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -266,7 +266,7 @@ jobs:
       - uses: actions/setup-python@v4
         id: setup-python
         with:
-          python-version: 3.10
+          python-version: '3.10'
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -370,7 +370,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: '3.10'
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
@@ -486,7 +486,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: '3.10'
       - name: Load cached Poetry installation
         uses: actions/cache@v3
         with:
