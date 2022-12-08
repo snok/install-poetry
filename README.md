@@ -488,11 +488,13 @@ jobs:
         with:
           python-version: '3.10'
       - name: Load cached Poetry installation
+        id: cached-poetry
         uses: actions/cache@v3
         with:
           path: ~/.local  # the path depends on the OS
           key: poetry-0  # increment to reset cache
       - name: Install Poetry
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
         uses: snok/install-poetry@v1
 ```
 
