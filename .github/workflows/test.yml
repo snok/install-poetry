@@ -115,7 +115,15 @@ jobs:
     steps:
       - name: Fetch latest Poetry version from PyPI
         id: fetch
-        run: echo "::set-output name=version::$(python -c "import requests;response = requests.get(f'https://pypi.org/pypi/poetry/json');latest_version = response.json()['info']['version'];print(latest_version)")"
+        shell: python
+        run: |
+          import os
+          import requests
+          response = requests.get('https://pypi.org/pypi/poetry/json')
+          latest_version = response.json()['info']['version']
+          
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write(f'version={latest_version}\n')
 
   # Make sure the the action installs the latest version by default
   test-latest-version-when-unspecified:
