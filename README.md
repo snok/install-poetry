@@ -1,5 +1,5 @@
 [![release](https://img.shields.io/github/release/snok/install-poetry.svg)](https://github.com/snok/install-poetry/releases/latest)
-[![tests](https://github.com/snok/install-poetry/workflows/test/badge.svg)](https://github.com/snok/install-poetry)
+[![tests](https://github.com/snok/install-poetry/actions/workflows/test.yml/badge.svg)](https://github.com/snok/install-poetry/actions/workflows/test.yml)
 
 # Install Poetry Action
 
@@ -22,7 +22,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
 - name: Install and configure Poetry
   uses: snok/install-poetry@v1
   with:
-    version: 1.2.2
+    version: 1.3.2
     virtualenvs-create: true
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
@@ -102,7 +102,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -186,8 +186,8 @@ jobs:
       fail-fast: true
       matrix:
         os: [ "ubuntu-latest", "macos-latest" ]
-        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
-        django-version: [ "2", "3" ]
+        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
+        django-version: ["3", "4" ]
     runs-on: ${{ matrix.os }}
     steps:
       #----------------------------------------------
@@ -266,7 +266,7 @@ jobs:
       - uses: actions/setup-python@v4
         id: setup-python
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -370,7 +370,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
@@ -486,7 +486,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       - name: Load cached Poetry installation
         id: cached-poetry
         uses: actions/cache@v3
