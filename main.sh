@@ -2,7 +2,11 @@
 
 set -eo pipefail
 
-INSTALL_PATH="$HOME/.local"
+if [ -z ${POETRY_HOME+x} ]; then
+  INSTALL_PATH="$POETRY_HOME"
+else
+  INSTALL_PATH="$HOME/.local"
+fi
 
 YELLOW="\033[33m"
 RESET="\033[0m"
