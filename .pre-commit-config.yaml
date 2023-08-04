@@ -10,7 +10,7 @@ repos:
       - id: mixed-line-ending
 
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.21.0
+    rev: 0.23.3
     hooks:
       - id: check-github-actions
       - id: check-github-workflows
