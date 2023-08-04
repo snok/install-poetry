@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-INSTALL_PATH="$HOME/.local"
+INSTALL_PATH="${POETRY_HOME:-$HOME/.local}"
 
 YELLOW="\033[33m"
 RESET="\033[0m"
