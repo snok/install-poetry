@@ -22,7 +22,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
 - name: Install and configure Poetry
   uses: snok/install-poetry@v1
   with:
-    version: 1.3.2
+    version: 1.5.1
     virtualenvs-create: true
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
@@ -31,7 +31,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
 
 If you need to pass extra arguments to the installer script, you can specify these with `installation-arguments`.
 
-The action is fully tested for MacOS and Ubuntu runners, on Poetry versions >= 1.1. If you're using this with Windows, see the [Running on Windows](#running-on-windows) section.
+The action is fully tested for macOS and Ubuntu runners, on Poetry versions >= 1.1. If you're using this with Windows, see the [Running on Windows](#running-on-windows) section.
 
 ## Defaults
 
@@ -422,7 +422,7 @@ There are two other relevant scenarios:
 
    If you're using the default settings, the venv location changes from `.venv` to using `{cache-dir}/virtualenvs`. You
    can also change the path to whatever you'd like. Generally though, this can make things a little tricky, because the
-   directory will be vary depending on the OS, making it harder to write OS agnostic workflows.
+   directory will be vary depending on the OS, making it harder to write OS-agnostic workflows.
 
    A solution to this is to bypass this issue completely by taking advantage of Poetry's `poetry run` command.
 
