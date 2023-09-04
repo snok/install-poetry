@@ -9,7 +9,7 @@ jobs:
     name: Tag v1
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Update tag
         run: |
           major_tag="$(python .github/scripts/get_version.py "${GITHUB_REF}" major)"
