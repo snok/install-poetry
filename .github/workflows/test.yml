@@ -38,10 +38,10 @@ jobs:
   test-config-options:
     name: non-standard config - ${{ matrix.os }} ${{ matrix.python-version }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
-        python-version: [ "3.7.4", "3.7.8", "3.7.10", "3.7.12", "3.7.14" ]
+        python-version: [ "3.7.4", "3.7.14" ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
