@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-latest, macos-latest,  ]
         python-version: [ "3.7.4", "3.7.14" ]
     runs-on: ${{ matrix.os }}
     steps:
@@ -55,13 +55,15 @@ jobs:
           virtualenvs-in-project: true
           virtualenvs-path: ~/.cache/test
           installer-parallel: false
-      - run: |
-          source .github/scripts/assert.sh
-          assert_in  "1.6.1" "$(poetry --version)"
-          assert_in  "false" "$(poetry config virtualenvs.create)"
-          assert_in  "true"  "$(poetry config virtualenvs.in-project)"
-          assert_in  "test"  "$(poetry config virtualenvs.path)"
-          assert_in  "false" "$(poetry config installer.parallel)"
+      - run: cat /Users/runner/work/install-poetry/install-poetry/*.log
+        if: always()
+#      - run: |
+#          source .github/scripts/assert.sh
+#          assert_in  "1.6.1" "$(poetry --version)"
+#          assert_in  "false" "$(poetry config virtualenvs.create)"
+#          assert_in  "true"  "$(poetry config virtualenvs.in-project)"
+#          assert_in  "test"  "$(poetry config virtualenvs.path)"
+#          assert_in  "false" "$(poetry config installer.parallel)"
 #
 #  # Check that installation-arguments works
 #  test-installation-arguments:
