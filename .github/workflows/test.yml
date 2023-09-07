@@ -50,7 +50,7 @@ jobs:
           python-version: "${{ matrix.python-version }}"
       - uses: ./
         with:
-          version: 1.6.1
+          version: 1.6.0
           virtualenvs-create: false
           virtualenvs-in-project: true
           virtualenvs-path: ~/.cache/test
