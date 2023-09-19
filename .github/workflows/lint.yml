@@ -16,5 +16,5 @@ jobs:
         with:
           path: ~/.cache/pre-commit
           key: key-0
-      - uses: mfinelli/setup-shfmt@v2
+      - uses: mfinelli/setup-shfmt@v3
       - run: pre-commit run --all-files
