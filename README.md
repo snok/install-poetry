@@ -73,12 +73,20 @@ This section contains a collection of workflow examples to try and help
 
 Some examples are a bit long, so here are some links
 
-- [Testing](#testing)
-- [Testing (using an OS matrix)](#testing-using-a-matrix)
-- [Codecov upload](#codecov-upload)
-- [Running on Windows](#running-on-windows)
-- [Virtualenv variations](#virtualenv-variations)
-- [Caching the Poetry installation](#caching-the-poetry-installation)
+- [Install Poetry Action](#install-poetry-action)
+  - [Usage](#usage)
+  - [Defaults](#defaults)
+  - [Workflow examples and tips](#workflow-examples-and-tips)
+      - [Testing](#testing)
+      - [Testing using a matrix](#testing-using-a-matrix)
+      - [Codecov upload](#codecov-upload)
+      - [Running on Windows](#running-on-windows)
+        - [Caching on Windows runners](#caching-on-windows-runners)
+      - [Virtualenv variations](#virtualenv-variations)
+      - [Caching the Poetry installation](#caching-the-poetry-installation)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Showing your support](#showing-your-support)
 
 #### Testing
 
@@ -186,7 +194,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ "ubuntu-latest", "macos-latest" ]
-        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
         django-version: ["3", "4" ]
     runs-on: ${{ matrix.os }}
     steps:
