@@ -119,6 +119,7 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
+          virtualenvs-path: .venv
           installer-parallel: true
 
       #----------------------------------------------
