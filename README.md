@@ -510,6 +510,16 @@ jobs:
 
 The directory to cache will depend on the operating system of the runner.
 
+Note that when the cache is hit, and the Install Poetry step is skipped, configuration options are not re-applied. The cached Poetry installation will now run with default settings. To make things work the same, you may add a dedicated configuration step to re-apply your configurations. For example:
+
+```yaml
+- name: Configure poetry  
+  if: steps.cached-poetry.outputs.cache-hit == 'true'  
+  run: poetry config virtualenvs.in-project true
+```
+
+Or consider using a config.toml file to store you configuration options. See details in the [Poetry configuration docs](https://python-poetry.org/docs/configuration/).
+
 #### Installing Poetry Plugins
 
 With Poetry 1.2 or later, you can use this action to install plugins:
