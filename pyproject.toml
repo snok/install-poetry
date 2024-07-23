@@ -6,7 +6,7 @@ authors = ["Sondre Lillebø Gundersen <sondrelg@live.no>"]
 maintainers = ["Jonas Krüger Svensson <jonasks@hotmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.8"
 pytest = "^8.3.1"
 
 
