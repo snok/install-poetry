@@ -13,11 +13,7 @@ RESET="\033[0m"
 
 INSTALLATION_SCRIPT="$(mktemp)"
 
-if [ "${RUNNER_OS}" == "Windows" ]; then
-  download_script https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py >"$INSTALLATION_SCRIPT"
-else
-  download_script https://install.python-poetry.org/ >"$INSTALLATION_SCRIPT"
-fi
+download_script https://install.python-poetry.org/ >"$INSTALLATION_SCRIPT"
 
 echo -e "\n${YELLOW}Setting Poetry installation path as $INSTALL_PATH${RESET}\n"
 echo -e "${YELLOW}Installing Poetry 👷${RESET}\n"
