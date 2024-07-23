@@ -28,6 +28,9 @@ inputs:
   installation-arguments:
     description: "Arguments passed directly to the Poetry installation script. For example --force."
     required: false
+  plugins:
+    description: "Whitespace-delimited list of poetry plugins to install. Requires Poetry>=1.2"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -41,3 +44,4 @@ runs:
         VIRTUALENVS_PATH:       ${{ inputs.virtualenvs-path }}
         INSTALLER_PARALLEL:     ${{ inputs.installer-parallel }}
         INSTALLATION_ARGUMENTS: ${{ inputs.installation-arguments }}
+        POETRY_PLUGINS:         ${{ inputs.plugins }}

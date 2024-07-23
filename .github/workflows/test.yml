@@ -19,7 +19,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
-        poetry-version: [ "1.6.1", "1.7.1" ]
+        poetry-version: [ "1.6.1", "1.7.1", "1.8.1" ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -74,6 +74,32 @@ jobs:
       - run: |
           source .github/scripts/assert.sh
           assert_in "1.1.9" "$(poetry --version)"
+
+  # Check that plugins installing works
+  test-plugin-installation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          plugins: poetry-plugin-bundle
+      - run: |
+          source .github/scripts/assert.sh
+          assert_in "poetry-plugin-bundle" "$(poetry self show plugins)"
+
+  test-plugins-whitespace-delimited:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          plugins: |
+            poetry-plugin-bundle
+            poetry-plugin-export
+      - run: |
+          source .github/scripts/assert.sh
+          assert_in "poetry-plugin-bundle" "$(poetry self show plugins)"
+          assert_in "poetry-plugin-export" "$(poetry self show plugins)"
 
   # Retrieve the latest poetry version from PyPI
   check-latest:
