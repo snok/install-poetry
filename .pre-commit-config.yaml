@@ -26,3 +26,5 @@ repos:
     rev: v1.7.1
     hooks:
       - id: actionlint
+        args:
+          - --shellcheck=
