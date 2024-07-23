@@ -2,6 +2,10 @@
 
 set -eo pipefail
 
+download_script() {
+  python -c 'import urllib.request, sys; print(urllib.request.urlopen(f"{sys.argv[1]}").read().decode("utf8"))' $1
+}
+
 INSTALL_PATH="${POETRY_HOME:-$HOME/.local}"
 
 YELLOW="\033[33m"
@@ -10,9 +14,9 @@ RESET="\033[0m"
 INSTALLATION_SCRIPT="$(mktemp)"
 
 if [ "${RUNNER_OS}" == "Windows" ]; then
-  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py --output "$INSTALLATION_SCRIPT"
+  download_script https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py >"$INSTALLATION_SCRIPT"
 else
-  curl -sSL https://install.python-poetry.org/ --output "$INSTALLATION_SCRIPT"
+  download_script https://install.python-poetry.org/ >"$INSTALLATION_SCRIPT"
 fi
 
 echo -e "\n${YELLOW}Setting Poetry installation path as $INSTALL_PATH${RESET}\n"
