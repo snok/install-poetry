@@ -84,6 +84,7 @@ Some examples are a bit long, so here are some links
         - [Caching on Windows runners](#caching-on-windows-runners)
       - [Virtualenv variations](#virtualenv-variations)
       - [Caching the Poetry installation](#caching-the-poetry-installation)
+      - [Installing Poetry Plugins](#installing-poetry-plugins)
   - [Contributing](#contributing)
   - [License](#license)
   - [Showing your support](#showing-your-support)
@@ -508,6 +509,26 @@ jobs:
 ```
 
 The directory to cache will depend on the operating system of the runner.
+
+#### Installing Poetry Plugins
+
+With Poetry 1.2 or later, you can use this action to install plugins:
+
+```yaml
+- uses: snok/install-poetry@v1
+  with:
+    plugins: poetry-plugin-a
+```
+
+You can use a whitespace delimited list:
+
+```yaml
+- uses: snok/install-poetry@v1
+  with:
+    plugins: |
+      poetry-plugin-a
+      poetry-plugin-b
+```
 
 ## Contributing
 
