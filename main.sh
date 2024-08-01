@@ -3,7 +3,7 @@
 set -eo pipefail
 
 download_script() {
-  python -c 'import urllib.request, sys; print(urllib.request.urlopen(f"{sys.argv[1]}").read().decode("utf8"))' $1
+  python3 -c 'import urllib.request, sys; print(urllib.request.urlopen(f"{sys.argv[1]}").read().decode("utf8"))' $1
 }
 
 INSTALL_PATH="${POETRY_HOME:-$HOME/.local}"
