@@ -128,7 +128,7 @@ jobs:
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -177,7 +177,7 @@ jobs:
       #----------------------------------------------
       #        load pip cache if cache exists
       #----------------------------------------------
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip
@@ -223,7 +223,7 @@ jobs:
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -290,7 +290,7 @@ jobs:
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -388,7 +388,7 @@ jobs:
           virtualenvs-in-project: true
       - name: Load cached venv
         id: cached-pip-wheels
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -499,7 +499,7 @@ jobs:
           python-version: '3.12'
       - name: Load cached Poetry installation
         id: cached-poetry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.local  # the path depends on the OS
           key: poetry-0  # increment to reset cache
