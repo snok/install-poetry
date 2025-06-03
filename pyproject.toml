@@ -9,7 +9,6 @@ maintainers = ["Jonas Krüger Svensson <jonasks@hotmail.com>"]
 python = "^3.8"
 pytest = "^8.3.1"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
