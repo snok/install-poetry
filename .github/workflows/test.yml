@@ -31,7 +31,6 @@ jobs:
           python-version: "${{ matrix.python-version }}"
       - run: |
           poetry install --no-root --no-interaction
-          poetry install --no-interaction
           poetry run pytest --version
 
   # Make sure the action sets config options correctly
