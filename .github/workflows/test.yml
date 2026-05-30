@@ -19,7 +19,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         python-version: [ "3.10", "3.11", "3.12", "3.13", "3.14" ]
-        poetry-version: [ "1.7.1", "2.1.3" ]
+        poetry-version: [ "1.8.5", "2.4.1" ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
