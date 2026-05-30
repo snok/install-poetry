@@ -22,7 +22,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
 - name: Install and configure Poetry
   uses: snok/install-poetry@v1
   with:
-    version: 2.1.3
+    version: 2.4.1
     virtualenvs-create: true
     virtualenvs-in-project: false
     virtualenvs-path: ~/my-custom-path
