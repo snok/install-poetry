@@ -60,7 +60,7 @@ to make changes to the Poetry config *after* invoking the action - you can do so
 
 ```yaml
 - uses: snok/install-poetry@v1
-- run: poetry config experimental.new-installer false
+- run: poetry config virtualenvs.prefer-active-python true
 ```
 
 ## Workflow examples and tips
