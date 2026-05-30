@@ -42,7 +42,7 @@ poetry config virtualenvs.in-project "$VIRTUALENVS_IN_PROJECT"
 poetry config virtualenvs.path "$VIRTUALENVS_PATH"
 
 # Parse plugin array from string, handle whitespace or newline delimiters
-if ! [ -z "$POETRY_PLUGINS" ]; then
+if [ -n "$POETRY_PLUGINS" ]; then
   plugins="$(echo $POETRY_PLUGINS | tr -s ' ')" # Replace linesep to space
   if [[ "$plugins" && "$plugins" != " " ]]; then
     echo "Installing plugins: ${plugins}"
