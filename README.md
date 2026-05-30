@@ -52,7 +52,7 @@ way:
 - name: Install and configure Poetry
   uses: snok/install-poetry@v1
   with:
-    installation-arguments: --git https://github.com/python-poetry/poetry.git@69bd6820e320f84900103fdf867e24b355d6aa5d
+    installation-arguments: --git https://github.com/python-poetry/poetry.git@19a2f7bddb9bdf931a229ea0913a84021f3f9b93
 ```
 
 If you want to make further config changes - e.g., to change one of the `experimental` Poetry config settings, or just
