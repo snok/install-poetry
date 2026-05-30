@@ -65,7 +65,6 @@ else
   echo "VENV=.venv/bin/activate" >>"$GITHUB_ENV"
 fi
 
-echo -e "\n${YELLOW}Installation completed. Configuring settings 🛠${RESET}"
 echo -e "\n${YELLOW}Done ✅${RESET}"
 
 if [ "$VIRTUALENVS_CREATE" == true ] || [ "$VIRTUALENVS_CREATE" == "true" ]; then
