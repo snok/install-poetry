@@ -49,14 +49,14 @@ jobs:
           python-version: "${{ matrix.python-version }}"
       - uses: ./
         with:
-          version: 1.7.1
+          version: 1.8.5
           virtualenvs-create: false
           virtualenvs-in-project: true
           virtualenvs-path: ~/.cache/test
           installer-parallel: false
       - run: |
           source .github/scripts/assert.sh
-          assert_in  "1.7.1" "$(poetry --version)"
+          assert_in  "1.8.5" "$(poetry --version)"
           assert_in  "false" "$(poetry config virtualenvs.create)"
           assert_in  "true"  "$(poetry config virtualenvs.in-project)"
           assert_in  "test"  "$(poetry config virtualenvs.path)"

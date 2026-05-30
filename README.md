@@ -31,7 +31,7 @@ If you want to set Poetry config settings, or install a specific version, you ca
 
 If you need to pass extra arguments to the installer script, you can specify these with `installation-arguments`.
 
-The action is fully tested for macOS and Ubuntu runners, on Poetry versions >= 1.1. If you're using this with Windows, see the [Running on Windows](#running-on-windows) section.
+The action is fully tested for macOS and Ubuntu runners, on Poetry versions >= 1.8. If you're using this with Windows, see the [Running on Windows](#running-on-windows) section.
 
 ## Defaults
 
