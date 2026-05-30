@@ -13,11 +13,13 @@ RESET="\033[0m"
 
 INSTALLATION_SCRIPT="$(mktemp)"
 
-if [ "${RUNNER_OS}" == "Windows" ]; then
-  download_script https://raw.githubusercontent.com/python-poetry/poetry/48339106eb0d403a3c66519317488c8185844b32/install-poetry.py >"$INSTALLATION_SCRIPT"
-else
-  download_script https://install.python-poetry.org/ >"$INSTALLATION_SCRIPT"
-fi
+# Pin the installer to a specific commit for supply-chain security.
+# To update, replace the commit hash below and verify the diff at:
+# https://github.com/python-poetry/install.python-poetry.org/compare/<old-hash>...<new-hash>
+INSTALLER_COMMIT="d7fd0502ef807e711f65204b1ab39c1a1e23c69c"
+INSTALLER_URL="https://raw.githubusercontent.com/python-poetry/install.python-poetry.org/${INSTALLER_COMMIT}/install-poetry.py"
+
+download_script "$INSTALLER_URL" >"$INSTALLATION_SCRIPT"
 
 echo -e "\n${YELLOW}Setting Poetry installation path as $INSTALL_PATH${RESET}\n"
 echo -e "${YELLOW}Installing Poetry 👷${RESET}\n"
